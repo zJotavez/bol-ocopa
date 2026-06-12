@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="db.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#001e30",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#a9f3c5",
+                    "secondary-fixed": "#cae6ff",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#0d5c3a",
+                    "secondary-fixed-dim": "#abcae5",
+                    "on-primary-container": "#8ad2a7",
+                    "inverse-primary": "#8ed6aa",
+                    "on-background": "#191c1e",
+                    "outline": "#707971",
+                    "secondary-container": "#c4e3ff",
+                    "on-primary-fixed": "#002111",
+                    "on-error": "#ffffff",
+                    "primary": "#004328",
+                    "tertiary-fixed": "#ffe088",
+                    "tertiary-container": "#cca830",
+                    "outline-variant": "#bfc9c0",
+                    "surface-bright": "#f7f9fb",
+                    "secondary": "#446279",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-container-high": "#e6e8ea",
+                    "inverse-surface": "#2d3133",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#8ed6aa",
+                    "surface-tint": "#226b47",
+                    "on-tertiary-fixed": "#241a00",
+                    "surface-dim": "#d8dadc",
+                    "on-secondary-container": "#48667d",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#2b4a60",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed-variant": "#005232",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-surface-variant": "#404942",
+                    "tertiary": "#735c00",
+                    "on-tertiary-container": "#4f3e00",
+                    "surface": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "16px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xl": "40px",
+                    "xs": "4px",
+                    "gutter": "12px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-score": ["Montserrat"],
+                    "stats-num": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-score": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "stats-num": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .podium-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            border: 1px solid #D4AF37;
+        }
+        .silver-glow {
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.2);
+            border: 1px solid #C0C0C0;
+        }
+        .bronze-glow {
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.2);
+            border: 1px solid #CD7F32;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface/80 backdrop-blur-md shadow-sm z-40 flex justify-between items-center px-container-margin py-base w-full h-16">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional studio headshot of a smiling young man with short dark hair, wearing a clean white t-shirt. The background is a soft, out-of-focus stadium interior with hints of deep green and petrol blue, conveying a modern sports brand aesthetic. The lighting is crisp and flattering, typical of a high-end sports application profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC5AC4ts3l4wWLBirhh8RYiynVSFpUVKKkXEqWmOh08JyTSwIE11H6I99SVdnDyEASlNstjJ64SA4_avdCrZID4n0OsHZ0mioa70VZhfvZGU8DAMlDCTaQoo6KoWOezUvs2Y7dzU-F7xbwJ20dFOrvsvxgZnp9t18mxLOTXHFZQUouinDy0GXppgSw8S1-3vO3cxEInHcyFezGq2XSSog8LfvS196qHRW7JUcuH7jtA3aUVOzWWVi0QXSoeTFUyRPO9iqq20RqLgk"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Bolão da Copa</h1>
+</div>
+<button class="hover:bg-surface-container-high transition-colors p-sm rounded-full scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+</header>
+<main class="max-w-4xl mx-auto px-container-margin mt-lg">
+<!-- Premium Podium Section -->
+<section class="relative pt-12 pb-8 overflow-hidden">
+<div class="absolute inset-0 flex items-center justify-center -z-10 opacity-10">
+<span class="material-symbols-outlined text-[300px]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div class="flex items-end justify-center gap-xs sm:gap-md h-64">
+<!-- 2nd Place -->
+<div class="flex flex-col items-center w-1/3 max-w-[120px] podium-float" style="animation-delay: 0.5s">
+<div class="relative mb-base">
+<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden silver-glow p-0.5">
+<div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center font-bold text-lg text-primary">J</div>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#C0C0C0] text-on-secondary px-2 rounded-full font-label-bold text-[10px]">2º</div>
+</div>
+<span class="font-label-bold text-label-bold text-center truncate w-full">Jader</span>
+<span class="font-stats-num text-stats-num text-secondary">8 pts</span>
+</div>
+<!-- 1st Place -->
+<div class="flex flex-col items-center w-1/3 max-w-[140px] podium-float">
+<div class="relative mb-sm">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 text-[#D4AF37]">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">crown</span>
+</div>
+<div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden gold-glow p-1">
+<div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center font-bold text-xl text-primary">F</div>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-on-secondary px-3 rounded-full font-label-bold text-[12px]">1º</div>
+</div>
+<span class="font-label-bold text-label-bold text-center truncate w-full text-primary">Fábio Alves</span>
+<span class="font-stats-num text-stats-num text-primary">8 pts</span>
+<div class="mt-xs bg-tertiary-fixed text-on-tertiary-fixed px-2 py-0.5 rounded-full font-label-bold text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+                        Aproveitamento: 100%
+                    </div>
+</div>
+<!-- 3rd Place -->
+<div class="flex flex-col items-center w-1/3 max-w-[120px] podium-float" style="animation-delay: 1s">
+<div class="relative mb-base">
+<div class="w-16 h-16 sm:w-18 sm:h-18 rounded-full overflow-hidden bronze-glow p-0.5">
+<div class="w-full h-full rounded-full bg-surface-container flex items-center justify-center font-bold text-lg text-primary">T</div>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#CD7F32] text-on-secondary px-2 rounded-full font-label-bold text-[10px]">3º</div>
+</div>
+<span class="font-label-bold text-label-bold text-center truncate w-full">Thaynan</span>
+<span class="font-stats-num text-stats-num text-secondary">6 pts</span>
+</div>
+</div>
+</section>
+<!-- Ranking List -->
+<div class="mt-lg">
+<div class="flex items-center justify-between mb-md px-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface">Classificação Geral</h2>
+<div class="text-on-surface-variant font-label-bold text-label-bold">Participantes: 7</div>
+</div>
+<div class="space-y-sm">
+<!-- Current User Highlighted -->
+<div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-primary scale-[1.02] shadow-md z-10 relative">
+<div class="flex items-center gap-md">
+<div class="font-stats-num text-stats-num text-primary-container w-8 text-center">7º</div>
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Você" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
+</div>
+<div>
+<span class="font-label-bold text-label-bold block">Você (João)</span>
+<span class="text-on-surface-variant text-[11px] uppercase tracking-wider">Sua Posição</span>
+</div>
+</div>
+<div class="text-right">
+<span class="font-stats-num text-stats-num text-primary">0 pts</span>
+<div class="text-[10px] text-on-surface-variant font-body-md">Sempre atualizado</div>
+</div>
+</div>
+<!-- Regular List Items -->
+<div class="glass-card rounded-xl p-md flex items-center justify-between hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-md">
+<div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center">4º</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">person</span>
+</div>
+<span class="font-label-bold text-label-bold">Henrique</span>
+</div>
+<span class="font-stats-num text-stats-num">6 pts</span>
+</div>
+<div class="glass-card rounded-xl p-md flex items-center justify-between hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-md">
+<div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center">5º</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">person</span>
+</div>
+<span class="font-label-bold text-label-bold">Matheus</span>
+</div>
+<span class="font-stats-num text-stats-num">5 pts</span>
+</div>
+<div class="glass-card rounded-xl p-md flex items-center justify-between hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-md">
+<div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center">6º</div>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">person</span>
+</div>
+<span class="font-label-bold text-label-bold">Davi</span>
+</div>
+<span class="font-stats-num text-stats-num">5 pts</span>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<div class="flex justify-around items-center h-16 w-full px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="index.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold mt-1">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="matches.html">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-bold text-label-bold mt-1">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-transform scale-95 active:scale-90" href="ranking.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-bold text-label-bold mt-0.5">Ranking</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="profile.html">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-bold text-label-bold mt-1">Perfil</span>
+</a>
+</div>
+</nav>
+<script>
+        // Renderizar classificação geral dinamicamente
+        function renderRanking() {
+            const db = getDB();
+            const user = getLoggedUser();
+            
+            const headerAvatarEl = document.querySelector('header img[alt="Profile"]');
+            if (headerAvatarEl && user && user.foto) {
+                headerAvatarEl.src = user.foto;
+            }
+            
+            // Garante que o recálculo está atualizado
+            recalcularPontosGeral();
+            
+            // Recarrega o banco após recálculo
+            const dbAtualizado = getDB();
+            const ranking = [...dbAtualizado.usuarios].sort((a, b) => b.pontuacao_total - a.pontuacao_total);
+            
+            // 1º, 2º e 3º Colocados
+            const podio1 = ranking[0];
+            const podio2 = ranking[1];
+            const podio3 = ranking[2];
+            
+            // 2º Colocado
+            const container2 = document.querySelector('.podium-float:nth-child(1)');
+            if (container2 && podio2) {
+                if (podio2.foto) container2.querySelector('img').src = podio2.foto;
+                container2.querySelector('span.font-label-bold').innerText = podio2.nome;
+                container2.querySelector('span.font-stats-num').innerText = `${podio2.pontuacao_total} pts`;
+            }
+            
+            // 1º Colocado
+            const container1 = document.querySelector('.podium-float:nth-child(2)');
+            if (container1 && podio1) {
+                if (podio1.foto) container1.querySelector('img').src = podio1.foto;
+                container1.querySelector('span.font-label-bold').innerText = podio1.nome;
+                container1.querySelector('span.font-stats-num').innerText = `${podio1.pontuacao_total} pts`;
+                // Calcula aproveitamento
+                const totalFinalizados = db.jogos.filter(j => j.encerrado).length;
+                const acertos = podio1.placares_exatos + podio1.vitorias_acertadas;
+                const aproveitamento = totalFinalizados > 0 ? Math.round((acertos / totalFinalizados) * 100) : 0;
+                
+                const badge = container1.querySelector('.mt-xs');
+                if (badge) {
+                    badge.innerHTML = `<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">trending_up</span> Aproveitamento: ${aproveitamento}%`;
+                }
+            }
+            
+            // 3º Colocado
+            const container3 = document.querySelector('.podium-float:nth-child(3)');
+            if (container3 && podio3) {
+                if (podio3.foto) container3.querySelector('img').src = podio3.foto;
+                container3.querySelector('span.font-label-bold').innerText = podio3.nome;
+                container3.querySelector('span.font-stats-num').innerText = `${podio3.pontuacao_total} pts`;
+            }
+            
+            // Preenche Tabela
+            const tabelaContainer = document.querySelector('main .space-y-sm');
+            if (tabelaContainer) {
+                // Participantes
+                const totalParticipantesEl = document.querySelector('.text-on-surface-variant.font-label-bold');
+                if (totalParticipantesEl) {
+                    totalParticipantesEl.innerText = `Participantes: ${ranking.length}`;
+                }
+                
+                const minhaPosicao = ranking.findIndex(u => u.id === user.id) + 1;
+                const meusPontos = user.pontuacao_total;
+                
+                let htmlTabela = `
+                <!-- Você (Destaque) -->
+                <div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-primary scale-[1.02] shadow-md z-10 relative">
+                    <div class="flex items-center gap-md">
+                        <div class="font-stats-num text-stats-num text-primary-container w-8 text-center">${minhaPosicao}º</div>
+                        <div class="w-10 h-10 rounded-full overflow-hidden">
+                            <img alt="Você" src="${user.foto}"/>
+                        </div>
+                        <div>
+                            <span class="font-label-bold text-label-bold block">Você (${user.nome.split(' ')[0]})</span>
+                            <span class="text-on-surface-variant text-[11px] uppercase tracking-wider">Sua Posição</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-stats-num text-stats-num text-primary">${meusPontos} pts</span>
+                        <div class="text-[10px] text-on-surface-variant font-body-md">Sempre atualizado</div>
+                    </div>
+                </div>`;
+                
+                // Exibir o restante do 4º lugar em diante
+                const outros = ranking.slice(3);
+                outros.forEach((usr, idx) => {
+                    const pos = idx + 4;
+                    const isUserLogado = usr.id === user.id;
+                    const borderClass = isUserLogado ? 'border-l-4 border-l-primary scale-[1.01]' : '';
+                    const displayNome = isUserLogado ? 'Você' : usr.nome;
+                    const displayFoto = usr.foto ? `<img class="w-full h-full object-cover" src="${usr.foto}" alt="${usr.nome}">` : `<span class="material-symbols-outlined text-outline">person</span>`;
+                    
+                    htmlTabela += `
+                    <div class="glass-card rounded-xl p-md flex items-center justify-between hover:bg-surface-container transition-colors ${borderClass}">
+                        <div class="flex items-center gap-md">
+                            <div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center">${pos}º</div>
+                            <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+                                ${displayFoto}
+                            </div>
+                            <span class="font-label-bold text-label-bold">${displayNome}</span>
+                        </div>
+                        <span class="font-stats-num text-stats-num">${usr.pontuacao_total} pts</span>
+                    </div>`;
+                });
+                
+                tabelaContainer.innerHTML = htmlTabela;
+            }
+        }
+
+        // Inicialização ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRanking();
+            
+            // Disparar sincronização assíncrona com a nuvem
+            syncAllFromCloud();
+
+            // Ouvir evento de sincronização completa para re-renderizar
+            document.addEventListener('bolaoSyncComplete', () => {
+                renderRanking();
+            });
+
+            // Micro-interações de touch nos cards
+            document.querySelectorAll('.glass-card').forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.style.transform = 'scale(0.98)';
+                    card.style.transition = 'transform 0.1s ease';
+                });
+                card.addEventListener('touchend', () => {
+                    card.style.transform = 'scale(1)';
+                });
+            });
+
+            // Efeito scroll na barra superior
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 20) {
+                    header.classList.add('shadow-md');
+                    header.style.backgroundColor = 'rgba(247, 249, 251, 0.95)';
+                } else {
+                    header.classList.remove('shadow-md');
+                    header.style.backgroundColor = 'rgba(247, 249, 251, 0.8)';
+                }
+            });
+        });
+    </script>
+</body></html>

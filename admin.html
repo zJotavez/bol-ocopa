@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Painel Administrativo | Bolão da Copa</title>
+<script src="db.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#001e30",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container": "#eceef0",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#a9f3c5",
+                    "secondary-fixed": "#cae6ff",
+                    "background": "#f7f9fb",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#0d5c3a",
+                    "secondary-fixed-dim": "#abcae5",
+                    "on-primary-container": "#8ad2a7",
+                    "inverse-primary": "#8ed6aa",
+                    "on-background": "#191c1e",
+                    "outline": "#707971",
+                    "secondary-container": "#c4e3ff",
+                    "on-primary-fixed": "#002111",
+                    "on-error": "#ffffff",
+                    "primary": "#004328",
+                    "tertiary-fixed": "#ffe088",
+                    "tertiary-container": "#cca830",
+                    "outline-variant": "#bfc9c0",
+                    "surface-bright": "#f7f9fb",
+                    "secondary": "#446279",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface-container-high": "#e6e8ea",
+                    "inverse-surface": "#2d3133",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#8ed6aa",
+                    "surface-tint": "#226b47",
+                    "on-tertiary-fixed": "#241a00",
+                    "surface-dim": "#d8dadc",
+                    "on-secondary-container": "#48667d",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#2b4a60",
+                    "error": "#ba1a1a",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed-variant": "#005232",
+                    "on-tertiary-fixed-variant": "#574500",
+                    "on-surface-variant": "#404942",
+                    "tertiary": "#735c00",
+                    "on-tertiary-container": "#4f3e00",
+                    "surface": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-margin": "16px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "xl": "40px",
+                    "xs": "4px",
+                    "gutter": "12px"
+            },
+            "fontFamily": {
+                    "label-bold": ["Inter"],
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "display-score": ["Montserrat"],
+                    "stats-num": ["Montserrat"],
+                    "headline-md": ["Montserrat"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-score": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "stats-num": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #F8FAFC;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base w-full">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container flex items-center justify-center">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="A professional close-up portrait of a high-ranking corporate administrator in a modern office environment. The person has a confident expression, wearing a tailored charcoal suit against a softly blurred background of a glass-walled boardroom. The lighting is crisp and professional, emphasizing a clean, authoritative sports-management aesthetic with deep greens and neutral tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI2oqkORNK4-ERD08kIKaDCstTvhrCpkBo_l-gjHTrOjiGJOfMriXhaHaccmWQg4yuBtHDs_sxF6KgjtcZMvCFW50FjN967eUE4phXYBUWhXmRmV2W6v1CbEfjKpD8-59iRsYs8ylSN5SYXUCCXcWoQEmjxXeIsOMxnaT90qkwcMwJhdBrgK8XKdlV88wEuNMlZgK1XgYqQYW222Ju_0y1iK0fvuFESwBrBRtlST9CY0acBMOCCS3hOiJbp-fNxus9t7tk5jrYFoQ"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary">Bolão da Copa</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary hover:bg-surface-container-high transition-colors p-2 rounded-full scale-95 active:scale-90 transition-transform">notifications</button>
+<span class="hidden md:block font-label-bold text-label-bold text-primary uppercase">Administrador</span>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-container-margin py-lg space-y-lg">
+<!-- Welcome & Quick Actions -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md bg-primary-container p-lg rounded-xl text-white shadow-lg overflow-hidden relative">
+<div class="z-10">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-primary-container">Painel de Gestão</h2>
+<p class="font-body-md text-on-primary-container opacity-90">Bem-vindo, Admin. Controle os jogos, valide resultados e gerencie sua comunidade.</p>
+</div>
+<div class="z-10 flex gap-sm">
+<button class="bg-tertiary text-on-tertiary px-lg py-sm rounded-lg font-label-bold text-label-bold flex items-center gap-sm hover:opacity-90 transition-all shadow-md active:scale-95" onclick="confirmRecalculate()">
+<span class="material-symbols-outlined">refresh</span>
+                    Recalcular Pontos
+                </button>
+</div>
+<!-- Decorative Element -->
+<div class="absolute right-0 top-0 h-full w-1/3 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[180px] -rotate-12 translate-x-12 translate-y-4" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+</div>
+</section>
+<!-- Bento Grid Management Sections -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg">
+<!-- Gestão de Jogos -->
+<div class="md:col-span-8 flex flex-col gap-md">
+<div class="flex flex-wrap justify-between items-center gap-sm px-base">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined">calendar_today</span>
+                        Gestão de Jogos
+                    </h3>
+<div class="flex items-center gap-sm">
+<select id="filtro-rodada-admin" class="border-outline-variant bg-surface-container text-xs rounded-lg font-label-bold text-primary focus:ring-primary focus:border-primary" onchange="renderAdmin()">
+    <option value="Todas">Todas as Fases</option>
+    <option value="Rodada 1">Rodada 1</option>
+    <option value="Rodada 2">Rodada 2</option>
+    <option value="Rodada 3">Rodada 3</option>
+    <option value="32 Avos">32 Avos</option>
+    <option value="Oitavas">Oitavas</option>
+    <option value="Quartas">Quartas</option>
+    <option value="Semifinais">Semifinais</option>
+    <option value="Finais">Finais</option>
+</select>
+<button class="text-primary font-label-bold text-label-bold flex items-center gap-xs hover:underline" onclick="adicionarNovoJogo()">
+<span class="material-symbols-outlined text-sm">add</span> Adicionar
+                    </button>
+</div>
+</div>
+<!-- Match List Container -->
+<div class="space-y-sm">
+<!-- Match Item -->
+<div class="glass-card p-md rounded-xl flex items-center justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center gap-lg flex-1">
+<div class="flex items-center gap-sm w-24 justify-end">
+<span class="font-label-bold text-on-surface">México</span>
+<div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center text-[16px]">
+🇲🇽
+</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-xs text-on-surface-variant">15 JUN • 16:00</span>
+<div class="font-display-score text-[24px] text-primary">2 - 0</div>
+<span class="text-xs font-body-md text-on-surface-variant">Grupo A</span>
+</div>
+<div class="flex items-center gap-sm w-24">
+<div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center text-[16px]">
+🇿🇦
+</div>
+<span class="font-label-bold text-on-surface">África do Sul</span>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="p-sm text-secondary hover:bg-secondary-container rounded-lg transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-sm text-error hover:bg-error-container rounded-lg transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+<!-- Match Item -->
+<div class="glass-card p-md rounded-xl flex items-center justify-between hover:shadow-md transition-shadow">
+<div class="flex items-center gap-lg flex-1">
+<div class="flex items-center gap-sm w-24 justify-end">
+<span class="font-label-bold text-on-surface">Coreia do Sul</span>
+<div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center text-[16px]">
+🇰🇷
+</div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-xs text-on-surface-variant">15 JUN • 16:00</span>
+<div class="font-display-score text-[24px] text-primary">2 - 1</div>
+<span class="text-xs font-body-md text-on-surface-variant">Grupo A</span>
+</div>
+<div class="flex items-center gap-sm w-24">
+<div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center text-[16px]">
+🇨🇿
+</div>
+<span class="font-label-bold text-on-surface">Tchéquia</span>
+</div>
+</div>
+<div class="flex gap-xs">
+<button class="p-sm text-secondary hover:bg-secondary-container rounded-lg transition-colors"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-sm text-error hover:bg-error-container rounded-lg transition-colors"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Gestão de Resultados -->
+<div class="md:col-span-4 flex flex-col gap-md">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-sm px-base">
+<span class="material-symbols-outlined">scoreboard</span>
+                    Gestão de Resultados
+                </h3>
+<div class="glass-card p-lg rounded-xl flex flex-col gap-lg border-2 border-primary/10">
+<p class="font-body-md text-on-surface-variant">Insira o placar oficial de partidas encerradas para atualizar os pontos.</p>
+<div class="space-y-md">
+<div class="flex items-center justify-between gap-sm">
+<div class="flex items-center gap-xs flex-1">
+<span class="text-[16px]">🇨🇦</span>
+<span class="font-label-bold text-xs">CAN</span>
+</div>
+<input class="w-12 h-10 text-center border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary" placeholder="0" type="number"/>
+<span class="font-bold text-primary">X</span>
+<input class="w-12 h-10 text-center border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary" placeholder="0" type="number"/>
+<div class="flex items-center gap-xs flex-1 justify-end">
+<span class="font-label-bold text-xs">BIH</span>
+<span class="text-[16px]">🇧🇦</span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-sm">
+<div class="flex items-center gap-xs flex-1">
+<span class="text-[16px]">🇶🇦</span>
+<span class="font-label-bold text-xs">QAT</span>
+</div>
+<input class="w-12 h-10 text-center border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary" placeholder="0" type="number"/>
+<span class="font-bold text-primary">X</span>
+<input class="w-12 h-10 text-center border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary" placeholder="0" type="number"/>
+<div class="flex items-center gap-xs flex-1 justify-end">
+<span class="font-label-bold text-xs">SUI</span>
+<span class="text-[16px]">🇨🇭</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-xl font-label-bold text-label-bold shadow-md hover:brightness-110 transition-all active:scale-95" onclick="salvarTodosResultados()">
+                        Salvar Resultados
+                    </button>
+</div>
+</div>
+<!-- Classificação dos Grupos -->
+<div class="md:col-span-12 flex flex-col gap-md mt-lg">
+    <h3 class="font-headline-md text-headline-md text-primary flex items-center gap-sm px-base">
+        <span class="material-symbols-outlined">table_chart</span>
+        Tabela de Classificação (Grupos)
+    </h3>
+    <div id="tabelas-grupos-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-md">
+        <!-- Renderizado via JS -->
+    </div>
+</div>
+
+<!-- Gestão de Usuários -->
+<div class="md:col-span-12 flex flex-col gap-md mt-lg">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-sm px-base">
+<span class="material-symbols-outlined">group</span>
+                    Gestão de Usuários
+                </h3>
+<div class="glass-card rounded-xl overflow-hidden overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant">
+<th class="p-md font-label-bold text-on-surface-variant text-xs uppercase tracking-wider">Usuário</th>
+<th class="p-md font-label-bold text-on-surface-variant text-xs uppercase tracking-wider text-center">Pontos</th>
+<th class="p-md font-label-bold text-on-surface-variant text-xs uppercase tracking-wider">Role</th>
+<th class="p-md font-label-bold text-on-surface-variant text-xs uppercase tracking-wider">Status</th>
+<th class="p-md font-label-bold text-on-surface-variant text-xs uppercase tracking-wider text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
+</div>
+<div>
+<div class="font-label-bold text-on-surface">João</div>
+<div class="text-xs text-on-surface-variant">joao@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">0</td>
+<td class="p-md text-sm text-on-surface-variant">admin</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<span class="text-xs text-on-surface-variant font-label-bold uppercase">Você (Admin)</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">F</div>
+<div>
+<div class="font-label-bold text-on-surface">Fábio Alves</div>
+<div class="text-xs text-on-surface-variant">fabio.alves@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">8</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">J</div>
+<div>
+<div class="font-label-bold text-on-surface">Jader</div>
+<div class="text-xs text-on-surface-variant">jader@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">8</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">T</div>
+<div>
+<div class="font-label-bold text-on-surface">Thaynan</div>
+<div class="text-xs text-on-surface-variant">thaynan@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">6</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">H</div>
+<div>
+<div class="font-label-bold text-on-surface">Henrique</div>
+<div class="text-xs text-on-surface-variant">henrique@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">6</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">M</div>
+<div>
+<div class="font-label-bold text-on-surface">Matheus</div>
+<div class="text-xs text-on-surface-variant">matheus@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">5</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-md flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center font-bold text-primary">D</div>
+<div>
+<div class="font-label-bold text-on-surface">Davi</div>
+<div class="text-xs text-on-surface-variant">davi@email.com</div>
+</div>
+</td>
+<td class="p-md text-center font-stats-num text-primary">5</td>
+<td class="p-md text-sm text-on-surface-variant">user</td>
+<td class="p-md">
+<span class="px-sm py-1 bg-primary-fixed text-on-primary-fixed text-[10px] rounded-full font-bold uppercase">Ativo</span>
+</td>
+<td class="p-md text-right">
+<div class="flex justify-end gap-sm">
+<button class="text-secondary hover:text-primary transition-colors" title="Promover"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+<button class="text-on-surface-variant hover:text-error transition-colors" title="Bloquear"><span class="material-symbols-outlined">block</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)] flex justify-around items-center h-16 w-full px-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform scale-95 active:scale-90" href="index.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform scale-95 active:scale-90" href="matches.html">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-bold text-label-bold">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-transform scale-95 active:scale-90" href="ranking.html">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-bold text-label-bold">Ranking</span>
+</a>
+<!-- Current Tab Active (aponta para o Perfil) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary scale-95 active:scale-90 transition-transform" href="profile.html">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-bold text-label-bold">Perfil</span>
+</a>
+</nav>
+<!-- Success Modal Notification -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300" id="recalculate-modal">
+<div class="glass-card p-xl rounded-2xl max-w-md w-full mx-container-margin shadow-2xl scale-95 transition-transform duration-300 transform" id="modal-content">
+<div class="flex flex-col items-center text-center gap-md">
+<div class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center text-on-primary-container mb-sm">
+<span class="material-symbols-outlined text-4xl">warning</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary">Recalcular Tudo?</h4>
+<p class="font-body-md text-on-surface-variant">Esta ação irá processar todos os palpites baseados nos resultados oficiais. Isso atualizará o ranking global e pode levar alguns segundos.</p>
+<div class="flex gap-md w-full mt-lg">
+<button class="flex-1 py-md border border-outline rounded-xl font-label-bold text-label-bold hover:bg-surface-container transition-colors" onclick="closeModal()">Cancelar</button>
+<button class="flex-1 py-md bg-primary text-on-primary rounded-xl font-label-bold text-label-bold shadow-lg hover:brightness-110 transition-all" onclick="executeRecalculate(event)">Confirmar</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+        function confirmRecalculate() {
+            const modal = document.getElementById('recalculate-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('recalculate-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+        }
+
+        function executeRecalculate(event) {
+            const btn = event.target.closest('button') || event.target;
+            const originalText = btn.innerText;
+            btn.innerHTML = '<span class="animate-spin material-symbols-outlined">progress_activity</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                const results = recalcularPontosGeral();
+                alert(`Pontos recalculados com sucesso!\nVocê agora tem ${results.pontos} pontos e está na ${results.posicao}ª posição!`);
+                closeModal();
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                renderAdmin();
+            }, 1200);
+        }
+
+        const isUrl = (str) => str && (str.startsWith('http') || str.startsWith('/') || str.startsWith('data:'));
+        const renderEscudo = (escudo, sigla, time) => {
+            if (isUrl(escudo)) {
+                return `<img class="w-full h-full object-cover" src="${escudo}" alt="${time}">`;
+            } else if (escudo) {
+                return `<div class="w-full h-full flex items-center justify-center text-[16px]">${escudo}</div>`;
+            } else {
+                return `<div class="w-full h-full flex items-center justify-center font-bold text-on-surface-variant text-[10px]">${sigla}</div>`;
+            }
+        };
+
+        const renderEscudoMini = (escudo, sigla, time) => {
+            if (isUrl(escudo)) {
+                return `<img class="w-6 h-4 rounded-sm shadow-sm object-cover" src="${escudo}" alt="${time}">`;
+            } else if (escudo) {
+                return `<div class="w-6 h-4 rounded-sm shadow-sm bg-surface-container flex items-center justify-center text-[12px]">${escudo}</div>`;
+            } else {
+                return `<div class="w-6 h-4 rounded-sm shadow-sm bg-surface-container flex items-center justify-center font-bold text-on-surface-variant text-[8px]">${sigla}</div>`;
+            }
+        };
+
+        // Renderizar a tabela de classificação dos grupos
+        function renderGroupTables() {
+            const db = getDB();
+            const container = document.getElementById('tabelas-grupos-container');
+            if (!container) return;
+            
+            const gruposIds = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
+            
+            let tablesHtml = gruposIds.map(gid => {
+                const tabela = calcularTabelaGrupo(db, gid);
+                const rowsHtml = tabela.map((t, idx) => {
+                    let posClass = 'text-on-surface-variant';
+                    if (idx === 0) posClass = 'text-primary font-bold';
+                    if (idx === 1) posClass = 'text-secondary font-bold';
+                    
+                    return `
+                    <tr class="border-b border-outline-variant/10">
+                        <td class="py-1 flex items-center gap-1 min-w-[100px]">
+                            <span class="text-[9px] font-bold opacity-60 w-3">${idx+1}º</span>
+                            <span class="text-[14px]">${t.emoji || ''}</span>
+                            <span class="truncate ${posClass} text-[11px]">${t.nome}</span>
+                        </td>
+                        <td class="py-1 text-center font-bold text-[11px]">${t.pts}</td>
+                        <td class="py-1 text-center text-[11px]">${t.sg > 0 ? `+${t.sg}` : t.sg}</td>
+                        <td class="py-1 text-center opacity-80 text-[11px]">${t.gp}</td>
+                    </tr>`;
+                }).join('');
+                
+                return `
+                <div class="glass-card p-md rounded-xl flex flex-col gap-xs shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
+                        <span class="font-label-bold text-[11px] text-primary uppercase">Grupo ${gid}</span>
+                        <span class="text-[9px] text-on-surface-variant opacity-70">Fase de Grupos</span>
+                    </div>
+                    <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                            <tr class="text-on-surface-variant opacity-70 border-b border-outline-variant/30 text-[9px]">
+                                <th class="py-1">Time</th>
+                                <th class="py-1 text-center w-8">P</th>
+                                <th class="py-1 text-center w-8">SG</th>
+                                <th class="py-1 text-center w-8">GP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                        </tbody>
+                    </table>
+                </div>`;
+            }).join('');
+            
+            // Adiciona Card de Melhores Terceiros
+            const melhoresTerceiros = obterMelhoresTerceiros(db);
+            const terceirosRowsHtml = melhoresTerceiros.map((t, idx) => {
+                const posClass = idx < 8 ? 'text-primary font-bold' : 'text-error line-through opacity-60';
+                return `
+                <tr class="border-b border-outline-variant/10">
+                    <td class="py-1 flex items-center gap-1 min-w-[100px]">
+                        <span class="text-[9px] font-bold opacity-60 w-3">${idx+1}º</span>
+                        <span class="text-[14px]">${t.emoji || ''}</span>
+                        <span class="truncate ${posClass} text-[11px]">${t.nome} (${t.grupo_id})</span>
+                    </td>
+                    <td class="py-1 text-center font-bold text-[11px]">${t.pts}</td>
+                    <td class="py-1 text-center text-[11px]">${t.sg > 0 ? `+${t.sg}` : t.sg}</td>
+                    <td class="py-1 text-center opacity-80 text-[11px]">${t.gp}</td>
+                </tr>`;
+            }).join('');
+            
+            tablesHtml += `
+            <div class="glass-card p-md rounded-xl flex flex-col gap-xs shadow-sm border-2 border-tertiary-container/30 hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
+                    <span class="font-label-bold text-[11px] text-tertiary uppercase flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span> Melhores 3ºs
+                    </span>
+                    <span class="text-[9px] bg-tertiary-container/20 text-on-tertiary-container px-1.5 rounded-full font-bold">Top 8</span>
+                </div>
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="text-on-surface-variant opacity-70 border-b border-outline-variant/30 text-[9px]">
+                            <th class="py-1">Time</th>
+                            <th class="py-1 text-center w-8">P</th>
+                            <th class="py-1 text-center w-8">SG</th>
+                            <th class="py-1 text-center w-8">GP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${terceirosRowsHtml}
+                    </tbody>
+                </table>
+            </div>`;
+            
+            container.innerHTML = tablesHtml;
+        }
+
+        // Renderizar a tela administrativa com base em db.js
+        function renderAdmin() {
+            const db = getDB();
+            const user = getLoggedUser();
+            
+            const headerAvatarEl = document.querySelector('header img[alt="Admin Profile"]');
+            if (headerAvatarEl && user && user.foto) {
+                headerAvatarEl.src = user.foto;
+            }
+            
+            // Renderiza as tabelas de classificação
+            renderGroupTables();
+            
+            const filtroRodada = document.getElementById('filtro-rodada-admin')?.value || 'Todas';
+            
+            // 1. Gestão de Jogos (Lista para Edição/Exclusão)
+            let jogosFiltrados = db.jogos;
+            if (filtroRodada !== 'Todas') {
+                if (filtroRodada === 'Finais') {
+                    jogosFiltrados = db.jogos.filter(j => j.rodada === 'Final' || j.rodada === '3º Lugar');
+                } else {
+                    jogosFiltrados = db.jogos.filter(j => j.rodada === filtroRodada);
+                }
+            }
+            
+            const listJogosContainer = document.querySelector('main section + div.grid > div:first-of-type > div.space-y-sm');
+            if (listJogosContainer) {
+                if (jogosFiltrados.length === 0) {
+                    listJogosContainer.innerHTML = '<p class="text-on-surface-variant text-center py-4">Nenhum jogo nesta fase.</p>';
+                } else {
+                    listJogosContainer.innerHTML = jogosFiltrados.map(jogo => `
+                    <div class="glass-card p-md rounded-xl flex items-center justify-between hover:shadow-md transition-shadow" data-jogo-id="${jogo.id}">
+                        <div class="flex items-center gap-lg flex-1">
+                            <div class="flex items-center gap-sm w-24 justify-end">
+                                <span class="font-label-bold text-on-surface truncate text-xs">${jogo.time_casa}</span>
+                                <div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center font-bold text-[10px]">
+                                    ${renderEscudo(jogo.escudo_casa, jogo.sigla_casa, jogo.time_casa)}
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <span class="font-label-bold text-[10px] text-on-surface-variant">${jogo.data_hora}</span>
+                                <div class="font-display-score text-[20px] text-primary">
+                                    ${jogo.encerrado ? `${jogo.resultado_casa} - ${jogo.resultado_fora}` : 'VS'}
+                                </div>
+                                <span class="text-[10px] font-body-md text-on-surface-variant">${jogo.grupo}</span>
+                            </div>
+                            <div class="flex items-center gap-sm w-24">
+                                <div class="w-8 h-6 bg-surface-variant rounded-sm overflow-hidden border border-outline-variant flex items-center justify-center font-bold text-[10px]">
+                                    ${renderEscudo(jogo.escudo_fora, jogo.sigla_fora, jogo.time_fora)}
+                                </div>
+                                <span class="font-label-bold text-on-surface truncate text-xs">${jogo.time_fora}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-xs">
+                            <button class="p-sm text-secondary hover:bg-secondary-container rounded-lg transition-colors" onclick="editarJogo('${jogo.id}')"><span class="material-symbols-outlined text-sm">edit</span></button>
+                            <button class="p-sm text-error hover:bg-error-container rounded-lg transition-colors" onclick="excluirJogo('${jogo.id}')"><span class="material-symbols-outlined text-sm">delete</span></button>
+                        </div>
+                    </div>`).join('');
+                }
+            }
+            
+            // 2. Gestão de Resultados (Lançamento de placar)
+            let jogosAbertos = db.jogos.filter(j => !j.encerrado);
+            if (filtroRodada !== 'Todas') {
+                if (filtroRodada === 'Finais') {
+                    jogosAbertos = jogosAbertos.filter(j => j.rodada === 'Final' || j.rodada === '3º Lugar');
+                } else {
+                    jogosAbertos = jogosAbertos.filter(j => j.rodada === filtroRodada);
+                }
+            }
+            
+            const listResultadosContainer = document.querySelector('main section + div.grid > div:nth-child(2) .space-y-md');
+            if (listResultadosContainer) {
+                if (jogosAbertos.length === 0) {
+                    listResultadosContainer.innerHTML = '<p class="text-on-surface-variant text-center py-4">Não há jogos abertos nesta fase.</p>';
+                } else {
+                    listResultadosContainer.innerHTML = jogosAbertos.map(jogo => `
+                    <div class="flex items-center justify-between gap-sm border-b border-outline-variant/20 pb-sm" data-jogo-id="${jogo.id}">
+                        <div class="flex items-center gap-xs flex-1">
+                            ${renderEscudoMini(jogo.escudo_casa, jogo.sigla_casa, jogo.time_casa)}
+                            <span class="font-label-bold text-xs">${jogo.sigla_casa}</span>
+                        </div>
+                        <input class="score-input-casa w-12 h-10 text-center border border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" placeholder="0" type="number" min="0"/>
+                        <span class="font-bold text-primary">X</span>
+                        <input class="score-input-fora w-12 h-10 text-center border border-outline-variant rounded-lg font-stats-num focus:ring-primary focus:border-primary [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" placeholder="0" type="number" min="0"/>
+                        <div class="flex items-center gap-xs flex-1 justify-end">
+                            <span class="font-label-bold text-xs">${jogo.sigla_fora}</span>
+                            ${renderEscudoMini(jogo.escudo_fora, jogo.sigla_fora, jogo.time_fora)}
+                        </div>
+                    </div>`).join('');
+                }
+            }
+            
+            // 3. Gestão de Usuários
+            const listUsuariosContainer = document.querySelector('table tbody');
+            if (listUsuariosContainer) {
+                listUsuariosContainer.innerHTML = db.usuarios.map(usr => {
+                    const isVocê = usr.id === 'user_1';
+                    const statusClass = usr.status === 'Ativo' ? 'bg-primary-fixed text-on-primary-fixed' : 'bg-error-container text-on-error-container';
+                    const acoesBtn = isVocê ? `<span class="text-xs text-on-surface-variant font-label-bold uppercase">Você (Admin)</span>` : `
+                    <div class="flex justify-end gap-sm">
+                        <button class="text-secondary hover:text-primary transition-colors" title="Alternar cargo (Admin/User)" onclick="toggleUserRole('${usr.id}')"><span class="material-symbols-outlined">keyboard_double_arrow_up</span></button>
+                        <button class="${usr.status === 'Ativo' ? 'text-on-surface-variant hover:text-error' : 'text-primary hover:text-on-primary-fixed'} transition-colors" title="${usr.status === 'Ativo' ? 'Bloquear' : 'Desbloquear'}" onclick="toggleUserStatus('${usr.id}')">
+                            <span class="material-symbols-outlined">${usr.status === 'Ativo' ? 'block' : 'check_circle'}</span>
+                        </button>
+                    </div>`;
+                    
+                    return `
+                    <tr class="hover:bg-surface-container-low transition-colors">
+                        <td class="p-md flex items-center gap-sm">
+                            <div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center">
+                                ${usr.foto ? `<img class="w-full h-full object-cover" src="${usr.foto}" alt="${usr.nome}">` : `<span class="material-symbols-outlined text-outline">person</span>`}
+                            </div>
+                            <div>
+                                <div class="font-label-bold text-on-surface">${usr.nome}</div>
+                                <div class="text-xs text-on-surface-variant">${usr.email}</div>
+                            </div>
+                        </td>
+                        <td class="p-md text-center font-stats-num text-primary">${usr.pontuacao_total}</td>
+                        <td class="p-md text-sm text-on-surface-variant">${usr.role}</td>
+                        <td class="p-md">
+                            <span class="px-sm py-1 ${statusClass} text-[10px] rounded-full font-bold uppercase">${usr.status}</span>
+                        </td>
+                        <td class="p-md text-right">
+                            ${acoesBtn}
+                        </td>
+                    </tr>`;
+                }).join('');
+                
+                // Micro-interações
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    row.addEventListener('mouseenter', () => {
+                        row.style.transform = 'translateX(4px)';
+                        row.style.transition = 'transform 0.2s ease';
+                    });
+                    row.addEventListener('mouseleave', () => {
+                        row.style.transform = 'translateX(0)';
+                    });
+                });
+            }
+        }
+
+        // Salvar todos os resultados digitados
+        function salvarTodosResultados() {
+            const containers = document.querySelectorAll('main section + div.grid > div:nth-child(2) .space-y-md > div');
+            let count = 0;
+            
+            containers.forEach(div => {
+                const jogoId = div.getAttribute('data-jogo-id');
+                const scoreCasa = div.querySelector('.score-input-casa').value;
+                const scoreFora = div.querySelector('.score-input-fora').value;
+                
+                if (scoreCasa !== '' && scoreFora !== '') {
+                    salvarResultadoJogo(jogoId, scoreCasa, scoreFora);
+                    count++;
+                }
+            });
+            
+            if (count > 0) {
+                alert(`${count} resultado(s) oficial(is) salvo(s) com sucesso! Não se esqueça de recalcular os pontos.`);
+                renderAdmin();
+            } else {
+                alert('Preencha os resultados antes de salvar!');
+            }
+        }
+
+        // Funções de jogos novos
+        function adicionarNovoJogo() {
+            const timeCasa = prompt('Nome do Time da Casa:');
+            const timeFora = prompt('Nome do Time de Fora:');
+            if (!timeCasa || !timeFora) return;
+            
+            const siglaCasa = prompt('Sigla do Time da Casa (3 letras):', 'BRA').toUpperCase();
+            const siglaFora = prompt('Sigla do Time de Fora (3 letras):', 'ARG').toUpperCase();
+            const rodada = prompt('Rodada (ex: Rodada 2):', 'Rodada 2');
+            const dataHora = prompt('Data e Hora (ex: 30 JUN • 18:00):', '30 JUN • 18:00');
+            const grupo = prompt('Grupo (ex: GRUPO A):', 'GRUPO A');
+            
+            const db = getDB();
+            const novoJogo = {
+                id: `jogo_${Date.now()}`,
+                rodada: rodada,
+                time_casa: timeCasa,
+                time_fora: timeFora,
+                sigla_casa: siglaCasa,
+                sigla_fora: siglaFora,
+                escudo_casa: obterBandeiraUrl(siglaCasa) || '',
+                escudo_fora: obterBandeiraUrl(siglaFora) || '',
+                data_hora: dataHora,
+                grupo: grupo,
+                resultado_casa: null,
+                resultado_fora: null,
+                encerrado: false
+            };
+            
+            db.jogos.push(novoJogo);
+            saveDB(db);
+            pushMatches(db);
+            alert('Jogo adicionado com sucesso!');
+            renderAdmin();
+        }
+
+        function excluirJogo(jogoId) {
+            if (confirm('Tem certeza que deseja excluir este jogo? Todos os palpites dele serão perdidos.')) {
+                const db = getDB();
+                db.jogos = db.jogos.filter(j => j.id !== jogoId);
+                db.palpites = db.palpites.filter(p => p.jogo_id !== jogoId);
+                saveDB(db);
+                pushMatches(db);
+                alert('Jogo excluído com sucesso!');
+                renderAdmin();
+            }
+        }
+
+        function editarJogo(jogoId) {
+            const db = getDB();
+            const jogo = db.jogos.find(j => j.id === jogoId);
+            if (!jogo) return;
+            
+            const timeCasa = prompt('Editar Time da Casa:', jogo.time_casa);
+            const timeFora = prompt('Editar Time de Fora:', jogo.time_fora);
+            const dataHora = prompt('Editar Data/Hora:', jogo.data_hora);
+            
+            if (timeCasa && timeFora) {
+                jogo.time_casa = timeCasa;
+                jogo.time_fora = timeFora;
+                if (dataHora) jogo.data_hora = dataHora;
+                saveDB(db);
+                pushMatches(db);
+                alert('Jogo editado com sucesso!');
+                renderAdmin();
+            }
+        }
+
+        function toggleUserRole(userId) {
+            const db = getDB();
+            const usr = db.usuarios.find(u => u.id === userId);
+            if (usr) {
+                usr.role = usr.role === 'admin' ? 'user' : 'admin';
+                saveDB(db);
+                pushUsuarioData(userId, usr);
+                renderAdmin();
+            }
+        }
+
+        function toggleUserStatus(userId) {
+            const db = getDB();
+            const usr = db.usuarios.find(u => u.id === userId);
+            if (usr) {
+                usr.status = usr.status === 'Ativo' ? 'Bloqueado' : 'Ativo';
+                saveDB(db);
+                pushUsuarioData(userId, usr);
+                renderAdmin();
+            }
+        }
+
+        // Inicialização ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdmin();
+
+            // Disparar sincronização assíncrona com a nuvem
+            syncAllFromCloud();
+
+            // Ouvir evento de sincronização completa para re-renderizar
+            document.addEventListener('bolaoSyncComplete', () => {
+                renderAdmin();
+            });
+        });
+    </script>
+</body></html>

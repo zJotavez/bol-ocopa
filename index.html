@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="db.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed": "#001e30",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#e9c349",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-variant": "#e0e3e5",
+                      "surface-container": "#eceef0",
+                      "on-secondary": "#ffffff",
+                      "primary-fixed": "#a9f3c5",
+                      "secondary-fixed": "#cae6ff",
+                      "background": "#f7f9fb",
+                      "error-container": "#ffdad6",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#0d5c3a",
+                      "secondary-fixed-dim": "#abcae5",
+                      "on-primary-container": "#8ad2a7",
+                      "inverse-primary": "#8ed6aa",
+                      "on-background": "#191c1e",
+                      "outline": "#707971",
+                      "secondary-container": "#c4e3ff",
+                      "on-primary-fixed": "#002111",
+                      "on-error": "#ffffff",
+                      "primary": "#004328",
+                      "tertiary-fixed": "#ffe088",
+                      "tertiary-container": "#cca830",
+                      "outline-variant": "#bfc9c0",
+                      "surface-bright": "#f7f9fb",
+                      "secondary": "#446279",
+                      "surface-container-highest": "#e0e3e5",
+                      "surface-container-high": "#e6e8ea",
+                      "inverse-surface": "#2d3133",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#8ed6aa",
+                      "surface-tint": "#226b47",
+                      "on-tertiary-fixed": "#241a00",
+                      "surface-dim": "#d8dadc",
+                      "on-secondary-container": "#48667d",
+                      "on-primary": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary-fixed-variant": "#2b4a60",
+                      "error": "#ba1a1a",
+                      "surface-container-low": "#f2f4f6",
+                      "on-primary-fixed-variant": "#005232",
+                      "on-tertiary-fixed-variant": "#574500",
+                      "on-surface-variant": "#404942",
+                      "tertiary": "#735c00",
+                      "on-tertiary-container": "#4f3e00",
+                      "surface": "#f7f9fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-margin": "16px",
+                      "base": "4px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "xl": "40px",
+                      "xs": "4px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "label-bold": ["Inter"],
+                      "headline-lg": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Montserrat"],
+                      "display-score": ["Montserrat"],
+                      "stats-num": ["Montserrat"],
+                      "headline-md": ["Montserrat"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "display-score": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "stats-num": ["18px", {"lineHeight": "22px", "fontWeight": "700"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .premium-glow {
+            box-shadow: inset 0 0 10px rgba(212, 175, 55, 0.1), 0 0 1px rgba(212, 175, 55, 0.3);
+            border: 1px solid #D4AF37;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base w-full">
+<div class="flex items-center gap-sm">
+<div class="relative">
+<img alt="Profile" class="w-10 h-10 rounded-full border-2 border-primary object-cover" data-alt="A close-up professional portrait of a smiling Brazilian man in his late 20s, wearing a premium green athletic polo shirt. The lighting is soft and natural, suggesting an outdoor stadium environment at sunset. The image has a shallow depth of field, with a blurred modern football stadium in the background, utilizing a color palette of deep greens and soft golds." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
+<span class="absolute -bottom-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold px-1 rounded-full border-2 border-surface">PRO</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Bolão da Copa</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">stars</span> 0 pts
+                </span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="px-container-margin pt-md space-y-lg">
+<!-- Hero: Countdown Section -->
+<section class="relative overflow-hidden rounded-xl bg-primary text-on-primary p-md shadow-lg">
+<div class="absolute top-0 right-0 p-2 opacity-20 rotate-12">
+<span class="material-symbols-outlined text-8xl" data-icon="timer">timer</span>
+</div>
+<div class="relative z-10 flex flex-col items-center text-center space-y-sm">
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-primary-container">Próxima Rodada</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile">Faltam 03h 15min</h2>
+<p class="text-body-md opacity-90 max-w-[200px]">Feche seus palpites antes do apito inicial!</p>
+<button class="mt-sm bg-tertiary text-on-tertiary px-lg py-sm rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md">
+                    Palpitar Agora
+                </button>
+</div>
+</section>
+<!-- Personal Stats Overview -->
+<section class="grid grid-cols-2 gap-md">
+<div class="glass-card premium-glow rounded-xl p-md flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-tertiary" data-icon="emoji_events">emoji_events</span>
+<span class="text-on-surface-variant font-label-bold">Ranking</span>
+</div>
+<div class="z-10">
+<p class="font-stats-num text-stats-num text-primary">🏅 7º Lugar</p>
+<p class="text-[10px] text-on-surface-variant uppercase">Entre 7 amigos</p>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-5 rotate-12">
+<span class="material-symbols-outlined text-6xl">military_tech</span>
+</div>
+</div>
+<div class="glass-card rounded-xl p-md flex flex-col justify-between h-32">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary" data-icon="query_stats">query_stats</span>
+<span class="text-on-surface-variant font-label-bold">Precisão</span>
+</div>
+<div>
+<p class="font-stats-num text-stats-num text-primary">0.0%</p>
+<div class="w-full bg-surface-container h-1.5 rounded-full mt-1">
+<div class="bg-primary h-full rounded-full w-[0%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Próximos Jogos: Horizontal Carousel -->
+<section class="space-y-sm">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-primary">Próximos Jogos</h3>
+<button class="text-primary font-label-bold text-[12px] uppercase">Ver Todos</button>
+</div>
+<div class="flex gap-md overflow-x-auto hide-scrollbar -mx-container-margin px-container-margin pb-base">
+<!-- Match Card 1 -->
+<div class="min-w-[280px] glass-card rounded-xl p-sm flex flex-col gap-sm shadow-sm">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">19 JUN • 13:00</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full text-[10px] font-bold">GRUPO B</span>
+</div>
+<div class="flex justify-around items-center py-sm">
+<div class="flex flex-col items-center gap-xs">
+<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm overflow-hidden flex items-center justify-center font-bold text-[20px]">🇨🇦</div>
+<span class="font-label-bold text-[11px]">Canadá</span>
+</div>
+<div class="font-display-score text-[24px] text-on-surface-variant">VS</div>
+<div class="flex flex-col items-center gap-xs">
+<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm overflow-hidden flex items-center justify-center font-bold text-[20px]">🇧🇦</div>
+<span class="font-label-bold text-[11px]">Bósnia</span>
+</div>
+</div>
+<a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold border border-primary text-primary hover:bg-primary hover:text-on-primary transition-colors">
+                        Fazer Palpite
+                    </a>
+</div>
+<!-- Match Card 2 -->
+<div class="min-w-[280px] glass-card rounded-xl p-sm flex flex-col gap-sm shadow-sm">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">19 JUN • 13:00</span>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full text-[10px] font-bold">GRUPO B</span>
+</div>
+<div class="flex justify-around items-center py-sm opacity-60">
+<div class="flex flex-col items-center gap-xs">
+<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm flex items-center justify-center font-bold text-[20px]">🇶🇦</div>
+<span class="font-label-bold text-[11px]">Catar</span>
+</div>
+<div class="font-display-score text-[24px] text-on-surface-variant">VS</div>
+<div class="flex flex-col items-center gap-xs">
+<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm flex items-center justify-center font-bold text-[20px]">🇨🇭</div>
+<span class="font-label-bold text-[11px]">Suíça</span>
+</div>
+</div>
+<a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold border border-primary text-primary hover:bg-primary hover:text-on-primary transition-colors">
+                        Fazer Palpite
+                    </a>
+</div>
+</div>
+</section>
+<!-- Últimos Resultados Section -->
+<section class="space-y-sm">
+<h3 class="font-headline-md text-headline-md text-primary">Últimos Resultados</h3>
+<div class="space-y-sm">
+<!-- Result Item 1 -->
+<div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-error">
+<div class="flex items-center gap-md">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">MEX</div>
+<div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">RSA</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-bold text-on-surface">MEX 2 - 0 RSA</span>
+<span class="text-[10px] text-on-surface-variant">Seu palpite: 2 - 2</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-error font-stats-num text-stats-num">0 pts</span>
+<span class="text-[10px] text-error font-bold uppercase">Errou feio</span>
+</div>
+</div>
+<!-- Result Item 2 -->
+<div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-error">
+<div class="flex items-center gap-md">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">KOR</div>
+<div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">CZE</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-bold text-on-surface">KOR 2 - 1 CZE</span>
+<span class="text-[10px] text-on-surface-variant">Seu palpite: 0 - 1</span>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="text-error font-stats-num text-stats-num">0 pts</span>
+<span class="text-[10px] text-error font-bold uppercase">Errou feio</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<div class="flex justify-around items-center h-16 w-full px-2">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="index.html">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-bold text-label-bold">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary scale-95 active:scale-90 transition-transform" href="matches.html">
+<span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
+<span class="font-label-bold text-label-bold">Matches</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary scale-95 active:scale-90 transition-transform" href="ranking.html">
+<span class="material-symbols-outlined" data-icon="leaderboard">leaderboard</span>
+<span class="font-label-bold text-label-bold">Ranking</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary scale-95 active:scale-90 transition-transform" href="profile.html">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-bold text-label-bold">Perfil</span>
+</a>
+</div>
+</nav>
+<script>
+        // Micro-interaction for match cards scrolling
+        function setupCarouselScroll() {
+            const slider = document.querySelector('.overflow-x-auto');
+            if (!slider) return;
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            slider.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        }
+
+        // Renderizar dados no Dashboard dinamicamente
+        function renderDashboard() {
+            const db = getDB();
+            const user = getLoggedUser();
+            
+            const isUrl = (str) => str && (str.startsWith('http') || str.startsWith('/') || str.startsWith('data:'));
+            const renderEscudo = (escudo, sigla, time) => {
+                if (isUrl(escudo)) {
+                    return `<img class="w-12 h-8 object-cover rounded-sm shadow-sm" src="${escudo}" alt="${time}">`;
+                } else if (escudo) {
+                    return `<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm flex items-center justify-center text-[20px]">${escudo}</div>`;
+                } else {
+                    return `<div class="w-12 h-8 bg-surface-container rounded-sm shadow-sm flex items-center justify-center font-bold text-on-surface-variant text-[10px]">${sigla}</div>`;
+                }
+            };
+            
+            // Garante que o recálculo esteja atualizado no localStorage
+            const resultRecalculo = recalcularPontosGeral();
+            const currentPoints = resultRecalculo.pontos;
+            const currentPosicao = resultRecalculo.posicao;
+            const currentPrecisao = parseFloat(resultRecalculo.precisao);
+            
+            // Atualiza cabeçalho
+            const pointsHeaderEl = document.querySelector('header .font-label-bold');
+            if (pointsHeaderEl) {
+                pointsHeaderEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">stars</span> ${currentPoints} pts`;
+            }
+            
+            const headerAvatarEl = document.querySelector('header img[alt="User Avatar"]');
+            if (headerAvatarEl && user && user.foto) {
+                headerAvatarEl.src = user.foto;
+            }
+            
+            // Atualiza Stats
+            // Posição no Ranking
+            const rankEl = document.querySelector('main section .font-stats-num');
+            if (rankEl) {
+                let medalha = '🏅';
+                if (currentPosicao === 1) medalha = '🥇';
+                else if (currentPosicao === 2) medalha = '🥈';
+                else if (currentPosicao === 3) medalha = '🥉';
+                rankEl.innerText = `${medalha} ${currentPosicao}º Lugar`;
+            }
+            const rankTotalEl = document.querySelector('main section p.text-\\[10px\\]');
+            if (rankTotalEl) {
+                rankTotalEl.innerText = `Entre ${db.usuarios.length} amigos`;
+            }
+            
+            // Precisão
+            const precisionEl = document.querySelectorAll('main section .font-stats-num')[1];
+            if (precisionEl) {
+                precisionEl.innerText = `${currentPrecisao}%`;
+            }
+            const progressBarEl = document.querySelector('main section .bg-primary');
+            if (progressBarEl) {
+                progressBarEl.style.width = `${currentPrecisao}%`;
+            }
+            
+            // Renderiza Próximos Jogos
+            const proximosJogosContainer = document.querySelector('.overflow-x-auto');
+            if (proximosJogosContainer) {
+                const jogosFuturos = db.jogos.filter(j => !j.encerrado);
+                if (jogosFuturos.length === 0) {
+                    proximosJogosContainer.innerHTML = '<p class="text-on-surface-variant p-md">Nenhum jogo agendado no momento.</p>';
+                } else {
+                    proximosJogosContainer.innerHTML = jogosFuturos.map(jogo => {
+                        const palpite = db.palpites.find(p => p.usuario_id === user.id && p.jogo_id === jogo.id);
+                        const palpiteTexto = palpite ? `${palpite.placar_casa} - ${palpite.placar_fora}` : 'VS';
+                        const hasPalpite = !!palpite;
+                        const buttonClass = hasPalpite ? 'bg-primary-container text-on-primary-container' : 'border border-primary text-primary hover:bg-primary hover:text-on-primary';
+                        
+                        return `
+                        <div class="min-w-[280px] glass-card rounded-xl p-sm flex flex-col gap-sm shadow-sm">
+                            <div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
+                                <span class="text-[10px] font-bold text-on-surface-variant uppercase">${jogo.data_hora}</span>
+                                <span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded-full text-[10px] font-bold">${jogo.grupo}</span>
+                            </div>
+                            <div class="flex justify-around items-center py-sm">
+                                <div class="flex flex-col items-center gap-xs">
+                                    ${renderEscudo(jogo.escudo_casa, jogo.sigla_casa, jogo.time_casa)}
+                                    <span class="font-label-bold text-[11px]">${jogo.time_casa}</span>
+                                </div>
+                                <div class="font-display-score text-[24px] text-on-surface-variant">
+                                    ${hasPalpite ? `<span class="text-primary font-bold">${palpite.placar_casa}</span> - <span class="text-primary font-bold">${palpite.placar_fora}</span>` : 'VS'}
+                                </div>
+                                <div class="flex flex-col items-center gap-xs">
+                                    ${renderEscudo(jogo.escudo_fora, jogo.sigla_fora, jogo.time_fora)}
+                                    <span class="font-label-bold text-[11px]">${jogo.time_fora}</span>
+                                </div>
+                            </div>
+                            <a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold transition-colors ${buttonClass}">
+                                ${hasPalpite ? 'Editar Palpite' : 'Fazer Palpite'}
+                            </a>
+                        </div>`;
+                    }).join('');
+                }
+            }
+            
+            // Renderiza Últimos Resultados
+            const resultadosContainer = document.querySelector('main section.space-y-sm:last-of-type .space-y-sm');
+            if (resultadosContainer) {
+                const jogosEncerrados = db.jogos.filter(j => j.encerrado);
+                if (jogosEncerrados.length === 0) {
+                    resultadosContainer.innerHTML = '<p class="text-on-surface-variant p-md">Nenhum resultado finalizado ainda.</p>';
+                } else {
+                    resultadosContainer.innerHTML = jogosEncerrados.map(jogo => {
+                        const palpite = db.palpites.find(p => p.usuario_id === user.id && p.jogo_id === jogo.id);
+                        let pontosGanhos = 0;
+                        let detalhePontos = 'Sem palpite';
+                        let borderClass = 'border-l-4 border-l-outline-variant';
+                        let textClass = 'text-on-surface-variant';
+                        
+                        if (palpite) {
+                            pontosGanhos = calcularPontosPalpite(
+                                palpite.placar_casa,
+                                palpite.placar_fora,
+                                jogo.resultado_casa,
+                                jogo.resultado_fora
+                            );
+                            
+                            if (pontosGanhos === 5) {
+                                detalhePontos = 'Placar exato!';
+                                borderClass = 'border-l-4 border-l-tertiary';
+                                textClass = 'text-tertiary';
+                            } else if (pontosGanhos === 4) {
+                                detalhePontos = 'Empate exato!';
+                                borderClass = 'border-l-4 border-l-tertiary';
+                                textClass = 'text-tertiary';
+                            } else if (pontosGanhos === 3) {
+                                detalhePontos = 'Acertou vencedor';
+                                borderClass = 'border-l-4 border-l-primary';
+                                textClass = 'text-primary';
+                            } else if (pontosGanhos === 1) {
+                                detalhePontos = 'Acertou empate';
+                                borderClass = 'border-l-4 border-l-primary';
+                                textClass = 'text-primary';
+                            } else {
+                                detalhePontos = 'Errou feio';
+                                borderClass = 'border-l-4 border-l-error';
+                                textClass = 'text-error';
+                            }
+                        }
+                        
+                        return `
+                        <div class="glass-card rounded-xl p-md flex items-center justify-between ${borderClass}">
+                            <div class="flex items-center gap-md">
+                                <div class="flex -space-x-2">
+                                    <div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">${jogo.sigla_casa}</div>
+                                    <div class="w-8 h-8 rounded-full bg-surface-container border-2 border-surface flex items-center justify-center text-[10px] font-bold">${jogo.sigla_fora}</div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-label-bold text-on-surface">${jogo.sigla_casa} ${jogo.resultado_casa} - ${jogo.resultado_fora} ${jogo.sigla_fora}</span>
+                                    <span class="text-[10px] text-on-surface-variant">Seu palpite: ${palpite ? `${palpite.placar_casa} - ${palpite.placar_fora}` : 'Nenhum'}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <div class="flex items-center gap-1">
+                                    ${pontosGanhos >= 4 ? `<span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>` : ''}
+                                    <span class="${textClass} font-stats-num text-stats-num">${pontosGanhos >= 0 ? `+${pontosGanhos}` : pontosGanhos} pts</span>
+                                </div>
+                                <span class="text-[10px] ${textClass} font-bold uppercase">${detalhePontos}</span>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+            }
+        }
+
+        // Executar inicializações ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDashboard();
+            setupCarouselScroll();
+
+            // Disparar sincronização assíncrona com a nuvem
+            syncAllFromCloud();
+
+            // Ouvir evento de sincronização completa para re-renderizar
+            document.addEventListener('bolaoSyncComplete', () => {
+                renderDashboard();
+            });
+
+            // Simple Countdown logic simulation
+            let hours = 3;
+            let minutes = 15;
+            const countdownEl = document.querySelector('h2');
+            
+            setInterval(() => {
+                if (minutes > 0) {
+                    minutes--;
+                } else {
+                    if (hours > 0) {
+                        hours--;
+                        minutes = 59;
+                    }
+                }
+                const hStr = String(hours).padStart(2, '0');
+                const mStr = String(minutes).padStart(2, '0');
+                if(countdownEl) {
+                    countdownEl.innerText = `Faltam ${hStr}h ${mStr}min`;
+                }
+            }, 60000);
+        });
+    </script>
+</body></html>
