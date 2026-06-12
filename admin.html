@@ -855,12 +855,14 @@
             
             const timeCasa = prompt('Editar Time da Casa:', jogo.time_casa);
             const timeFora = prompt('Editar Time de Fora:', jogo.time_fora);
-            const dataHora = prompt('Editar Data/Hora:', jogo.data_hora);
+            const dataHora = prompt('Editar Texto Data/Hora (ex: 15 JUN • 16:00):', jogo.data_hora);
+            const kickoffTime = prompt('Editar Horário de Início (ISO ex: 2026-06-15T16:00:00):', jogo.kickoff_time || '');
             
             if (timeCasa && timeFora) {
                 jogo.time_casa = timeCasa;
                 jogo.time_fora = timeFora;
                 if (dataHora) jogo.data_hora = dataHora;
+                if (kickoffTime) jogo.kickoff_time = kickoffTime;
                 saveDB(db);
                 pushMatches(db);
                 alert('Jogo editado com sucesso!');

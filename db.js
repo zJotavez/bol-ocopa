@@ -24,7 +24,7 @@ const defaultTeams = [
     { id: 'mex', grupo_id: 'A', nome: 'México', sigla: 'MEX', emoji: '🇲🇽', escudo: '' },
     { id: 'rsa', grupo_id: 'A', nome: 'África do Sul', sigla: 'RSA', emoji: '🇿🇦', escudo: '' },
     { id: 'kor', grupo_id: 'A', nome: 'Coreia do Sul', sigla: 'KOR', emoji: '🇰🇷', escudo: '' },
-    { id: 'cze', grupo_id: 'A', nome: 'Tchéquia', sigla: 'CZE', emoji: '🇨🇿', escudo: '' },
+    { id: 'cze', grupo_id: 'A', nome: 'República Tcheca', sigla: 'CZE', emoji: '🇨🇿', escudo: '' },
     // Grupo B
     { id: 'can', grupo_id: 'B', nome: 'Canadá', sigla: 'CAN', emoji: '🇨🇦', escudo: '' },
     { id: 'bih', grupo_id: 'B', nome: 'Bósnia e Herzegovina', sigla: 'BIH', emoji: '🇧🇦', escudo: '' },
@@ -74,7 +74,7 @@ const defaultTeams = [
     { id: 'por', grupo_id: 'K', nome: 'Portugal', sigla: 'POR', emoji: '🇵🇹', escudo: '' },
     { id: 'col', grupo_id: 'K', nome: 'Colômbia', sigla: 'COL', emoji: '🇨🇴', escudo: '' },
     { id: 'uzb', grupo_id: 'K', nome: 'Uzbequistão', sigla: 'UZB', emoji: '🇺🇿', escudo: '' },
-    { id: 'cod', grupo_id: 'K', nome: 'Congo DR', sigla: 'COD', emoji: '🇨🇩', escudo: '' },
+    { id: 'cod', grupo_id: 'K', nome: 'República Democrática do Congo', sigla: 'COD', emoji: '🇨🇩', escudo: '' },
     // Grupo L
     { id: 'eng', grupo_id: 'L', nome: 'Inglaterra', sigla: 'ENG', emoji: '🏴\u200d󠁧󠁢󠁥󠁮󠁧󠁿', escudo: '' },
     { id: 'cro', grupo_id: 'L', nome: 'Croácia', sigla: 'CRO', emoji: '🇭🇷', escudo: '' },
@@ -83,65 +83,113 @@ const defaultTeams = [
 ];
 
 // 3. Geração dos Jogos da Fase de Grupos
+// 3. Geração dos Jogos da Fase de Grupos
 function gerarJogosIniciais() {
-    const matches = [];
-    const gruposIds = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
-    
-    gruposIds.forEach(gid => {
-        const groupTeams = defaultTeams.filter(t => t.grupo_id === gid);
-        if (groupTeams.length === 4) {
-            const T1 = groupTeams[0];
-            const T2 = groupTeams[1];
-            const T3 = groupTeams[2];
-            const T4 = groupTeams[3];
-            
-            // Rodada 1: 1x2, 3x4
-            matches.push(criarEstruturaJogo(gid, 'Rodada 1', T1, T2, `match_${gid}_r1_1`));
-            matches.push(criarEstruturaJogo(gid, 'Rodada 1', T3, T4, `match_${gid}_r1_2`));
-            
-            // Rodada 2: 1x3, 4x2
-            matches.push(criarEstruturaJogo(gid, 'Rodada 2', T1, T3, `match_${gid}_r2_1`));
-            matches.push(criarEstruturaJogo(gid, 'Rodada 2', T4, T2, `match_${gid}_r2_2`));
-            
-            // Rodada 3: 4x1, 2x3
-            matches.push(criarEstruturaJogo(gid, 'Rodada 3', T4, T1, `match_${gid}_r3_1`));
-            matches.push(criarEstruturaJogo(gid, 'Rodada 3', T2, T3, `match_${gid}_r3_2`));
-        }
-    });
-    
-    return matches;
-}
+    const rawMatches = [
+        // Rodada 1
+        { id: 'match_A_r1_1', gid: 'A', r: 'Rodada 1', home: 'mex', away: 'rsa', time: '2026-06-11T13:00:00', label: '11 JUN • 13:00', resH: 2, resA: 0, status: 'Finalizado' },
+        { id: 'match_A_r1_2', gid: 'A', r: 'Rodada 1', home: 'kor', away: 'cze', time: '2026-06-11T16:00:00', label: '11 JUN • 16:00', resH: 2, resA: 1, status: 'Finalizado' },
+        { id: 'match_B_r1_1', gid: 'B', r: 'Rodada 1', home: 'can', away: 'bih', time: '2026-06-11T19:00:00', label: '11 JUN • 19:00' },
+        { id: 'match_B_r1_2', gid: 'B', r: 'Rodada 1', home: 'qat', away: 'sui', time: '2026-06-11T22:00:00', label: '11 JUN • 22:00' },
+        
+        { id: 'match_C_r1_1', gid: 'C', r: 'Rodada 1', home: 'bra', away: 'mar', time: '2026-06-12T13:00:00', label: '12 JUN • 13:00' },
+        { id: 'match_C_r1_2', gid: 'C', r: 'Rodada 1', home: 'hai', away: 'sco', time: '2026-06-12T16:00:00', label: '12 JUN • 16:00' },
+        { id: 'match_D_r1_1', gid: 'D', r: 'Rodada 1', home: 'usa', away: 'par', time: '2026-06-12T19:00:00', label: '12 JUN • 19:00' },
+        { id: 'match_D_r1_2', gid: 'D', r: 'Rodada 1', home: 'aus', away: 'tur', time: '2026-06-12T22:00:00', label: '12 JUN • 22:00' },
+        
+        { id: 'match_E_r1_1', gid: 'E', r: 'Rodada 1', home: 'ger', away: 'cuw', time: '2026-06-13T13:00:00', label: '13 JUN • 13:00' },
+        { id: 'match_E_r1_2', gid: 'E', r: 'Rodada 1', home: 'civ', away: 'ecu', time: '2026-06-13T16:00:00', label: '13 JUN • 16:00' },
+        { id: 'match_F_r1_1', gid: 'F', r: 'Rodada 1', home: 'ned', away: 'jpn', time: '2026-06-13T19:00:00', label: '13 JUN • 19:00' },
+        { id: 'match_F_r1_2', gid: 'F', r: 'Rodada 1', home: 'swe', away: 'tun', time: '2026-06-13T22:00:00', label: '13 JUN • 22:00' },
+        
+        { id: 'match_G_r1_1', gid: 'G', r: 'Rodada 1', home: 'bel', away: 'egy', time: '2026-06-14T13:00:00', label: '14 JUN • 13:00' },
+        { id: 'match_G_r1_2', gid: 'G', r: 'Rodada 1', home: 'irn', away: 'nzl', time: '2026-06-14T16:00:00', label: '14 JUN • 16:00' },
+        { id: 'match_H_r1_1', gid: 'H', r: 'Rodada 1', home: 'esp', away: 'cpv', time: '2026-06-14T19:00:00', label: '14 JUN • 19:00' },
+        { id: 'match_H_r1_2', gid: 'H', r: 'Rodada 1', home: 'ksa', away: 'uru', time: '2026-06-14T22:00:00', label: '14 JUN • 22:00' },
+        
+        { id: 'match_I_r1_1', gid: 'I', r: 'Rodada 1', home: 'fra', away: 'sen', time: '2026-06-15T13:00:00', label: '15 JUN • 13:00' },
+        { id: 'match_I_r1_2', gid: 'I', r: 'Rodada 1', home: 'irq', away: 'nor', time: '2026-06-15T16:00:00', label: '15 JUN • 16:00' },
+        { id: 'match_J_r1_1', gid: 'J', r: 'Rodada 1', home: 'arg', away: 'alg', time: '2026-06-15T19:00:00', label: '15 JUN • 19:00' },
+        { id: 'match_J_r1_2', gid: 'J', r: 'Rodada 1', home: 'aut', away: 'jor', time: '2026-06-15T22:00:00', label: '15 JUN • 22:00' },
+        
+        { id: 'match_K_r1_1', gid: 'K', r: 'Rodada 1', home: 'por', away: 'cod', time: '2026-06-16T13:00:00', label: '16 JUN • 13:00' },
+        { id: 'match_K_r1_2', gid: 'K', r: 'Rodada 1', home: 'col', away: 'uzb', time: '2026-06-16T16:00:00', label: '16 JUN • 16:00' },
+        { id: 'match_L_r1_1', gid: 'L', r: 'Rodada 1', home: 'eng', away: 'cro', time: '2026-06-16T19:00:00', label: '16 JUN • 19:00' },
+        { id: 'match_L_r1_2', gid: 'L', r: 'Rodada 1', home: 'gha', away: 'pan', time: '2026-06-16T22:00:00', label: '16 JUN • 22:00' },
 
-function criarEstruturaJogo(grupoId, rodada, timeCasa, timeFora, id) {
-    let placarCasa = null;
-    let placarFora = null;
-    let status = 'Pendente';
-    let dataHora = rodada === 'Rodada 1' ? '15 JUN • 16:00' : (rodada === 'Rodada 2' ? '19 JUN • 13:00' : '23 JUN • 21:00');
-    
-    // Resultados Reais Jogados no Grupo A
-    if (id === 'match_A_r1_1') {
-        placarCasa = 2;
-        placarFora = 0;
-        status = 'Finalizado';
-        dataHora = 'Finalizado';
-    } else if (id === 'match_A_r1_2') {
-        placarCasa = 2;
-        placarFora = 1;
-        status = 'Finalizado';
-        dataHora = 'Finalizado';
-    }
-    
-    return {
-        id: id,
-        grupo_id: grupoId,
-        rodada: rodada,
-        time_casa_id: timeCasa.id,
-        time_fora_id: timeFora.id,
-        data_hora: dataHora,
-        placar_casa: placarCasa,
-        placar_fora: placarFora,
-        status: status
-    };
+        // Rodada 2
+        { id: 'match_A_r2_1', gid: 'A', r: 'Rodada 2', home: 'mex', away: 'cze', time: '2026-06-17T13:00:00', label: '17 JUN • 13:00' },
+        { id: 'match_A_r2_2', gid: 'A', r: 'Rodada 2', home: 'rsa', away: 'kor', time: '2026-06-17T16:00:00', label: '17 JUN • 16:00' },
+        { id: 'match_B_r2_1', gid: 'B', r: 'Rodada 2', home: 'can', away: 'sui', time: '2026-06-17T19:00:00', label: '17 JUN • 19:00' },
+        { id: 'match_B_r2_2', gid: 'B', r: 'Rodada 2', home: 'bih', away: 'qat', time: '2026-06-17T22:00:00', label: '17 JUN • 22:00' },
+        
+        { id: 'match_C_r2_1', gid: 'C', r: 'Rodada 2', home: 'bra', away: 'sco', time: '2026-06-18T13:00:00', label: '18 JUN • 13:00' },
+        { id: 'match_C_r2_2', gid: 'C', r: 'Rodada 2', home: 'mar', away: 'hai', time: '2026-06-18T16:00:00', label: '18 JUN • 16:00' },
+        { id: 'match_D_r2_1', gid: 'D', r: 'Rodada 2', home: 'usa', away: 'tur', time: '2026-06-18T19:00:00', label: '18 JUN • 19:00' },
+        { id: 'match_D_r2_2', gid: 'D', r: 'Rodada 2', home: 'par', away: 'aus', time: '2026-06-18T22:00:00', label: '18 JUN • 22:00' },
+        
+        { id: 'match_E_r2_1', gid: 'E', r: 'Rodada 2', home: 'ger', away: 'ecu', time: '2026-06-19T13:00:00', label: '19 JUN • 13:00' },
+        { id: 'match_E_r2_2', gid: 'E', r: 'Rodada 2', home: 'cuw', away: 'civ', time: '2026-06-19T16:00:00', label: '19 JUN • 16:00' },
+        { id: 'match_F_r2_1', gid: 'F', r: 'Rodada 2', home: 'ned', away: 'tun', time: '2026-06-19T19:00:00', label: '19 JUN • 19:00' },
+        { id: 'match_F_r2_2', gid: 'F', r: 'Rodada 2', home: 'jpn', away: 'swe', time: '2026-06-19T22:00:00', label: '19 JUN • 22:00' },
+        
+        { id: 'match_G_r2_1', gid: 'G', r: 'Rodada 2', home: 'bel', away: 'nzl', time: '2026-06-20T13:00:00', label: '20 JUN • 13:00' },
+        { id: 'match_G_r2_2', gid: 'G', r: 'Rodada 2', home: 'egy', away: 'irn', time: '2026-06-20T16:00:00', label: '20 JUN • 16:00' },
+        { id: 'match_H_r2_1', gid: 'H', r: 'Rodada 2', home: 'esp', away: 'uru', time: '2026-06-20T19:00:00', label: '20 JUN • 19:00' },
+        { id: 'match_H_r2_2', gid: 'H', r: 'Rodada 2', home: 'cpv', away: 'ksa', time: '2026-06-20T22:00:00', label: '20 JUN • 22:00' },
+        
+        { id: 'match_I_r2_1', gid: 'I', r: 'Rodada 2', home: 'fra', away: 'nor', time: '2026-06-21T13:00:00', label: '21 JUN • 13:00' },
+        { id: 'match_I_r2_2', gid: 'I', r: 'Rodada 2', home: 'sen', away: 'irq', time: '2026-06-21T16:00:00', label: '21 JUN • 16:00' },
+        { id: 'match_J_r2_1', gid: 'J', r: 'Rodada 2', home: 'arg', away: 'jor', time: '2026-06-21T19:00:00', label: '21 JUN • 19:00' },
+        { id: 'match_J_r2_2', gid: 'J', r: 'Rodada 2', home: 'alg', away: 'aut', time: '2026-06-21T22:00:00', label: '21 JUN • 22:00' },
+        
+        { id: 'match_K_r2_1', gid: 'K', r: 'Rodada 2', home: 'por', away: 'uzb', time: '2026-06-22T13:00:00', label: '22 JUN • 13:00' },
+        { id: 'match_K_r2_2', gid: 'K', r: 'Rodada 2', home: 'cod', away: 'col', time: '2026-06-22T16:00:00', label: '22 JUN • 16:00' },
+        { id: 'match_L_r2_1', gid: 'L', r: 'Rodada 2', home: 'eng', away: 'pan', time: '2026-06-22T19:00:00', label: '22 JUN • 19:00' },
+        { id: 'match_L_r2_2', gid: 'L', r: 'Rodada 2', home: 'cro', away: 'gha', time: '2026-06-22T22:00:00', label: '22 JUN • 22:00' },
+
+        // Rodada 3
+        { id: 'match_A_r3_1', gid: 'A', r: 'Rodada 3', home: 'mex', away: 'kor', time: '2026-06-23T13:00:00', label: '23 JUN • 13:00' },
+        { id: 'match_A_r3_2', gid: 'A', r: 'Rodada 3', home: 'cze', away: 'rsa', time: '2026-06-23T13:00:00', label: '23 JUN • 13:00' },
+        { id: 'match_B_r3_1', gid: 'B', r: 'Rodada 3', home: 'can', away: 'qat', time: '2026-06-23T18:00:00', label: '23 JUN • 18:00' },
+        { id: 'match_B_r3_2', gid: 'B', r: 'Rodada 3', home: 'sui', away: 'bih', time: '2026-06-23T18:00:00', label: '23 JUN • 18:00' },
+        { id: 'match_C_r3_1', gid: 'C', r: 'Rodada 3', home: 'bra', away: 'hai', time: '2026-06-23T21:00:00', label: '23 JUN • 21:00' },
+        { id: 'match_C_r3_2', gid: 'C', r: 'Rodada 3', home: 'mar', away: 'sco', time: '2026-06-23T21:00:00', label: '23 JUN • 21:00' },
+        
+        { id: 'match_D_r3_1', gid: 'D', r: 'Rodada 3', home: 'usa', away: 'aus', time: '2026-06-24T13:00:00', label: '24 JUN • 13:00' },
+        { id: 'match_D_r3_2', gid: 'D', r: 'Rodada 3', home: 'tur', away: 'par', time: '2026-06-24T13:00:00', label: '24 JUN • 13:00' },
+        { id: 'match_E_r3_1', gid: 'E', r: 'Rodada 3', home: 'ger', away: 'civ', time: '2026-06-24T18:00:00', label: '24 JUN • 18:00' },
+        { id: 'match_E_r3_2', gid: 'E', r: 'Rodada 3', home: 'ecu', away: 'cuw', time: '2026-06-24T18:00:00', label: '24 JUN • 18:00' },
+        { id: 'match_F_r3_1', gid: 'F', r: 'Rodada 3', home: 'ned', away: 'swe', time: '2026-06-24T21:00:00', label: '24 JUN • 21:00' },
+        { id: 'match_F_r3_2', gid: 'F', r: 'Rodada 3', home: 'tun', away: 'jpn', time: '2026-06-24T21:00:00', label: '24 JUN • 21:00' },
+        
+        { id: 'match_G_r3_1', gid: 'G', r: 'Rodada 3', home: 'bel', away: 'irn', time: '2026-06-25T13:00:00', label: '25 JUN • 13:00' },
+        { id: 'match_G_r3_2', gid: 'G', r: 'Rodada 3', home: 'nzl', away: 'egy', time: '2026-06-25T13:00:00', label: '25 JUN • 13:00' },
+        { id: 'match_H_r3_1', gid: 'H', r: 'Rodada 3', home: 'esp', away: 'ksa', time: '2026-06-25T18:00:00', label: '25 JUN • 18:00' },
+        { id: 'match_H_r3_2', gid: 'H', r: 'Rodada 3', home: 'uru', away: 'cpv', time: '2026-06-25T18:00:00', label: '25 JUN • 18:00' },
+        { id: 'match_I_r3_1', gid: 'I', r: 'Rodada 3', home: 'fra', away: 'irq', time: '2026-06-25T21:00:00', label: '25 JUN • 21:00' },
+        { id: 'match_I_r3_2', gid: 'I', r: 'Rodada 3', home: 'nor', away: 'sen', time: '2026-06-25T21:00:00', label: '25 JUN • 21:00' },
+        
+        { id: 'match_J_r3_1', gid: 'J', r: 'Rodada 3', home: 'arg', away: 'aut', time: '2026-06-26T13:00:00', label: '26 JUN • 13:00' },
+        { id: 'match_J_r3_2', gid: 'J', r: 'Rodada 3', home: 'jor', away: 'alg', time: '2026-06-26T13:00:00', label: '26 JUN • 13:00' },
+        { id: 'match_K_r3_1', gid: 'K', r: 'Rodada 3', home: 'por', away: 'col', time: '2026-06-26T18:00:00', label: '26 JUN • 18:00' },
+        { id: 'match_K_r3_2', gid: 'K', r: 'Rodada 3', home: 'uzb', away: 'cod', time: '2026-06-26T18:00:00', label: '26 JUN • 18:00' },
+        { id: 'match_L_r3_1', gid: 'L', r: 'Rodada 3', home: 'eng', away: 'gha', time: '2026-06-26T21:00:00', label: '26 JUN • 21:00' },
+        { id: 'match_L_r3_2', gid: 'L', r: 'Rodada 3', home: 'pan', away: 'cro', time: '2026-06-26T21:00:00', label: '26 JUN • 21:00' }
+    ];
+
+    return rawMatches.map(m => ({
+        id: m.id,
+        grupo_id: m.gid,
+        rodada: m.r,
+        time_casa_id: m.home,
+        time_fora_id: m.away,
+        data_hora: m.label,
+        kickoff_time: m.time,
+        placar_casa: m.resH !== undefined ? m.resH : null,
+        placar_fora: m.resA !== undefined ? m.resA : null,
+        status: m.status || 'Pendente'
+    }));
 }
 
 // 4. Estrutura Padrão com os Usuários e Palpites iniciais reais
@@ -240,24 +288,38 @@ const defaultData = {
         // João (user_1 / Você)
         { usuario_id: 'user_1', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 2, pontos: 0 },
         { usuario_id: 'user_1', jogo_id: 'match_A_r1_2', placar_casa: 0, placar_fora: 1, pontos: 0 },
+        { usuario_id: 'user_1', jogo_id: 'match_B_r1_1', placar_casa: 0, placar_fora: 2, pontos: null },
+        { usuario_id: 'user_1', jogo_id: 'match_D_r1_1', placar_casa: 3, placar_fora: 1, pontos: null },
         // Matheus
         { usuario_id: 'user_matheus', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 2, pontos: 0 },
         { usuario_id: 'user_matheus', jogo_id: 'match_A_r1_2', placar_casa: 2, placar_fora: 1, pontos: 5 },
+        { usuario_id: 'user_matheus', jogo_id: 'match_B_r1_1', placar_casa: 1, placar_fora: 1, pontos: null },
+        { usuario_id: 'user_matheus', jogo_id: 'match_D_r1_1', placar_casa: 1, placar_fora: 0, pontos: null },
         // Fábio Alves
         { usuario_id: 'user_fabio', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 0, pontos: 5 },
         { usuario_id: 'user_fabio', jogo_id: 'match_A_r1_2', placar_casa: 1, placar_fora: 0, pontos: 3 },
+        { usuario_id: 'user_fabio', jogo_id: 'match_B_r1_1', placar_casa: 2, placar_fora: 1, pontos: null },
+        { usuario_id: 'user_fabio', jogo_id: 'match_D_r1_1', placar_casa: 2, placar_fora: 1, pontos: null },
         // Jader
         { usuario_id: 'user_jader', jogo_id: 'match_A_r1_1', placar_casa: 3, placar_fora: 0, pontos: 3 },
         { usuario_id: 'user_jader', jogo_id: 'match_A_r1_2', placar_casa: 2, placar_fora: 1, pontos: 5 },
+        { usuario_id: 'user_jader', jogo_id: 'match_B_r1_1', placar_casa: 2, placar_fora: 1, pontos: null },
+        { usuario_id: 'user_jader', jogo_id: 'match_D_r1_1', placar_casa: 2, placar_fora: 1, pontos: null },
         // Thaynan
         { usuario_id: 'user_thaynan', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 1, pontos: 3 },
         { usuario_id: 'user_thaynan', jogo_id: 'match_A_r1_2', placar_casa: 2, placar_fora: 0, pontos: 3 },
+        { usuario_id: 'user_thaynan', jogo_id: 'match_B_r1_1', placar_casa: 1, placar_fora: 1, pontos: null },
+        { usuario_id: 'user_thaynan', jogo_id: 'match_D_r1_1', placar_casa: 2, placar_fora: 1, pontos: null },
         // Henrique
         { usuario_id: 'user_henrique', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 1, pontos: 3 },
         { usuario_id: 'user_henrique', jogo_id: 'match_A_r1_2', placar_casa: 1, placar_fora: 0, pontos: 3 },
+        { usuario_id: 'user_henrique', jogo_id: 'match_B_r1_1', placar_casa: 1, placar_fora: 0, pontos: null },
+        { usuario_id: 'user_henrique', jogo_id: 'match_D_r1_1', placar_casa: 2, placar_fora: 0, pontos: null },
         // Davi
         { usuario_id: 'user_davi', jogo_id: 'match_A_r1_1', placar_casa: 2, placar_fora: 0, pontos: 5 },
-        { usuario_id: 'user_davi', jogo_id: 'match_A_r1_2', placar_casa: 0, placar_fora: 1, pontos: 0 }
+        { usuario_id: 'user_davi', jogo_id: 'match_A_r1_2', placar_casa: 0, placar_fora: 1, pontos: 0 },
+        { usuario_id: 'user_davi', jogo_id: 'match_B_r1_1', placar_casa: 1, placar_fora: 0, pontos: null },
+        { usuario_id: 'user_davi', jogo_id: 'match_D_r1_1', placar_casa: 2, placar_fora: 1, pontos: null }
     ]
 };
 
@@ -275,11 +337,15 @@ function getDB() {
         
         // Garante que apenas os 7 usuários reais estejam no banco
         const realUserIds = ['user_1', 'user_matheus', 'user_fabio', 'user_jader', 'user_thaynan', 'user_henrique', 'user_davi'];
-        const temUsuarioInvalido = !db.usuarios || db.usuarios.length !== 7 || db.usuarios.some(u => !realUserIds.includes(u.id));
+        const temUsuarioInvalido = !db.usuarios || db.usuarios.length < 7 || db.usuarios.some(u => !u.id.startsWith('user_new_') && !realUserIds.includes(u.id));
         
-        if (!db.groups || !db.teams || isGabrielMendes || temUsuarioInvalido) {
+        // Força migração para a nova tabela do CSV oficial
+        const temJogoDoCSV = db.matches && db.matches.some(m => m.id === 'match_B_r1_1');
+        
+        if (!db.groups || !db.teams || isGabrielMendes || temUsuarioInvalido || !temJogoDoCSV) {
             db = JSON.parse(JSON.stringify(defaultData));
             saveDB(db);
+            localStorage.removeItem('bolao_logged_user_id');
         }
     }
     
@@ -314,6 +380,7 @@ function saveDB(db) {
                     time_casa_id: j.time_casa_id || getTeamIdByName(db, j.time_casa),
                     time_fora_id: j.time_fora_id || getTeamIdByName(db, j.time_fora),
                     data_hora: j.data_hora,
+                    kickoff_time: j.kickoff_time || 'TBD',
                     placar_casa: j.resultado_casa !== undefined && j.resultado_casa !== null ? parseInt(j.resultado_casa) : null,
                     placar_fora: j.resultado_fora !== undefined && j.resultado_fora !== null ? parseInt(j.resultado_fora) : null,
                     status: j.encerrado ? 'Finalizado' : 'Pendente'
@@ -370,6 +437,22 @@ function obterBandeiraUrl(sigla) {
     return '';
 }
 
+// Verifica se um jogo está bloqueado para palpites (1 hora antes ou encerrado)
+function isJogoBloqueado(jogo) {
+    if (!jogo) return true;
+    if (jogo.status === 'Finalizado' || jogo.encerrado) return true;
+    if (!jogo.kickoff_time || jogo.kickoff_time === 'TBD') return false;
+    
+    const kickoff = new Date(jogo.kickoff_time);
+    if (isNaN(kickoff.getTime())) return false;
+    
+    const agora = new Date();
+    const diferencaMs = kickoff.getTime() - agora.getTime();
+    
+    // Bloqueia se faltar menos de 1 hora (3600000 ms) ou se o jogo já começou/passou
+    return diferencaMs < 3600000;
+}
+
 // Helper para montar a lista virtual legada joinando as tabelas
 function buildJogosVirtual(db) {
     const jogos = [];
@@ -396,11 +479,12 @@ function buildJogosVirtual(db) {
             time_casa_id: m.time_casa_id,
             time_fora_id: m.time_fora_id,
             data_hora: m.data_hora,
+            kickoff_time: m.kickoff_time || 'TBD',
             grupo_id: m.grupo_id,
             grupo: `GRUPO ${m.grupo_id}`,
             resultado_casa: m.placar_casa,
             resultado_fora: m.placar_fora,
-            encerrado: m.status === 'Finalizado'
+            encerrado: m.status === 'Finalizado' || isJogoBloqueado(m)
         });
     });
     
@@ -421,10 +505,11 @@ function buildJogosVirtual(db) {
             time_casa_id: m.time_a_id,
             time_fora_id: m.time_b_id,
             data_hora: m.status === 'Finalizado' ? 'Finalizado' : m.fase,
+            kickoff_time: m.status === 'Finalizado' ? 'Finalizado' : m.fase,
             grupo: 'MATA-MATA',
             resultado_casa: m.placar_a,
             resultado_fora: m.placar_b,
-            encerrado: m.status === 'Finalizado',
+            encerrado: m.status === 'Finalizado' || (m.time_a_id && m.time_b_id && isJogoBloqueado(m)),
             winner_id: m.winner_id
         });
     });
@@ -1153,7 +1238,8 @@ window.toggleNovoCadastro = function() {
 window.cadastrarNovoPerfil = async function() {
     const nome = document.getElementById('new-name').value.trim();
     const email = document.getElementById('new-email').value.trim();
-    if (!nome || !email) {
+    const senha = document.getElementById('new-pass').value.trim();
+    if (!nome || !email || !senha) {
         alert('Por favor, preencha todos os campos!');
         return;
     }
@@ -1166,6 +1252,7 @@ window.cadastrarNovoPerfil = async function() {
         id: newUserId,
         nome: nome,
         email: email,
+        senha: senha,
         foto: defaultAvatar,
         role: 'user',
         status: 'Ativo',
@@ -1192,6 +1279,81 @@ window.cadastrarNovoPerfil = async function() {
     window.location.reload();
 };
 
+window.selecionarUsuarioLoginPassCheck = function(userId) {
+    const db = getDB();
+    const usr = db.usuarios.find(u => u.id === userId);
+    if (!usr) return;
+    
+    const container = document.getElementById('senha-form-container');
+    if (!container) return;
+    
+    // Ocultar formulário de cadastro se estiver aberto
+    const cadForm = document.getElementById('cadastro-form');
+    if (cadForm) cadForm.classList.add('hidden');
+    
+    const temSenha = usr.senha && usr.senha.trim() !== '';
+    
+    container.innerHTML = `
+        <div class="mt-2 space-y-2 border-t border-slate-100 pt-3">
+            <h4 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">${temSenha ? 'Digite sua senha de acesso' : 'Cadastre sua senha de acesso'}</h4>
+            <div class="flex gap-2">
+                <input class="flex-1 bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-700 focus:outline-none" id="login-pass-input" type="password" placeholder="${temSenha ? 'Senha de acesso' : 'Nova senha'}"/>
+                <button onclick="confirmarSenhaAcesso('${userId}', ${!temSenha})" class="bg-emerald-700 text-white px-4 py-2 rounded-lg font-bold text-xs hover:brightness-110 active:scale-95 transition-all">
+                    Confirmar
+                </button>
+            </div>
+            <div id="login-pass-error" class="text-[10px] text-red-500 hidden font-bold"></div>
+        </div>
+    `;
+    container.classList.remove('hidden');
+    
+    // Auto-focus no input de senha
+    setTimeout(() => {
+        document.getElementById('login-pass-input')?.focus();
+    }, 50);
+};
+
+window.confirmarSenhaAcesso = async function(userId, cadastrando) {
+    const db = getDB();
+    const usr = db.usuarios.find(u => u.id === userId);
+    if (!usr) return;
+    
+    const passInput = document.getElementById('login-pass-input');
+    const errorDiv = document.getElementById('login-pass-error');
+    const senhaVal = passInput.value.trim();
+    
+    if (senhaVal === '') {
+        errorDiv.innerText = 'Preencha a senha!';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+    
+    if (cadastrando) {
+        // Cadastra nova senha
+        usr.senha = senhaVal;
+        db.jogos = buildJogosVirtual(db);
+        saveDB(db);
+        
+        // Salva na nuvem
+        await pushUsuarioData(userId, usr);
+        
+        // Define login
+        localStorage.setItem('bolao_logged_user_id', userId);
+        window.location.reload();
+    } else {
+        // Valida senha
+        if (usr.senha === senhaVal) {
+            localStorage.setItem('bolao_logged_user_id', userId);
+            window.location.reload();
+        } else {
+            errorDiv.innerText = 'Senha incorreta!';
+            errorDiv.classList.remove('hidden');
+            passInput.value = '';
+            passInput.focus();
+        }
+    }
+};
+
 function verificarLoginOverlay() {
     const loggedId = localStorage.getItem('bolao_logged_user_id');
     const db = getDB();
@@ -1208,7 +1370,7 @@ function verificarLoginOverlay() {
         const usersListHtml = db.usuarios.map(usr => {
             const avatarUrl = usr.foto || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E';
             return `
-            <button onclick="selecionarUsuarioLogin('${usr.id}')" class="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-100 transition-all text-left bg-slate-50 border border-slate-200 active:scale-[0.98]">
+            <button onclick="selecionarUsuarioLoginPassCheck('${usr.id}')" class="w-full flex items-center gap-4 p-3 rounded-xl hover:bg-slate-100 transition-all text-left bg-slate-50 border border-slate-200 active:scale-[0.98]">
                 <div class="w-10 h-10 rounded-full overflow-hidden border border-slate-300">
                     <img class="w-full h-full object-cover" src="${avatarUrl}" alt="${usr.nome}">
                 </div>
@@ -1234,6 +1396,8 @@ function verificarLoginOverlay() {
                     ${usersListHtml}
                 </div>
             </div>
+
+            <div id="senha-form-container" class="hidden"></div>
             
             <div class="border-t border-slate-100 pt-2">
                 <button onclick="toggleNovoCadastro()" class="w-full text-center text-emerald-700 font-bold text-xs hover:underline py-2">
@@ -1248,6 +1412,10 @@ function verificarLoginOverlay() {
                     <div>
                         <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" for="new-email">E-mail</label>
                         <input class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700" id="new-email" type="email" placeholder="seu.email@exemplo.com"/>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1" for="new-pass">Definir Senha de Acesso</label>
+                        <input class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-emerald-700 focus:border-emerald-700" id="new-pass" type="password" placeholder="Digite uma senha"/>
                     </div>
                     <button onclick="cadastrarNovoPerfil()" class="w-full bg-emerald-700 text-white py-2 rounded-xl font-bold text-xs shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-1">
                         <span class="material-symbols-outlined text-sm">person_add</span>
