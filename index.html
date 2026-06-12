@@ -153,6 +153,19 @@
 </button>
 </header>
 <main class="px-container-margin pt-md space-y-lg">
+<!-- Seletor de Participante (Dashboard Individual) -->
+<section class="glass-card rounded-xl p-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-sm border border-outline-variant/30 shadow-sm">
+    <div class="flex items-center gap-xs">
+        <span class="material-symbols-outlined text-primary text-[22px]">group</span>
+        <span class="text-xs font-label-bold text-on-surface-variant uppercase tracking-wider">Visualizar bolão de:</span>
+    </div>
+    <div class="w-full sm:w-auto relative">
+        <select id="select-dashboard-user" onchange="changeDashboardUser(this.value)" class="w-full sm:w-60 bg-surface-container border border-outline-variant rounded-lg px-sm py-xs text-xs font-bold text-primary focus:outline-none focus:ring-2 focus:ring-primary appearance-none cursor-pointer pr-8">
+            <!-- Renderizado dinamicamente -->
+        </select>
+        <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-base">expand_more</span>
+    </div>
+</section>
 <!-- Hero: Countdown Section -->
 <section class="relative overflow-hidden rounded-xl bg-primary text-on-primary p-md shadow-lg">
 <div class="absolute top-0 right-0 p-2 opacity-20 rotate-12">
@@ -337,10 +350,39 @@
             });
         }
 
+        // Controle de dashboard de cada jogador
+        let selectedDashboardUserId = localStorage.getItem('bolao_logged_user_id');
+
+        function renderUserSelector() {
+            const db = getDB();
+            const userLogado = getLoggedUser();
+            const selectEl = document.getElementById('select-dashboard-user');
+            if (!selectEl) return;
+            
+            selectEl.innerHTML = db.usuarios.map(usr => {
+                const sufixo = usr.id === userLogado?.id ? ' (Você)' : '';
+                const isSelected = usr.id === selectedDashboardUserId ? 'selected' : '';
+                return `<option value="${usr.id}" ${isSelected}>${usr.nome}${sufixo}</option>`;
+            }).join('');
+        }
+
+        window.changeDashboardUser = function(userId) {
+            selectedDashboardUserId = userId;
+            renderDashboard();
+        };
+
         // Renderizar dados no Dashboard dinamicamente
         function renderDashboard() {
             const db = getDB();
-            const user = getLoggedUser();
+            const userLogado = getLoggedUser();
+            if (!userLogado) return;
+            
+            if (!selectedDashboardUserId) {
+                selectedDashboardUserId = userLogado.id;
+            }
+            
+            const user = db.usuarios.find(u => u.id === selectedDashboardUserId) || userLogado;
+            const isProprioUser = user.id === userLogado.id;
             
             const isUrl = (str) => str && (str.startsWith('http') || str.startsWith('/') || str.startsWith('data:'));
             const renderEscudo = (escudo, sigla, time) => {
@@ -354,24 +396,27 @@
             };
             
             // Garante que o recálculo esteja atualizado no localStorage
-            const resultRecalculo = recalcularPontosGeral();
-            const currentPoints = resultRecalculo.pontos;
-            const currentPosicao = resultRecalculo.posicao;
-            const currentPrecisao = parseFloat(resultRecalculo.precisao);
+            recalcularPontosGeral();
             
-            // Atualiza cabeçalho
+            // Estatísticas do usuário selecionado
+            const stats = obterStatsUsuario(user.id);
+            const currentPoints = stats.pontos;
+            const currentPosicao = stats.posicao;
+            const currentPrecisao = parseFloat(stats.precisao);
+            
+            // Atualiza cabeçalho do usuário LOGADO
+            const statsLogado = obterStatsUsuario(userLogado.id);
             const pointsHeaderEl = document.querySelector('header .font-label-bold');
             if (pointsHeaderEl) {
-                pointsHeaderEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">stars</span> ${currentPoints} pts`;
+                pointsHeaderEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">stars</span> ${statsLogado.pontos} pts`;
             }
             
             const headerAvatarEl = document.querySelector('header img[alt="User Avatar"]');
-            if (headerAvatarEl && user && user.foto) {
-                headerAvatarEl.src = user.foto;
+            if (headerAvatarEl && userLogado && userLogado.foto) {
+                headerAvatarEl.src = userLogado.foto;
             }
             
-            // Atualiza Stats
-            // Posição no Ranking
+            // Atualiza Stats do usuário selecionado
             const rankEl = document.querySelector('main section .font-stats-num');
             if (rankEl) {
                 let medalha = '🏅';
@@ -385,7 +430,7 @@
                 rankTotalEl.innerText = `Entre ${db.usuarios.length} amigos`;
             }
             
-            // Precisão
+            // Precisão do usuário selecionado
             const precisionEl = document.querySelectorAll('main section .font-stats-num')[1];
             if (precisionEl) {
                 precisionEl.innerText = `${currentPrecisao}%`;
@@ -395,7 +440,7 @@
                 progressBarEl.style.width = `${currentPrecisao}%`;
             }
             
-            // Renderiza Próximos Jogos
+            // Renderiza Próximos Jogos do usuário selecionado
             const proximosJogosContainer = document.querySelector('.overflow-x-auto');
             if (proximosJogosContainer) {
                 const jogosFuturos = db.jogos.filter(j => !j.encerrado);
@@ -404,9 +449,31 @@
                 } else {
                     proximosJogosContainer.innerHTML = jogosFuturos.map(jogo => {
                         const palpite = db.palpites.find(p => p.usuario_id === user.id && p.jogo_id === jogo.id);
-                        const palpiteTexto = palpite ? `${palpite.placar_casa} - ${palpite.placar_fora}` : 'VS';
                         const hasPalpite = !!palpite;
-                        const buttonClass = hasPalpite ? 'bg-primary-container text-on-primary-container' : 'border border-primary text-primary hover:bg-primary hover:text-on-primary';
+                        const bloqueado = isJogoBloqueado(jogo);
+                        
+                        let displayScore = 'VS';
+                        if (hasPalpite) {
+                            if (isProprioUser || bloqueado) {
+                                displayScore = `<span class="text-primary font-bold">${palpite.placar_casa}</span> - <span class="text-primary font-bold">${palpite.placar_fora}</span>`;
+                            } else {
+                                displayScore = `<span class="text-slate-400 text-xs flex items-center justify-center gap-0.5"><span class="material-symbols-outlined text-[15px]">lock</span> Oculto</span>`;
+                            }
+                        }
+                        
+                        let actionButtonHtml = '';
+                        if (isProprioUser) {
+                            const buttonClass = hasPalpite ? 'bg-primary-container text-on-primary-container' : 'border border-primary text-primary hover:bg-primary hover:text-on-primary';
+                            actionButtonHtml = `
+                            <a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold transition-colors ${buttonClass}">
+                                ${hasPalpite ? 'Editar Palpite' : 'Fazer Palpite'}
+                            </a>`;
+                        } else {
+                            actionButtonHtml = `
+                            <a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold border border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                                Ver Detalhes do Jogo
+                            </a>`;
+                        }
                         
                         return `
                         <div class="min-w-[280px] glass-card rounded-xl p-sm flex flex-col gap-sm shadow-sm">
@@ -419,17 +486,15 @@
                                     ${renderEscudo(jogo.escudo_casa, jogo.sigla_casa, jogo.time_casa)}
                                     <span class="font-label-bold text-[11px]">${jogo.time_casa}</span>
                                 </div>
-                                <div class="font-display-score text-[24px] text-on-surface-variant">
-                                    ${hasPalpite ? `<span class="text-primary font-bold">${palpite.placar_casa}</span> - <span class="text-primary font-bold">${palpite.placar_fora}</span>` : 'VS'}
+                                <div class="font-display-score text-[24px] text-on-surface-variant flex items-center justify-center min-w-[70px]">
+                                    ${displayScore}
                                 </div>
                                 <div class="flex flex-col items-center gap-xs">
                                     ${renderEscudo(jogo.escudo_fora, jogo.sigla_fora, jogo.time_fora)}
                                     <span class="font-label-bold text-[11px]">${jogo.time_fora}</span>
                                 </div>
                             </div>
-                            <a href="matches.html" class="w-full text-center py-sm rounded-lg font-label-bold text-label-bold transition-colors ${buttonClass}">
-                                ${hasPalpite ? 'Editar Palpite' : 'Fazer Palpite'}
-                            </a>
+                            ${actionButtonHtml}
                         </div>`;
                     }).join('');
                 }
@@ -480,6 +545,8 @@
                             }
                         }
                         
+                        const labelPalpite = isProprioUser ? 'Seu palpite' : `Palpite de ${user.nome.split(' ')[0]}`;
+                        
                         return `
                         <div class="glass-card rounded-xl p-md flex items-center justify-between ${borderClass}">
                             <div class="flex items-center gap-md">
@@ -489,7 +556,7 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="font-label-bold text-on-surface">${jogo.sigla_casa} ${jogo.resultado_casa} - ${jogo.resultado_fora} ${jogo.sigla_fora}</span>
-                                    <span class="text-[10px] text-on-surface-variant">Seu palpite: ${palpite ? `${palpite.placar_casa} - ${palpite.placar_fora}` : 'Nenhum'}</span>
+                                    <span class="text-[10px] text-on-surface-variant">${labelPalpite}: ${palpite ? `${palpite.placar_casa} - ${palpite.placar_fora}` : 'Nenhum'}</span>
                                 </div>
                             </div>
                             <div class="flex flex-col items-end">
@@ -507,6 +574,7 @@
 
         // Executar inicializações ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
+            renderUserSelector();
             renderDashboard();
             setupCarouselScroll();
 
@@ -515,6 +583,7 @@
 
             // Ouvir evento de sincronização completa para re-renderizar
             document.addEventListener('bolaoSyncComplete', () => {
+                renderUserSelector();
                 renderDashboard();
             });
 

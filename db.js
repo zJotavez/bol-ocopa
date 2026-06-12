@@ -626,6 +626,7 @@ async function syncAllFromCloud() {
                             id: userId,
                             nome: usrObj.nome || 'Novo Participante',
                             email: usrObj.email || '',
+                            senha: usrObj.senha || '',
                             foto: usrObj.foto || '',
                             role: usrObj.role || 'user',
                             status: usrObj.status || 'Ativo',
@@ -641,6 +642,7 @@ async function syncAllFromCloud() {
                         localUsr.foto = usrObj.foto;
                         localUsr.role = usrObj.role || localUsr.role;
                         localUsr.status = usrObj.status || localUsr.status;
+                        localUsr.senha = usrObj.senha || localUsr.senha || '';
                     }
                 }
             }
@@ -869,23 +871,35 @@ function recalcularPontosGeral() {
         usr.vitorias_acertadas = vitoriasAcertadas;
     });
     
-    const rankingOrdenado = [...db.usuarios].sort((a, b) => b.pontuacao_total - a.pontuacao_total);
-    const user1 = db.usuarios.find(u => u.id === 'user_1');
-    const minhaPosicao = rankingOrdenado.findIndex(u => u.id === 'user_1') + 1;
-    
-    const meusPalpitesEncerrados = db.palpites.filter(p => p.usuario_id === 'user_1' && db.jogos.find(j => j.id === p.jogo_id && j.encerrado)).length;
-    const meusAcertos = user1.placares_exatos + user1.vitorias_acertadas;
-    
     // Salva o estado atualizado
     db.jogos = buildJogosVirtual(db);
     saveDB(db);
     
+    // Retorna estatísticas de user_1 para fins de retrocompatibilidade
+    return obterStatsUsuario('user_1');
+}
+
+function obterStatsUsuario(userId) {
+    const db = getDB();
+    const usr = db.usuarios.find(u => u.id === userId);
+    if (!usr) return { pontos: 0, posicao: db.usuarios.length, precisao: '0.0' };
+    
+    const rankingOrdenado = [...db.usuarios].sort((a, b) => b.pontuacao_total - a.pontuacao_total);
+    const posicao = rankingOrdenado.findIndex(u => u.id === userId) + 1;
+    
+    const palpitesEncerrados = db.palpites.filter(p => p.usuario_id === userId && db.jogos.find(j => j.id === p.jogo_id && j.encerrado));
+    const totalPalpitesEncerrados = palpitesEncerrados.length;
+    const acertos = usr.placares_exatos + usr.vitorias_acertadas;
+    const precisao = totalPalpitesEncerrados > 0 ? ((acertos / totalPalpitesEncerrados) * 100).toFixed(1) : '0.0';
+    
     return {
-        pontos: user1.pontuacao_total,
-        posicao: minhaPosicao,
-        precisao: meusPalpitesEncerrados > 0 ? (meusAcertos / meusPalpitesEncerrados * 100).toFixed(1) : '0.0'
+        pontos: usr.pontuacao_total,
+        posicao: posicao,
+        precisao: precisao
     };
 }
+
+window.obterStatsUsuario = obterStatsUsuario;
 
 // ==========================================
 // 6. Lógica de Tabela e Chaveamento Automatizado
