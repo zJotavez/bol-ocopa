@@ -692,7 +692,7 @@ function getLoggedUser() {
 }
 
 // Atualiza o Perfil do Usuário Logado
-function updateLoggedUserProfile(nome, email, foto) {
+function updateLoggedUserProfile(nome, email, foto, senha) {
     const db = getDB();
     const activeUser = getLoggedUser();
     if (!activeUser) return false;
@@ -703,6 +703,9 @@ function updateLoggedUserProfile(nome, email, foto) {
         user.email = email;
         if (foto !== undefined) {
             user.foto = foto;
+        }
+        if (senha !== undefined) {
+            user.senha = senha;
         }
         db.jogos = buildJogosVirtual(db);
         saveDB(db);

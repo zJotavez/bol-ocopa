@@ -174,6 +174,10 @@
                     <label class="block text-xs font-label-bold text-on-surface-variant uppercase mb-1" for="edit-email">E-mail</label>
                     <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary" id="edit-email" type="email" value="joao@email.com"/>
                 </div>
+                <div>
+                    <label class="block text-xs font-label-bold text-on-surface-variant uppercase mb-1" for="edit-password">Senha de Acesso</label>
+                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary" id="edit-password" type="password" placeholder="Defina uma senha de acesso"/>
+                </div>
             </div>
 
             <!-- Avatar Selector -->
@@ -279,6 +283,7 @@
             if (isInitialLoad) {
                 document.getElementById('edit-name').value = user.nome;
                 document.getElementById('edit-email').value = user.email;
+                document.getElementById('edit-password').value = user.senha || '';
             }
             
             // Renderiza seletor de avatares (incluindo o personalizado se houver)
@@ -376,13 +381,14 @@
         function salvarPerfil() {
             const nomeInput = document.getElementById('edit-name').value;
             const emailInput = document.getElementById('edit-email').value;
+            const senhaInput = document.getElementById('edit-password').value.trim();
             
             if (nomeInput === '' || emailInput === '') {
                 alert('Preencha nome e e-mail antes de salvar!');
                 return;
             }
             
-            const success = updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl);
+            const success = updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl, senhaInput);
             if (success) {
                 alert('Perfil atualizado com sucesso!');
                 renderProfile(true);
