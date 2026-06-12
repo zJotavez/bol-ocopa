@@ -133,17 +133,41 @@
     }
   </style>
   </head>
-<body class="bg-slate-950 min-h-screen flex justify-center items-start md:py-8">
-    <div class="w-full max-w-md mx-auto shadow-2xl bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 relative border-x border-outline-variant/10 flex flex-col">
+<body class="bg-background min-h-screen flex flex-col items-center">
+    <div class="w-full bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 flex flex-col">
 <!-- Top App Bar -->
 <header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base">
-<div class="flex items-center gap-3">
-<img alt="User Avatar" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0-pJCbzDWoGO7Nm2VKX2EhaX1guV-uHfjBJnRUttsnb_ZDDKQ4Avu-0TGTegFZvQYa5QcQj9Ukw_8YDHBNJOikJiWj4qS8jq0xLzt1JmzPvjFKXDuNW87DaswEe0rxvjsk26wKtHrN1DFHtHmnE-vZWeAr6oxqk5Yne5c491HTsID0q8PJH5LxP8suYeJFFD7X0VfT_1wU0hzQSZfyJMTd5ocXbuvWzlrt9gropOxjH3bH-jGRXSExkSh6iCPBWr-P14hIUW4Tb0"/>
-<h1 class="font-headline-md text-headline-md text-primary">Bolão da Copa</h1>
+<div class="flex items-center gap-sm">
+<div class="relative">
+<img alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-primary object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
+<span class="absolute -bottom-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold px-1 rounded-full border-2 border-surface">PRO</span>
 </div>
-<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-high transition-colors rounded-full" data-icon="notifications">notifications</button>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary tracking-tight">Bolão da Copa</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">stars</span> 0 pts
+</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-md ml-auto mr-md">
+    <a href="index.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">dashboard</span> Dashboard
+    </a>
+    <a href="matches.html" class="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary transition-colors py-1 px-3 rounded-lg bg-primary-container text-on-primary-container">
+        <span class="material-symbols-outlined text-base">sports_soccer</span> Partidas
+    </a>
+    <a href="ranking.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">leaderboard</span> Ranking
+    </a>
+    <a href="profile.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">person</span> Perfil
+    </a>
+</nav>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+</button>
 </header>
-<main class="max-w-4xl mx-auto px-container-margin mt-lg">
+<main class="w-full max-w-6xl mx-auto px-container-margin mt-lg flex-1">
 <!-- Round Selection & Countdown -->
 <section class="mb-lg">
 <div class="flex items-center justify-between mb-md">
@@ -153,7 +177,7 @@
 <span class="font-label-bold text-label-bold text-on-tertiary-container">Fecha em: 14h 22m</span>
 </div>
 </div>
-<div class="round-selector flex overflow-x-auto gap-sm pb-2 -mx-container-margin px-container-margin">
+<div class="round-selector flex flex-wrap gap-sm pb-2 md:pb-0">
 <button class="whitespace-nowrap px-lg py-2 rounded-full font-label-bold text-label-bold bg-primary text-on-primary shadow-sm">Rodada 1</button>
 <button class="whitespace-nowrap px-lg py-2 rounded-full font-label-bold text-label-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">Rodada 2</button>
 <button class="whitespace-nowrap px-lg py-2 rounded-full font-label-bold text-label-bold bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">Rodada 3</button>
@@ -269,7 +293,7 @@
 </div>
 </main>
 <!-- Bottom Navigation Bar -->
-<nav class="fixed bottom-0 max-w-md w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<nav class="fixed bottom-0 left-0 right-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)] md:hidden">
 <div class="flex justify-around items-center h-16 w-full px-2">
 <!-- Dashboard -->
 <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="index.html">
@@ -279,7 +303,7 @@
 <!-- Matches (Active) -->
 <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="matches.html">
 <span class="material-symbols-outlined" data-icon="sports_soccer">sports_soccer</span>
-<span class="font-label-bold text-label-bold">Matches</span>
+<span class="font-label-bold text-label-bold">Partidas</span>
 </a>
 <!-- Ranking -->
 <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" href="ranking.html">

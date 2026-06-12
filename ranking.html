@@ -137,21 +137,43 @@
     }
   </style>
   </head>
-<body class="bg-slate-950 min-h-screen flex justify-center items-start md:py-8">
-    <div class="w-full max-w-md mx-auto shadow-2xl bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 relative border-x border-outline-variant/10 flex flex-col">
+<body class="bg-background min-h-screen flex flex-col items-center">
+    <div class="w-full bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 flex flex-col">
 <!-- TopAppBar -->
-<header class="w-full top-0 sticky bg-surface/80 backdrop-blur-md shadow-sm z-40 flex justify-between items-center px-container-margin py-base w-full h-16">
+<header class="w-full top-0 sticky bg-surface/80 backdrop-blur-md shadow-sm z-50 flex justify-between items-center px-container-margin py-base h-16">
 <div class="flex items-center gap-md">
+<div class="relative">
 <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
-<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional studio headshot of a smiling young man with short dark hair, wearing a clean white t-shirt. The background is a soft, out-of-focus stadium interior with hints of deep green and petrol blue, conveying a modern sports brand aesthetic. The lighting is crisp and flattering, typical of a high-end sports application profile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC5AC4ts3l4wWLBirhh8RYiynVSFpUVKKkXEqWmOh08JyTSwIE11H6I99SVdnDyEASlNstjJ64SA4_avdCrZID4n0OsHZ0mioa70VZhfvZGU8DAMlDCTaQoo6KoWOezUvs2Y7dzU-F7xbwJ20dFOrvsvxgZnp9t18mxLOTXHFZQUouinDy0GXppgSw8S1-3vO3cxEInHcyFezGq2XSSog8LfvS196qHRW7JUcuH7jtA3aUVOzWWVi0QXSoeTFUyRPO9iqq20RqLgk"/>
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC5AC4ts3l4wWLBirhh8RYiynVSFpUVKKkXEqWmOh08JyTSwIE11H6I99SVdnDyEASlNstjJ64SA4_avdCrZID4n0OsHZ0mioa70VZhfvZGU8DAMlDCTaQoo6KoWOezUvs2Y7dzU-F7xbwJ20dFOrvsvxgZnp9t18mxLOTXHFZQUouinDy0GXppgSw8S1-3vO3cxEInHcyFezGq2XSSog8LfvS196qHRW7JUcuH7jtA3aUVOzWWVi0QXSoeTFUyRPO9iqq20RqLgk"/>
 </div>
-<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">Bolão da Copa</h1>
+<span class="absolute -bottom-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold px-1 rounded-full border-2 border-surface">PRO</span>
 </div>
-<button class="hover:bg-surface-container-high transition-colors p-sm rounded-full scale-95 active:scale-90 transition-transform">
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary dark:text-primary-fixed tracking-tight">Bolão da Copa</span>
+<span class="font-label-bold text-label-bold text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">stars</span> 0 pts
+</span>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-md ml-auto mr-md">
+    <a href="index.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">dashboard</span> Dashboard
+    </a>
+    <a href="matches.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">sports_soccer</span> Partidas
+    </a>
+    <a href="ranking.html" class="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary transition-colors py-1 px-3 rounded-lg bg-primary-container text-on-primary-container">
+        <span class="material-symbols-outlined text-base">leaderboard</span> Ranking
+    </a>
+    <a href="profile.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">person</span> Perfil
+    </a>
+</nav>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors scale-95 active:scale-90 transition-transform">
 <span class="material-symbols-outlined text-primary">notifications</span>
 </button>
 </header>
-<main class="max-w-4xl mx-auto px-container-margin mt-lg">
+<main class="w-full max-w-6xl mx-auto px-container-margin mt-lg flex-1">
 <!-- Premium Podium Section -->
 <section class="relative pt-12 pb-8 overflow-hidden">
 <div class="absolute inset-0 flex items-center justify-center -z-10 opacity-10">
@@ -201,7 +223,7 @@
 </div>
 </section>
 <!-- Ranking List -->
-<div class="mt-lg">
+<div class="mt-lg max-w-2xl mx-auto">
 <div class="flex items-center justify-between mb-md px-sm">
 <h2 class="font-headline-md text-headline-md text-on-surface">Classificação Geral</h2>
 <div class="text-on-surface-variant font-label-bold text-label-bold">Participantes: 7</div>
@@ -259,7 +281,7 @@
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 max-w-md w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<nav class="fixed bottom-0 left-0 right-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)] md:hidden">
 <div class="flex justify-around items-center h-16 w-full px-2">
 <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="index.html">
 <span class="material-symbols-outlined">dashboard</span>
@@ -267,7 +289,7 @@
 </a>
 <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="matches.html">
 <span class="material-symbols-outlined">sports_soccer</span>
-<span class="font-label-bold text-label-bold mt-1">Matches</span>
+<span class="font-label-bold text-label-bold mt-1">Partidas</span>
 </a>
 <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 transition-transform scale-95 active:scale-90" href="ranking.html">
 <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>

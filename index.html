@@ -133,10 +133,10 @@
     }
   </style>
   </head>
-<body class="bg-slate-950 min-h-screen flex justify-center items-start md:py-8">
-    <div class="w-full max-w-md mx-auto shadow-2xl bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 relative border-x border-outline-variant/10 flex flex-col">
+<body class="bg-background min-h-screen flex flex-col items-center">
+    <div class="w-full bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 flex flex-col">
 <!-- TopAppBar -->
-<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base w-full">
+<header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base">
 <div class="flex items-center gap-sm">
 <div class="relative">
 <img alt="Profile" class="w-10 h-10 rounded-full border-2 border-primary object-cover" data-alt="A close-up professional portrait of a smiling Brazilian man in his late 20s, wearing a premium green athletic polo shirt. The lighting is soft and natural, suggesting an outdoor stadium environment at sunset. The image has a shallow depth of field, with a blurred modern football stadium in the background, utilizing a color palette of deep greens and soft golds." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
@@ -149,11 +149,25 @@
                 </span>
 </div>
 </div>
+<nav class="hidden md:flex items-center gap-md ml-auto mr-md">
+    <a href="index.html" class="flex items-center gap-1 text-sm font-bold text-primary hover:text-primary transition-colors py-1 px-3 rounded-lg bg-primary-container text-on-primary-container">
+        <span class="material-symbols-outlined text-base">dashboard</span> Dashboard
+    </a>
+    <a href="matches.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">sports_soccer</span> Partidas
+    </a>
+    <a href="ranking.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">leaderboard</span> Ranking
+    </a>
+    <a href="profile.html" class="flex items-center gap-1 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors py-1 px-3 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-base">person</span> Perfil
+    </a>
+</nav>
 <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors scale-95 active:scale-90 transition-transform">
 <span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
 </button>
 </header>
-<main class="px-container-margin pt-md space-y-lg">
+<main class="w-full max-w-6xl mx-auto px-container-margin pt-md md:pt-lg space-y-lg flex-1">
 <!-- Seletor de Participante (Dashboard Individual) -->
 <section class="glass-card rounded-xl p-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-sm border border-outline-variant/30 shadow-sm">
     <div class="flex items-center gap-xs">
@@ -167,65 +181,71 @@
         <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-base">expand_more</span>
     </div>
 </section>
-<!-- Perfil do Participante Visualizado -->
-<section id="visualized-user-profile" class="glass-card rounded-xl p-md flex items-center gap-md border border-outline-variant/30 shadow-sm">
-    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shrink-0">
-        <img id="vis-user-avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E" alt="Avatar"/>
-    </div>
-    <div class="flex-1 min-w-0">
-        <h3 id="vis-user-name" class="font-headline-md text-sm text-primary font-bold truncate">Carregando...</h3>
-        <p id="vis-user-desc" class="text-xs text-on-surface-variant italic truncate mt-0.5">"Frase de efeito"</p>
-    </div>
-</section>
-<!-- Hero: Countdown Section -->
-<section class="relative overflow-hidden rounded-xl bg-primary text-on-primary p-md shadow-lg">
-<div class="absolute top-0 right-0 p-2 opacity-20 rotate-12">
-<span class="material-symbols-outlined text-8xl" data-icon="timer">timer</span>
-</div>
-<div class="relative z-10 flex flex-col items-center text-center space-y-sm">
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-primary-container">Próxima Rodada</span>
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile">Faltam 03h 15min</h2>
-<p class="text-body-md opacity-90 max-w-[200px]">Feche seus palpites antes do apito inicial!</p>
-<button class="mt-sm bg-tertiary text-on-tertiary px-lg py-sm rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md">
+<!-- Grid do Topo (Perfil, Countdown e Estatísticas) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md items-stretch">
+    <!-- Coluna 1 (Perfil e Countdown) -->
+    <div class="md:col-span-1 flex flex-col gap-md">
+        <!-- Perfil do Participante Visualizado -->
+        <section id="visualized-user-profile" class="glass-card rounded-xl p-md flex items-center gap-md border border-outline-variant/30 shadow-sm flex-1">
+            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shrink-0">
+                <img id="vis-user-avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E" alt="Avatar"/>
+            </div>
+            <div class="flex-1 min-w-0">
+                <h3 id="vis-user-name" class="font-headline-md text-sm text-primary font-bold truncate">Carregando...</h3>
+                <p id="vis-user-desc" class="text-xs text-on-surface-variant italic truncate mt-0.5">"Frase de efeito"</p>
+            </div>
+        </section>
+        <!-- Hero: Countdown Section -->
+        <section class="relative overflow-hidden rounded-xl bg-primary text-on-primary p-md shadow-lg flex-1 flex flex-col justify-center">
+            <div class="absolute top-0 right-0 p-2 opacity-20 rotate-12">
+                <span class="material-symbols-outlined text-8xl" data-icon="timer">timer</span>
+            </div>
+            <div class="relative z-10 flex flex-col items-center text-center space-y-sm">
+                <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-primary-container text-[10px]">Próxima Rodada</span>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile">Faltam 03h 15min</h2>
+                <p class="text-body-md opacity-90 max-w-[200px] text-xs">Feche seus palpites antes do apito inicial!</p>
+                <button class="mt-sm bg-tertiary text-on-tertiary px-lg py-sm rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md text-xs">
                     Palpitar Agora
                 </button>
+            </div>
+        </section>
+    </div>
+    <!-- Colunas 2 e 3 (Personal Stats Overview) -->
+    <div class="md:col-span-2 grid grid-cols-2 gap-md items-stretch">
+        <div class="glass-card premium-glow rounded-xl p-md flex flex-col justify-between h-auto min-h-[128px] relative overflow-hidden">
+            <div class="flex justify-between items-start">
+                <span class="material-symbols-outlined text-tertiary" data-icon="emoji_events">emoji_events</span>
+                <span class="text-on-surface-variant font-label-bold">Ranking</span>
+            </div>
+            <div class="z-10">
+                <p class="font-stats-num text-stats-num text-primary">🏅 7º Lugar</p>
+                <p class="text-[10px] text-on-surface-variant uppercase">Entre 7 amigos</p>
+            </div>
+            <div class="absolute -right-4 -bottom-4 opacity-5 rotate-12">
+                <span class="material-symbols-outlined text-6xl">military_tech</span>
+            </div>
+        </div>
+        <div class="glass-card rounded-xl p-md flex flex-col justify-between h-auto min-h-[128px]">
+            <div class="flex justify-between items-start">
+                <span class="material-symbols-outlined text-primary" data-icon="query_stats">query_stats</span>
+                <span class="text-on-surface-variant font-label-bold">Precisão</span>
+            </div>
+            <div>
+                <p class="font-stats-num text-stats-num text-primary">0.0%</p>
+                <div class="w-full bg-surface-container h-1.5 rounded-full mt-1">
+                    <div class="bg-primary h-full rounded-full w-[0%]"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</section>
-<!-- Personal Stats Overview -->
-<section class="grid grid-cols-2 gap-md">
-<div class="glass-card premium-glow rounded-xl p-md flex flex-col justify-between h-32 relative overflow-hidden">
-<div class="flex justify-between items-start">
-<span class="material-symbols-outlined text-tertiary" data-icon="emoji_events">emoji_events</span>
-<span class="text-on-surface-variant font-label-bold">Ranking</span>
-</div>
-<div class="z-10">
-<p class="font-stats-num text-stats-num text-primary">🏅 7º Lugar</p>
-<p class="text-[10px] text-on-surface-variant uppercase">Entre 7 amigos</p>
-</div>
-<div class="absolute -right-4 -bottom-4 opacity-5 rotate-12">
-<span class="material-symbols-outlined text-6xl">military_tech</span>
-</div>
-</div>
-<div class="glass-card rounded-xl p-md flex flex-col justify-between h-32">
-<div class="flex justify-between items-start">
-<span class="material-symbols-outlined text-primary" data-icon="query_stats">query_stats</span>
-<span class="text-on-surface-variant font-label-bold">Precisão</span>
-</div>
-<div>
-<p class="font-stats-num text-stats-num text-primary">0.0%</p>
-<div class="w-full bg-surface-container h-1.5 rounded-full mt-1">
-<div class="bg-primary h-full rounded-full w-[0%]"></div>
-</div>
-</div>
-</div>
-</section>
 <!-- Próximos Jogos: Horizontal Carousel -->
 <section class="space-y-sm">
 <div class="flex justify-between items-center">
 <h3 class="font-headline-md text-headline-md text-primary">Próximos Jogos</h3>
 <button class="text-primary font-label-bold text-[12px] uppercase">Ver Todos</button>
 </div>
-<div class="flex gap-md overflow-x-auto hide-scrollbar -mx-container-margin px-container-margin pb-base">
+<div class="overflow-x-auto md:overflow-x-visible flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-md -mx-container-margin px-container-margin md:mx-0 md:px-0 pb-base hide-scrollbar">
 <!-- Match Card 1 -->
 <div class="min-w-[280px] glass-card rounded-xl p-sm flex flex-col gap-sm shadow-sm">
 <div class="flex justify-between items-center border-b border-outline-variant/30 pb-xs">
@@ -273,7 +293,7 @@
 <!-- Últimos Resultados Section -->
 <section class="space-y-sm">
 <h3 class="font-headline-md text-headline-md text-primary">Últimos Resultados</h3>
-<div class="space-y-sm">
+<div class="space-y-sm md:space-y-0 md:grid md:grid-cols-2 md:gap-md">
 <!-- Result Item 1 -->
 <div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-error">
 <div class="flex items-center gap-md">
@@ -312,7 +332,7 @@
 </section>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 max-w-md w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<nav class="fixed bottom-0 left-0 right-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)] md:hidden">
 <div class="flex justify-around items-center h-16 w-full px-2">
 <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="index.html">
 <span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
