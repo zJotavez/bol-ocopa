@@ -378,7 +378,7 @@
             document.getElementById('user-profile-img').src = url;
         }
 
-        function salvarPerfil() {
+        async function salvarPerfil() {
             const nomeInput = document.getElementById('edit-name').value;
             const emailInput = document.getElementById('edit-email').value;
             const senhaInput = document.getElementById('edit-password').value.trim();
@@ -388,10 +388,30 @@
                 return;
             }
             
-            const success = updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl, senhaInput);
-            if (success) {
-                alert('Perfil atualizado com sucesso!');
-                renderProfile(true);
+            const btn = document.querySelector('button[onclick="salvarPerfil()"]');
+            let originalHtml = '';
+            if (btn) {
+                originalHtml = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Salvando...`;
+            }
+            
+            try {
+                const success = await updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl, senhaInput);
+                if (success) {
+                    alert('Perfil atualizado com sucesso!');
+                    renderProfile(true);
+                } else {
+                    alert('Erro ao atualizar perfil localmente!');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao salvar dados na nuvem!');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml || `<span class="material-symbols-outlined text-sm">save</span> Salvar Perfil`;
+                }
             }
         }
 

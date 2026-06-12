@@ -363,14 +363,28 @@
                     
                     if (jogo.encerrado) {
                         const isFinalizado = jogo.resultado_casa !== null && jogo.resultado_fora !== null;
-                        const labelBloqueio = isFinalizado ? 'PALPITES ENCERRADOS' : 'PALPITES BLOQUEADOS (1h antes)';
-                        const iconBloqueio = isFinalizado ? 'lock' : 'schedule';
+                        
+                        const kickoff = new Date(jogo.kickoff_time);
+                        const agora = new Date();
+                        const mesmoDia = kickoff.getFullYear() === agora.getFullYear() &&
+                                         kickoff.getMonth() === agora.getMonth() &&
+                                         kickoff.getDate() === agora.getDate();
+                        
+                        let labelBloqueio = isFinalizado ? 'PALPITES ENCERRADOS' : 'PALPITES BLOQUEADOS (1h antes)';
+                        let iconBloqueio = isFinalizado ? 'lock' : 'schedule';
+                        let colorClass = 'text-error';
+                        
+                        if (!isFinalizado && !mesmoDia && kickoff.getTime() > agora.getTime()) {
+                            labelBloqueio = 'LIBERA APENAS NO DIA DO JOGO';
+                            iconBloqueio = 'lock_clock';
+                            colorClass = 'text-amber-600';
+                        }
                         
                         return `
                         <!-- Match Card: Closed -->
                         <article class="match-card-closed glass-card rounded-xl p-md shadow-sm" data-jogo-id="${jogo.id}">
                             <div class="flex justify-center mb-sm">
-                                <span class="font-label-bold text-label-bold text-error uppercase tracking-wider flex items-center gap-1">
+                                <span class="font-label-bold text-label-bold ${colorClass} uppercase tracking-wider flex items-center gap-1">
                                     <span class="material-symbols-outlined text-sm">${iconBloqueio}</span>
                                     ${labelBloqueio}
                                 </span>

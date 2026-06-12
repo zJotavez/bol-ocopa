@@ -437,7 +437,7 @@ function obterBandeiraUrl(sigla) {
     return '';
 }
 
-// Verifica se um jogo está bloqueado para palpites (1 hora antes ou encerrado)
+// Verifica se um jogo está bloqueado para palpites (1 hora antes, encerrado ou não sendo o dia do jogo)
 function isJogoBloqueado(jogo) {
     if (!jogo) return true;
     if (jogo.status === 'Finalizado' || jogo.encerrado) return true;
@@ -447,6 +447,16 @@ function isJogoBloqueado(jogo) {
     if (isNaN(kickoff.getTime())) return false;
     
     const agora = new Date();
+    
+    // REGRA DO DIA DO JOGO: Só libera palpites para jogos que acontecem no dia de hoje
+    const mesmoDia = agora.getFullYear() === kickoff.getFullYear() &&
+                     agora.getMonth() === kickoff.getMonth() &&
+                     agora.getDate() === kickoff.getDate();
+                     
+    if (!mesmoDia) {
+        return true; // Bloqueado se não for o dia do jogo
+    }
+    
     const diferencaMs = kickoff.getTime() - agora.getTime();
     
     // Bloqueia se faltar menos de 1 hora (3600000 ms) ou se o jogo já começou/passou
@@ -620,6 +630,8 @@ async function syncAllFromCloud() {
                 if (txtUsr) {
                     const usrObj = JSON.parse(txtUsr);
                     let localUsr = db.usuarios.find(u => u.id === userId);
+                    const loggedId = localStorage.getItem('bolao_logged_user_id');
+                    
                     if (!localUsr) {
                         // Novo usuário cadastrado na nuvem por outro celular! Criamos localmente
                         localUsr = {
@@ -637,12 +649,23 @@ async function syncAllFromCloud() {
                         };
                         db.usuarios.push(localUsr);
                     } else {
-                        localUsr.nome = usrObj.nome;
-                        localUsr.email = usrObj.email;
-                        localUsr.foto = usrObj.foto;
+                        // Se for o próprio usuário logado, evitamos sobrescrever as alterações locais dele
+                        // com dados possivelmente antigos da nuvem (offline-first)
+                        if (userId !== loggedId) {
+                            localUsr.nome = usrObj.nome;
+                            localUsr.email = usrObj.email;
+                            localUsr.foto = usrObj.foto;
+                            localUsr.senha = usrObj.senha || localUsr.senha || '';
+                        } else {
+                            // Se localmente estiver sem dados (como no primeiro login), inicializa
+                            if (!localUsr.nome || localUsr.nome === 'Novo Participante') localUsr.nome = usrObj.nome;
+                            if (!localUsr.email) localUsr.email = usrObj.email;
+                            if (!localUsr.foto) localUsr.foto = usrObj.foto;
+                            if (!localUsr.senha) localUsr.senha = usrObj.senha || '';
+                        }
+                        // Role e status são atualizados remotamente pelo admin
                         localUsr.role = usrObj.role || localUsr.role;
                         localUsr.status = usrObj.status || localUsr.status;
-                        localUsr.senha = usrObj.senha || localUsr.senha || '';
                     }
                 }
             }
@@ -692,7 +715,7 @@ function getLoggedUser() {
 }
 
 // Atualiza o Perfil do Usuário Logado
-function updateLoggedUserProfile(nome, email, foto, senha) {
+async function updateLoggedUserProfile(nome, email, foto, senha) {
     const db = getDB();
     const activeUser = getLoggedUser();
     if (!activeUser) return false;
@@ -710,8 +733,8 @@ function updateLoggedUserProfile(nome, email, foto, senha) {
         db.jogos = buildJogosVirtual(db);
         saveDB(db);
         
-        // PUSH para a nuvem de forma assíncrona
-        pushUsuarioData(user.id, user);
+        // Aguarda a persistência na nuvem
+        await pushUsuarioData(user.id, user);
         return true;
     }
     return false;
