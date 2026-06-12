@@ -133,7 +133,8 @@
     }
   </style>
   </head>
-<body class="bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24">
+<body class="bg-slate-950 min-h-screen flex justify-center items-start md:py-8">
+    <div class="w-full max-w-md mx-auto shadow-2xl bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 relative border-x border-outline-variant/10 flex flex-col">
 <!-- TopAppBar -->
 <header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base w-full">
 <div class="flex items-center gap-sm">
@@ -164,6 +165,16 @@
             <!-- Renderizado dinamicamente -->
         </select>
         <span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-primary pointer-events-none text-base">expand_more</span>
+    </div>
+</section>
+<!-- Perfil do Participante Visualizado -->
+<section id="visualized-user-profile" class="glass-card rounded-xl p-md flex items-center gap-md border border-outline-variant/30 shadow-sm">
+    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shrink-0">
+        <img id="vis-user-avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E" alt="Avatar"/>
+    </div>
+    <div class="flex-1 min-w-0">
+        <h3 id="vis-user-name" class="font-headline-md text-sm text-primary font-bold truncate">Carregando...</h3>
+        <p id="vis-user-desc" class="text-xs text-on-surface-variant italic truncate mt-0.5">"Frase de efeito"</p>
     </div>
 </section>
 <!-- Hero: Countdown Section -->
@@ -301,7 +312,7 @@
 </section>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+<nav class="fixed bottom-0 max-w-md w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
 <div class="flex justify-around items-center h-16 w-full px-2">
 <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 scale-95 active:scale-90 transition-transform" href="index.html">
 <span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
@@ -414,6 +425,16 @@
             const headerAvatarEl = document.querySelector('header img[alt="User Avatar"]');
             if (headerAvatarEl && userLogado && userLogado.foto) {
                 headerAvatarEl.src = userLogado.foto;
+            }
+            
+            // Atualiza perfil do participante visualizado
+            const visAvatarEl = document.getElementById('vis-user-avatar');
+            const visNameEl = document.getElementById('vis-user-name');
+            const visDescEl = document.getElementById('vis-user-desc');
+            if (visAvatarEl && visNameEl && visDescEl) {
+                visAvatarEl.src = user.foto || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E';
+                visNameEl.innerText = user.nome;
+                visDescEl.innerText = user.descricao ? `"${user.descricao}"` : '"Palpiteiro oficial da Copa!"';
             }
             
             // Atualiza Stats do usuário selecionado
@@ -609,4 +630,5 @@
             }, 60000);
         });
     </script>
+    </div>
 </body></html>

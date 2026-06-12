@@ -118,7 +118,8 @@
         }
     </style>
 </head>
-<body class="bg-background text-on-surface min-h-screen pb-24">
+<body class="bg-slate-950 min-h-screen flex justify-center items-start md:py-8">
+    <div class="w-full max-w-md mx-auto shadow-2xl bg-background text-on-surface font-body-md text-body-md min-h-screen pb-24 relative border-x border-outline-variant/10 flex flex-col">
     <!-- TopAppBar -->
     <header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base h-16">
         <div class="flex items-center gap-sm">
@@ -175,6 +176,10 @@
                     <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary" id="edit-email" type="email" value="joao@email.com"/>
                 </div>
                 <div>
+                    <label class="block text-xs font-label-bold text-on-surface-variant uppercase mb-1" for="edit-description">Descrição (Frase de efeito)</label>
+                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary" id="edit-description" type="text" placeholder="Ex: Rumo ao topo do Bolão!"/>
+                </div>
+                <div>
                     <label class="block text-xs font-label-bold text-on-surface-variant uppercase mb-1" for="edit-password">Senha de Acesso</label>
                     <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg p-md text-body-md focus:ring-2 focus:ring-primary focus:border-primary" id="edit-password" type="password" placeholder="Defina uma senha de acesso"/>
                 </div>
@@ -220,7 +225,7 @@
     </script>
 
     <!-- BottomNavBar -->
-    <nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
+    <nav class="fixed bottom-0 max-w-md w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_4px_rgba(0,0,0,0.05)]">
         <div class="flex justify-around items-center h-16 w-full px-2">
             <!-- Dashboard -->
             <a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors scale-95 active:scale-90" href="index.html">
@@ -275,6 +280,17 @@
             document.getElementById('user-display-name').innerText = user.nome;
             document.getElementById('user-display-email').innerText = user.email;
             
+            // Adiciona exibição da descrição dinamicamente abaixo do e-mail
+            let descEl = document.getElementById('user-display-description');
+            if (!descEl) {
+                descEl = document.createElement('p');
+                descEl.id = 'user-display-description';
+                descEl.className = 'text-xs text-on-surface-variant/70 italic mt-1 text-center max-w-[200px] truncate';
+                const emailEl = document.getElementById('user-display-email');
+                if (emailEl) emailEl.parentNode.insertBefore(descEl, emailEl.nextSibling);
+            }
+            descEl.innerText = user.descricao ? `"${user.descricao}"` : '"Palpiteiro oficial da Copa!"';
+            
             document.getElementById('user-stat-points').innerText = results.points || results.pontos || 0;
             document.getElementById('user-stat-exatos').innerText = user.placares_exatos;
             document.getElementById('user-stat-rank').innerText = `${results.posicao}º`;
@@ -283,6 +299,7 @@
             if (isInitialLoad) {
                 document.getElementById('edit-name').value = user.nome;
                 document.getElementById('edit-email').value = user.email;
+                document.getElementById('edit-description').value = user.descricao || '';
                 document.getElementById('edit-password').value = user.senha || '';
             }
             
@@ -381,6 +398,7 @@
         async function salvarPerfil() {
             const nomeInput = document.getElementById('edit-name').value;
             const emailInput = document.getElementById('edit-email').value;
+            const descInput = document.getElementById('edit-description').value.trim();
             const senhaInput = document.getElementById('edit-password').value.trim();
             
             if (nomeInput === '' || emailInput === '') {
@@ -397,7 +415,7 @@
             }
             
             try {
-                const success = await updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl, senhaInput);
+                const success = await updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl, senhaInput, descInput);
                 if (success) {
                     alert('Perfil atualizado com sucesso!');
                     renderProfile(true);
@@ -419,5 +437,6 @@
             renderProfile(true);
         });
     </script>
+    </div>
 </body>
 </html>
