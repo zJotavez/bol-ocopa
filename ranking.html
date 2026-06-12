@@ -357,65 +357,66 @@
                 container3.querySelector('span.font-stats-num').innerText = `${podio3.pontuacao_total} pts`;
             }
             
-            // Preenche Tabela
+            // Preenche Tabela — mostra todos os participantes com foto real
             const tabelaContainer = document.querySelector('main .space-y-sm');
             if (tabelaContainer) {
-                // Participantes
                 const totalParticipantesEl = document.querySelector('.text-on-surface-variant.font-label-bold');
                 if (totalParticipantesEl) {
                     totalParticipantesEl.innerText = `Participantes: ${ranking.length}`;
                 }
                 
-                const minhaPosicao = ranking.findIndex(u => u.id === user.id) + 1;
-                const meusPontos = user.pontuacao_total;
+                // Função helper para renderizar avatar (foto ou inicial do nome)
+                const renderAvatar = (usr, extra = '') => {
+                    if (usr.foto) {
+                        return `<img class="w-full h-full object-cover" src="${usr.foto}" alt="${usr.nome}" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=\\'material-symbols-outlined text-outline\\'>person</span>'">`;
+                    }
+                    // Avatar com inicial do nome como fallback premium
+                    const inicial = (usr.nome || '?')[0].toUpperCase();
+                    const cores = ['#004328','#446279','#735c00','#ba1a1a','#226b47','#2b4a60','#574500'];
+                    const cor = cores[usr.id.charCodeAt(usr.id.length-1) % cores.length];
+                    return `<div class="w-full h-full flex items-center justify-center font-bold text-white text-lg" style="background:${cor}">${inicial}</div>`;
+                };
                 
-                let htmlTabela = `
-                <!-- Você (Destaque) -->
-                <div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-l-primary scale-[1.02] shadow-md z-10 relative">
-                    <div class="flex items-center gap-md">
-                        <div class="font-stats-num text-stats-num text-primary-container w-8 text-center">${minhaPosicao}º</div>
-                        <div class="w-10 h-10 rounded-full overflow-hidden border border-primary">
-                            <img alt="Você" class="w-full h-full object-cover" src="${user.foto}"/>
-                        </div>
-                        <div>
-                            <span class="font-label-bold text-label-bold block">Você (${user.nome.split(' ')[0]})</span>
-                            <span class="text-on-surface-variant text-[10px] italic block max-w-[180px] truncate">${user.descricao || 'Sua Posição'}</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="font-stats-num text-stats-num text-primary">${meusPontos} pts</span>
-                        <div class="text-[10px] text-on-surface-variant font-body-md">Sempre atualizado</div>
-                    </div>
-                </div>`;
+                let htmlTabela = '';
                 
-                // Exibir o restante do 4º lugar em diante
-                const outros = ranking.slice(3);
-                outros.forEach((usr, idx) => {
-                    const pos = idx + 4;
-                    const isUserLogado = usr.id === user.id;
-                    const borderClass = isUserLogado ? 'border-l-4 border-l-primary scale-[1.01]' : '';
-                    const displayNome = isUserLogado ? 'Você' : usr.nome;
-                    const displayFoto = usr.foto ? `<img class="w-full h-full object-cover" src="${usr.foto}" alt="${usr.nome}">` : `<span class="material-symbols-outlined text-outline">person</span>`;
+                ranking.forEach((usr, idx) => {
+                    const pos = idx + 1;
+                    const isUserLogado = user && usr.id === user.id;
+                    const borderClass = isUserLogado ? 'border-l-4 border-l-primary shadow-md scale-[1.01] z-10 relative' : 'hover:bg-surface-container';
+                    const nomeDisplay = isUserLogado ? `Você (${usr.nome.split(' ')[0]})` : usr.nome;
+                    const descDisplay = usr.descricao || (isUserLogado ? 'Sua posição' : 'Palpiteiro da Copa');
+                    
+                    // Medalha para top 3
+                    let medalha = '';
+                    if (pos === 1) medalha = '🥇';
+                    else if (pos === 2) medalha = '🥈';
+                    else if (pos === 3) medalha = '🥉';
                     
                     htmlTabela += `
-                    <div class="glass-card rounded-xl p-md flex items-center justify-between hover:bg-surface-container transition-colors ${borderClass}">
+                    <div class="glass-card rounded-xl p-md flex items-center justify-between transition-all ${borderClass}">
                         <div class="flex items-center gap-md">
-                            <div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center">${pos}º</div>
-                            <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center border border-outline-variant/30">
-                                ${displayFoto}
+                            <div class="font-stats-num text-stats-num text-on-surface-variant w-8 text-center shrink-0">
+                                ${medalha || pos + 'º'}
                             </div>
-                            <div>
-                                <span class="font-label-bold text-label-bold block">${displayNome}</span>
-                                <span class="text-on-surface-variant text-[10px] italic block max-w-[180px] truncate">${usr.descricao || 'Palpiteiro da Copa'}</span>
+                            <div class="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 ${isUserLogado ? 'border-primary' : 'border-outline-variant/30'}">
+                                ${renderAvatar(usr)}
+                            </div>
+                            <div class="min-w-0">
+                                <span class="font-label-bold text-label-bold block ${isUserLogado ? 'text-primary' : ''} truncate">${nomeDisplay}</span>
+                                <span class="text-on-surface-variant text-[10px] italic block max-w-[180px] truncate">${descDisplay}</span>
                             </div>
                         </div>
-                        <span class="font-stats-num text-stats-num">${usr.pontuacao_total} pts</span>
+                        <div class="text-right shrink-0 ml-2">
+                            <span class="font-stats-num text-stats-num ${isUserLogado ? 'text-primary' : ''}">${usr.pontuacao_total} pts</span>
+                            <div class="text-[10px] text-on-surface-variant">${usr.placares_exatos} exatos</div>
+                        </div>
                     </div>`;
                 });
                 
                 tabelaContainer.innerHTML = htmlTabela;
             }
         }
+
 
         // Inicialização ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {

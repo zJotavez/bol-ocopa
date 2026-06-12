@@ -477,11 +477,13 @@ function buildJogosVirtual(db) {
             time_casa_id: m.time_casa_id,
             time_fora_id: m.time_fora_id,
             data_hora: m.data_hora,
+            time: m.time || m.kickoff_time || null, // ISO timestamp para countdown
             kickoff_time: m.kickoff_time || 'TBD',
             grupo_id: m.grupo_id,
             grupo: `GRUPO ${m.grupo_id}`,
             resultado_casa: m.placar_casa,
             resultado_fora: m.placar_fora,
+            status: m.status || 'Pendente',
             encerrado: m.status === 'Finalizado' || isJogoBloqueado(m)
         });
     });
@@ -518,17 +520,53 @@ function buildJogosVirtual(db) {
 const BUCKET_ID = 'bolao_copa_2026_a08b52be';
 const KV_URL = `https://kvdb.io/${BUCKET_ID}`;
 
-// Envia dados do perfil de um usuário para a nuvem
+// Comprime uma imagem base64 para no máximo 120x120px e qualidade 70% (fica ~20-30KB)
+function comprimirFoto(dataUrl) {
+    return new Promise((resolve) => {
+        // Se não é base64 local (é uma URL externa), devolve como está
+        if (!dataUrl || !dataUrl.startsWith('data:image')) {
+            resolve(dataUrl);
+            return;
+        }
+        const img = new Image();
+        img.onload = () => {
+            const MAX = 120;
+            let w = img.width, h = img.height;
+            if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+            else { w = Math.round(w * MAX / h); h = MAX; }
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL('image/jpeg', 0.7));
+        };
+        img.onerror = () => resolve(dataUrl);
+        img.src = dataUrl;
+    });
+}
+
+// Envia dados do perfil de um usuário para a nuvem (com foto comprimida)
 async function pushUsuarioData(userId, userObj) {
     try {
+        // Comprime foto antes de enviar para caber no limite do KVDB (~64KB)
+        let fotoParaEnviar = userObj.foto || '';
+        if (fotoParaEnviar && fotoParaEnviar.startsWith('data:image')) {
+            fotoParaEnviar = await comprimirFoto(fotoParaEnviar);
+        }
+        const objParaEnviar = {
+            ...userObj,
+            foto: fotoParaEnviar
+        };
         await fetch(`${KV_URL}/usuario_${userId}`, {
             method: 'POST',
-            body: JSON.stringify(userObj)
+            body: JSON.stringify(objParaEnviar)
         });
+        console.log(`✅ Perfil de ${userObj.nome} sincronizado na nuvem.`);
     } catch (e) {
         console.error('Erro ao enviar dados do usuário para a nuvem:', e);
     }
 }
+
 
 // Envia palpites de um usuário para a nuvem
 async function pushPalpites(userId, palpitesArr) {
@@ -628,6 +666,7 @@ async function syncAllFromCloud() {
                             email: usrObj.email || '',
                             senha: usrObj.senha || '',
                             foto: usrObj.foto || '',
+                            descricao: usrObj.descricao || '',
                             role: usrObj.role || 'user',
                             status: usrObj.status || 'Ativo',
                             pontuacao_base: usrObj.pontuacao_base || 0,
@@ -640,15 +679,17 @@ async function syncAllFromCloud() {
                         // Se for o próprio usuário logado, evitamos sobrescrever as alterações locais dele
                         // com dados possivelmente antigos da nuvem (offline-first)
                         if (userId !== loggedId) {
-                            localUsr.nome = usrObj.nome;
-                            localUsr.email = usrObj.email;
-                            localUsr.foto = usrObj.foto;
+                            localUsr.nome = usrObj.nome || localUsr.nome;
+                            localUsr.email = usrObj.email || localUsr.email;
+                            localUsr.foto = usrObj.foto || localUsr.foto;
+                            localUsr.descricao = usrObj.descricao || localUsr.descricao || '';
                             localUsr.senha = usrObj.senha || localUsr.senha || '';
                         } else {
                             // Se localmente estiver sem dados (como no primeiro login), inicializa
                             if (!localUsr.nome || localUsr.nome === 'Novo Participante') localUsr.nome = usrObj.nome;
                             if (!localUsr.email) localUsr.email = usrObj.email;
                             if (!localUsr.foto) localUsr.foto = usrObj.foto;
+                            if (!localUsr.descricao) localUsr.descricao = usrObj.descricao || '';
                             if (!localUsr.senha) localUsr.senha = usrObj.senha || '';
                         }
                         // Role e status são atualizados remotamente pelo admin
@@ -703,7 +744,7 @@ function getLoggedUser() {
 }
 
 // Atualiza o Perfil do Usuário Logado
-async function updateLoggedUserProfile(nome, email, foto, senha) {
+async function updateLoggedUserProfile(nome, email, foto, senha, descricao) {
     const db = getDB();
     const activeUser = getLoggedUser();
     if (!activeUser) return false;
@@ -712,21 +753,30 @@ async function updateLoggedUserProfile(nome, email, foto, senha) {
     if (user) {
         user.nome = nome;
         user.email = email;
-        if (foto !== undefined) {
-            user.foto = foto;
+        if (descricao !== undefined) {
+            user.descricao = descricao;
         }
-        if (senha !== undefined) {
+        if (foto !== undefined && foto !== null && foto !== '') {
+            // Comprime a foto antes de salvar localmente também
+            if (foto.startsWith('data:image')) {
+                user.foto = await comprimirFoto(foto);
+            } else {
+                user.foto = foto;
+            }
+        }
+        if (senha !== undefined && senha !== '') {
             user.senha = senha;
         }
         db.jogos = buildJogosVirtual(db);
         saveDB(db);
         
-        // Aguarda a persistência na nuvem
+        // Sobe para a nuvem (a compressão acontece dentro do pushUsuarioData)
         await pushUsuarioData(user.id, user);
         return true;
     }
     return false;
 }
+
 
 // Salvar/Editar palpite do usuário logado
 function savePalpite(jogoId, placarCasa, placarFora) {
@@ -1475,4 +1525,23 @@ if (document.readyState === 'loading') {
 } else {
     // Dá um tempo curto para o body estar montado em chamadas síncronas
     setTimeout(verificarLoginOverlay, 10);
+}
+
+// ─── AUTO-SYNC PERIÓDICO ───────────────────────────────────────────────────────
+// Sincroniza dados da nuvem a cada 30 segundos automaticamente.
+// Após o sync, dispara o evento 'bolaoSyncComplete' para as páginas re-renderizarem.
+let _autoSyncInterval = null;
+function iniciarAutoSync(intervaloMs = 30000) {
+    if (_autoSyncInterval) clearInterval(_autoSyncInterval);
+    _autoSyncInterval = setInterval(async () => {
+        console.log('🔄 Auto-sync periódico...');
+        await syncAllFromCloud();
+    }, intervaloMs);
+}
+
+// Inicia o auto-sync quando a página terminar de carregar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => iniciarAutoSync(30000));
+} else {
+    setTimeout(() => iniciarAutoSync(30000), 1000);
 }

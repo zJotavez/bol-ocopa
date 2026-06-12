@@ -139,7 +139,7 @@
 <header class="w-full top-0 sticky z-50 bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center px-container-margin py-base">
 <div class="flex items-center gap-sm">
 <div class="relative">
-<img alt="Profile" class="w-10 h-10 rounded-full border-2 border-primary object-cover" data-alt="A close-up professional portrait of a smiling Brazilian man in his late 20s, wearing a premium green athletic polo shirt. The lighting is soft and natural, suggesting an outdoor stadium environment at sunset. The image has a shallow depth of field, with a blurred modern football stadium in the background, utilizing a color palette of deep greens and soft golds." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
+<img id="header-user-avatar" alt="Profile" class="w-10 h-10 rounded-full border-2 border-primary object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E"/>
 <span class="absolute -bottom-1 -right-1 bg-tertiary text-on-tertiary text-[10px] font-bold px-1 rounded-full border-2 border-surface">PRO</span>
 </div>
 <div class="flex flex-col">
@@ -187,12 +187,23 @@
     <div class="md:col-span-1 flex flex-col gap-md">
         <!-- Perfil do Participante Visualizado -->
         <section id="visualized-user-profile" class="glass-card rounded-xl p-md flex items-center gap-md border border-outline-variant/30 shadow-sm flex-1">
-            <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary shrink-0">
-                <img id="vis-user-avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E" alt="Avatar"/>
+            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary shrink-0 bg-surface-container">
+                <img id="vis-user-avatar" class="w-full h-full object-cover" src="" alt="Avatar"/>
             </div>
             <div class="flex-1 min-w-0">
-                <h3 id="vis-user-name" class="font-headline-md text-sm text-primary font-bold truncate">Carregando...</h3>
+                <div class="flex items-center gap-1 flex-wrap">
+                    <h3 id="vis-user-name" class="font-headline-md text-sm text-primary font-bold truncate">Carregando...</h3>
+                    <span id="vis-user-badge" class="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary-container hidden"></span>
+                </div>
                 <p id="vis-user-desc" class="text-xs text-on-surface-variant italic truncate mt-0.5">"Frase de efeito"</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <span id="vis-user-rank" class="text-[11px] font-bold text-tertiary flex items-center gap-0.5">
+                        <span class="material-symbols-outlined text-[13px]">emoji_events</span>
+                        <span>— lugar</span>
+                    </span>
+                    <span class="text-outline-variant">·</span>
+                    <span id="vis-user-pts" class="text-[11px] font-bold text-primary">0 pts</span>
+                </div>
             </div>
         </section>
         <!-- Hero: Countdown Section -->
@@ -201,12 +212,12 @@
                 <span class="material-symbols-outlined text-8xl" data-icon="timer">timer</span>
             </div>
             <div class="relative z-10 flex flex-col items-center text-center space-y-sm">
-                <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-primary-container text-[10px]">Próxima Rodada</span>
-                <h2 class="font-headline-lg-mobile text-headline-lg-mobile">Faltam 03h 15min</h2>
-                <p class="text-body-md opacity-90 max-w-[200px] text-xs">Feche seus palpites antes do apito inicial!</p>
-                <button class="mt-sm bg-tertiary text-on-tertiary px-lg py-sm rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md text-xs">
+                <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-primary-container text-[10px]" id="countdown-label">Próximo Jogo</span>
+                <h2 id="countdown-display" class="font-headline-lg-mobile text-headline-lg-mobile">Calculando...</h2>
+                <p id="countdown-match" class="text-body-md opacity-90 max-w-[220px] text-xs">Feche seus palpites antes do apito inicial!</p>
+                <a href="matches.html" class="mt-sm bg-tertiary text-on-tertiary px-lg py-sm rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md text-xs inline-block">
                     Palpitar Agora
-                </button>
+                </a>
             </div>
         </section>
     </div>
@@ -442,19 +453,57 @@
                 pointsHeaderEl.innerHTML = `<span class="material-symbols-outlined text-[14px]">stars</span> ${statsLogado.pontos} pts`;
             }
             
-            const headerAvatarEl = document.querySelector('header img[alt="User Avatar"]');
-            if (headerAvatarEl && userLogado && userLogado.foto) {
-                headerAvatarEl.src = userLogado.foto;
+            const headerAvatarEl = document.getElementById('header-user-avatar');
+            if (headerAvatarEl && userLogado) {
+                // Usa foto do usuário ou gera avatar com inicial se não tiver foto
+                if (userLogado.foto) {
+                    headerAvatarEl.src = userLogado.foto;
+                    headerAvatarEl.style.display = '';
+                } else {
+                    // Esconde img e mostra inicial via estilo
+                    headerAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userLogado.nome)}&background=004328&color=fff&size=120&bold=true`;
+                }
             }
             
             // Atualiza perfil do participante visualizado
             const visAvatarEl = document.getElementById('vis-user-avatar');
             const visNameEl = document.getElementById('vis-user-name');
             const visDescEl = document.getElementById('vis-user-desc');
-            if (visAvatarEl && visNameEl && visDescEl) {
-                visAvatarEl.src = user.foto || 'https://lh3.googleusercontent.com/aida-public/AB6AXuB1abebq0LEeXm_1kg7Ei1fm-CbXHH_oxm2hL-fRzVKxUgiCKbv8Z5cSeLT9aPeCxkxxH2JU_WlSWGXjaozEJ_dHw7jMn0is9K2ihRUNDaCKBHxwPJU9cOlNbQ33ZB-aWfkg4GKX_WiE416LG-G-EcqQgdzb3pVoqntfUNYnaMKn94K1SuhWoM8zAVx1wdaAVHWpFoXFeVD4-YgOBRFLz-402IMMM6tN5Kp8A3VZRdgJicc00gbnuxwE_tavQwYaICPQ7flAuV9w3E';
-                visNameEl.innerText = user.nome;
-                visDescEl.innerText = user.descricao ? `"${user.descricao}"` : '"Palpiteiro oficial da Copa!"';
+            const visRankEl = document.getElementById('vis-user-rank');
+            const visPtsEl = document.getElementById('vis-user-pts');
+            const visBadgeEl = document.getElementById('vis-user-badge');
+            const dbRanking = getDB();
+            const rankingOrdenado = [...dbRanking.usuarios].sort((a, b) => b.pontuacao_total - a.pontuacao_total);
+            const posicaoUser = rankingOrdenado.findIndex(u => u.id === user.id) + 1;
+            
+            if (visAvatarEl) {
+                if (user.foto) {
+                    visAvatarEl.src = user.foto;
+                    visAvatarEl.style.display = '';
+                } else {
+                    // Avatar com letra inicial quando sem foto
+                    visAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.nome)}&background=004328&color=fff&size=120&bold=true`;
+                }
+            }
+            if (visNameEl) visNameEl.innerText = user.nome;
+            if (visDescEl) visDescEl.innerText = user.descricao ? `"${user.descricao}"` : '"Palpiteiro oficial da Copa!"';
+            if (visRankEl) {
+                let medalha = '';
+                if (posicaoUser === 1) medalha = '🥇';
+                else if (posicaoUser === 2) medalha = '🥈';
+                else if (posicaoUser === 3) medalha = '🥉';
+                else medalha = '🏅';
+                visRankEl.innerHTML = `<span class="material-symbols-outlined text-[13px]">emoji_events</span><span>${medalha} ${posicaoUser}º lugar</span>`;
+            }
+            if (visPtsEl) visPtsEl.innerText = `${user.pontuacao_total || 0} pts`;
+            if (visBadgeEl) {
+                if (user.role === 'admin') {
+                    visBadgeEl.textContent = 'ADMIN';
+                    visBadgeEl.classList.remove('hidden');
+                    visBadgeEl.classList.add('bg-tertiary', 'text-on-tertiary');
+                } else {
+                    visBadgeEl.classList.add('hidden');
+                }
             }
             
             // Atualiza Stats do usuário selecionado
@@ -613,11 +662,79 @@
             }
         }
 
+        // ─── COUNTDOWN REAL ──────────────────────────────────────────────────
+        // Encontra o próximo jogo não finalizado e mostra contagem até 1h antes
+        let countdownTimer = null;
+        function iniciarCountdown() {
+            const db = getDB();
+            
+            // Busca nos matches brutos (tem kickoff_time em formato ISO)
+            const matchesBrutos = db.matches || [];
+            const futuros = matchesBrutos.filter(m => m.status !== 'Finalizado' && m.kickoff_time && m.kickoff_time !== 'TBD');
+            futuros.sort((a, b) => new Date(a.kickoff_time) - new Date(b.kickoff_time));
+            const proximoMatch = futuros[0];
+            
+            const labelEl = document.getElementById('countdown-label');
+            const displayEl = document.getElementById('countdown-display');
+            const matchEl = document.getElementById('countdown-match');
+            
+            if (!proximoMatch || !labelEl || !displayEl) {
+                if (displayEl) displayEl.innerText = 'Todos finalizados!';
+                return;
+            }
+            
+            // Busca o jogo virtual para pegar nome dos times
+            const jogoVirtual = (db.jogos || []).find(j => j.id === proximoMatch.id);
+            const timeCasa = jogoVirtual ? jogoVirtual.time_casa : '';
+            const timeFora = jogoVirtual ? jogoVirtual.time_fora : '';
+            if (matchEl && timeCasa) matchEl.innerText = `${timeCasa} x ${timeFora} — Feche antes do apito!`;
+            
+            // Deadline = 1 hora antes do jogo
+            const horaJogo = new Date(proximoMatch.kickoff_time);
+            const deadline = new Date(horaJogo.getTime() - 60 * 60 * 1000);
+            
+            function atualizar() {
+                const agora = new Date();
+                const diff = deadline - agora;
+                
+                if (diff <= 0) {
+                    displayEl.innerText = 'Palpites Fechados!';
+                    if (labelEl) labelEl.textContent = '⏰ Jogo em breve';
+                    return;
+                }
+                
+                const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const segs = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                displayEl.classList.remove('animate-pulse');
+                
+                if (dias > 0) {
+                    displayEl.innerText = `Faltam ${dias}d ${String(horas).padStart(2,'0')}h ${String(mins).padStart(2,'0')}min`;
+                    if (labelEl) labelEl.textContent = `Próximo: ${proximoMatch.data_hora || ''}`;
+                } else if (horas > 0) {
+                    displayEl.innerText = `Faltam ${String(horas).padStart(2,'0')}h ${String(mins).padStart(2,'0')}min`;
+                    if (labelEl) labelEl.textContent = `Fechar em ${String(horas).padStart(2,'0')}h ${String(mins).padStart(2,'0')}min`;
+                } else {
+                    // Últimos minutos: mostra com segundos e pisca
+                    displayEl.innerHTML = `⚠️ ${String(mins).padStart(2,'0')}:${String(segs).padStart(2,'0')}`;
+                    if (labelEl) labelEl.textContent = '⚡ ATENÇÃO! Fecha logo!';
+                    displayEl.classList.add('animate-pulse');
+                }
+            }
+            
+            if (countdownTimer) clearInterval(countdownTimer);
+            atualizar();
+            countdownTimer = setInterval(atualizar, 1000);
+        }
+
         // Executar inicializações ao carregar a página
         document.addEventListener('DOMContentLoaded', () => {
             renderUserSelector();
             renderDashboard();
             setupCarouselScroll();
+            iniciarCountdown();
 
             // Disparar sincronização assíncrona com a nuvem
             syncAllFromCloud();
@@ -626,28 +743,8 @@
             document.addEventListener('bolaoSyncComplete', () => {
                 renderUserSelector();
                 renderDashboard();
+                iniciarCountdown(); // Recalcula deadline com dados atualizados
             });
-
-            // Simple Countdown logic simulation
-            let hours = 3;
-            let minutes = 15;
-            const countdownEl = document.querySelector('h2');
-            
-            setInterval(() => {
-                if (minutes > 0) {
-                    minutes--;
-                } else {
-                    if (hours > 0) {
-                        hours--;
-                        minutes = 59;
-                    }
-                }
-                const hStr = String(hours).padStart(2, '0');
-                const mStr = String(minutes).padStart(2, '0');
-                if(countdownEl) {
-                    countdownEl.innerText = `Faltam ${hStr}h ${mStr}min`;
-                }
-            }, 60000);
         });
     </script>
     </div>
