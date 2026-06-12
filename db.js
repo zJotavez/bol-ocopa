@@ -24,7 +24,7 @@ const defaultTeams = [
     { id: 'mex', grupo_id: 'A', nome: 'México', sigla: 'MEX', emoji: '🇲🇽', escudo: '' },
     { id: 'rsa', grupo_id: 'A', nome: 'África do Sul', sigla: 'RSA', emoji: '🇿🇦', escudo: '' },
     { id: 'kor', grupo_id: 'A', nome: 'Coreia do Sul', sigla: 'KOR', emoji: '🇰🇷', escudo: '' },
-    { id: 'cze', grupo_id: 'A', nome: 'República Tcheca', sigla: 'CZE', emoji: '🇨🇿', escudo: '' },
+    { id: 'cze', grupo_id: 'A', nome: 'Tchéquia', sigla: 'CZE', emoji: '🇨🇿', escudo: '' },
     // Grupo B
     { id: 'can', grupo_id: 'B', nome: 'Canadá', sigla: 'CAN', emoji: '🇨🇦', escudo: '' },
     { id: 'bih', grupo_id: 'B', nome: 'Bósnia e Herzegovina', sigla: 'BIH', emoji: '🇧🇦', escudo: '' },
@@ -33,7 +33,7 @@ const defaultTeams = [
     // Grupo C
     { id: 'bra', grupo_id: 'C', nome: 'Brasil', sigla: 'BRA', emoji: '🇧🇷', escudo: '' },
     { id: 'mar', grupo_id: 'C', nome: 'Marrocos', sigla: 'MAR', emoji: '🇲🇦', escudo: '' },
-    { id: 'sco', grupo_id: 'C', nome: 'Escócia', sigla: 'SCO', emoji: '🏴\u200d󠁧󠁢󠁳󠁣󠁴󠁿', escudo: '' },
+    { id: 'sco', grupo_id: 'C', nome: 'Escócia', sigla: 'SCO', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', escudo: '' },
     { id: 'hai', grupo_id: 'C', nome: 'Haiti', sigla: 'HAI', emoji: '🇭🇹', escudo: '' },
     // Grupo D
     { id: 'usa', grupo_id: 'D', nome: 'Estados Unidos', sigla: 'USA', emoji: '🇺🇸', escudo: '' },
@@ -42,7 +42,7 @@ const defaultTeams = [
     { id: 'tur', grupo_id: 'D', nome: 'Turquia', sigla: 'TUR', emoji: '🇹🇷', escudo: '' },
     // Grupo E
     { id: 'ger', grupo_id: 'E', nome: 'Alemanha', sigla: 'GER', emoji: '🇩🇪', escudo: '' },
-    { id: 'cuw', grupo_id: 'E', nome: 'Curaçao', sigla: 'CUW', emoji: '🇨🇼', escudo: '' },
+    { id: 'cuw', grupo_id: 'E', nome: 'Curaçau', sigla: 'CUW', emoji: '🇨🇼', escudo: '' },
     { id: 'civ', grupo_id: 'E', nome: 'Costa do Marfim', sigla: 'CIV', emoji: '🇨🇮', escudo: '' },
     { id: 'ecu', grupo_id: 'E', nome: 'Equador', sigla: 'ECU', emoji: '🇪🇨', escudo: '' },
     // Grupo F
@@ -74,108 +74,94 @@ const defaultTeams = [
     { id: 'por', grupo_id: 'K', nome: 'Portugal', sigla: 'POR', emoji: '🇵🇹', escudo: '' },
     { id: 'col', grupo_id: 'K', nome: 'Colômbia', sigla: 'COL', emoji: '🇨🇴', escudo: '' },
     { id: 'uzb', grupo_id: 'K', nome: 'Uzbequistão', sigla: 'UZB', emoji: '🇺🇿', escudo: '' },
-    { id: 'cod', grupo_id: 'K', nome: 'República Democrática do Congo', sigla: 'COD', emoji: '🇨🇩', escudo: '' },
+    { id: 'cod', grupo_id: 'K', nome: 'RD do Congo', sigla: 'COD', emoji: '🇨🇩', escudo: '' },
     // Grupo L
-    { id: 'eng', grupo_id: 'L', nome: 'Inglaterra', sigla: 'ENG', emoji: '🏴\u200d󠁧󠁢󠁥󠁮󠁧󠁿', escudo: '' },
+    { id: 'eng', grupo_id: 'L', nome: 'Inglaterra', sigla: 'ENG', emoji: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', escudo: '' },
     { id: 'cro', grupo_id: 'L', nome: 'Croácia', sigla: 'CRO', emoji: '🇭🇷', escudo: '' },
     { id: 'pan', grupo_id: 'L', nome: 'Panamá', sigla: 'PAN', emoji: '🇵🇦', escudo: '' },
     { id: 'gha', grupo_id: 'L', nome: 'Gana', sigla: 'GHA', emoji: '🇬🇭', escudo: '' }
 ];
 
 // 3. Geração dos Jogos da Fase de Grupos
-// 3. Geração dos Jogos da Fase de Grupos
 function gerarJogosIniciais() {
     const rawMatches = [
         // Rodada 1
-        { id: 'match_A_r1_1', gid: 'A', r: 'Rodada 1', home: 'mex', away: 'rsa', time: '2026-06-11T13:00:00', label: '11 JUN • 13:00', resH: 2, resA: 0, status: 'Finalizado' },
-        { id: 'match_A_r1_2', gid: 'A', r: 'Rodada 1', home: 'kor', away: 'cze', time: '2026-06-11T16:00:00', label: '11 JUN • 16:00', resH: 2, resA: 1, status: 'Finalizado' },
-        { id: 'match_B_r1_1', gid: 'B', r: 'Rodada 1', home: 'can', away: 'bih', time: '2026-06-11T19:00:00', label: '11 JUN • 19:00' },
-        { id: 'match_B_r1_2', gid: 'B', r: 'Rodada 1', home: 'qat', away: 'sui', time: '2026-06-11T22:00:00', label: '11 JUN • 22:00' },
-        
-        { id: 'match_C_r1_1', gid: 'C', r: 'Rodada 1', home: 'bra', away: 'mar', time: '2026-06-12T13:00:00', label: '12 JUN • 13:00' },
-        { id: 'match_C_r1_2', gid: 'C', r: 'Rodada 1', home: 'hai', away: 'sco', time: '2026-06-12T16:00:00', label: '12 JUN • 16:00' },
-        { id: 'match_D_r1_1', gid: 'D', r: 'Rodada 1', home: 'usa', away: 'par', time: '2026-06-12T19:00:00', label: '12 JUN • 19:00' },
-        { id: 'match_D_r1_2', gid: 'D', r: 'Rodada 1', home: 'aus', away: 'tur', time: '2026-06-12T22:00:00', label: '12 JUN • 22:00' },
-        
-        { id: 'match_E_r1_1', gid: 'E', r: 'Rodada 1', home: 'ger', away: 'cuw', time: '2026-06-13T13:00:00', label: '13 JUN • 13:00' },
-        { id: 'match_E_r1_2', gid: 'E', r: 'Rodada 1', home: 'civ', away: 'ecu', time: '2026-06-13T16:00:00', label: '13 JUN • 16:00' },
-        { id: 'match_F_r1_1', gid: 'F', r: 'Rodada 1', home: 'ned', away: 'jpn', time: '2026-06-13T19:00:00', label: '13 JUN • 19:00' },
-        { id: 'match_F_r1_2', gid: 'F', r: 'Rodada 1', home: 'swe', away: 'tun', time: '2026-06-13T22:00:00', label: '13 JUN • 22:00' },
-        
-        { id: 'match_G_r1_1', gid: 'G', r: 'Rodada 1', home: 'bel', away: 'egy', time: '2026-06-14T13:00:00', label: '14 JUN • 13:00' },
-        { id: 'match_G_r1_2', gid: 'G', r: 'Rodada 1', home: 'irn', away: 'nzl', time: '2026-06-14T16:00:00', label: '14 JUN • 16:00' },
-        { id: 'match_H_r1_1', gid: 'H', r: 'Rodada 1', home: 'esp', away: 'cpv', time: '2026-06-14T19:00:00', label: '14 JUN • 19:00' },
-        { id: 'match_H_r1_2', gid: 'H', r: 'Rodada 1', home: 'ksa', away: 'uru', time: '2026-06-14T22:00:00', label: '14 JUN • 22:00' },
-        
-        { id: 'match_I_r1_1', gid: 'I', r: 'Rodada 1', home: 'fra', away: 'sen', time: '2026-06-15T13:00:00', label: '15 JUN • 13:00' },
-        { id: 'match_I_r1_2', gid: 'I', r: 'Rodada 1', home: 'irq', away: 'nor', time: '2026-06-15T16:00:00', label: '15 JUN • 16:00' },
-        { id: 'match_J_r1_1', gid: 'J', r: 'Rodada 1', home: 'arg', away: 'alg', time: '2026-06-15T19:00:00', label: '15 JUN • 19:00' },
-        { id: 'match_J_r1_2', gid: 'J', r: 'Rodada 1', home: 'aut', away: 'jor', time: '2026-06-15T22:00:00', label: '15 JUN • 22:00' },
-        
-        { id: 'match_K_r1_1', gid: 'K', r: 'Rodada 1', home: 'por', away: 'cod', time: '2026-06-16T13:00:00', label: '16 JUN • 13:00' },
-        { id: 'match_K_r1_2', gid: 'K', r: 'Rodada 1', home: 'col', away: 'uzb', time: '2026-06-16T16:00:00', label: '16 JUN • 16:00' },
-        { id: 'match_L_r1_1', gid: 'L', r: 'Rodada 1', home: 'eng', away: 'cro', time: '2026-06-16T19:00:00', label: '16 JUN • 19:00' },
-        { id: 'match_L_r1_2', gid: 'L', r: 'Rodada 1', home: 'gha', away: 'pan', time: '2026-06-16T22:00:00', label: '16 JUN • 22:00' },
+        { id: 'match_A_r1_1', gid: 'A', r: 'Rodada 1', home: 'mex', away: 'rsa', time: '2026-06-11T16:00:00-03:00', label: '11 JUN • 16:00', resH: 2, resA: 0, status: 'Finalizado' },
+        { id: 'match_A_r1_2', gid: 'A', r: 'Rodada 1', home: 'kor', away: 'cze', time: '2026-06-11T23:00:00-03:00', label: '11 JUN • 23:00', resH: 2, resA: 1, status: 'Finalizado' },
+        { id: 'match_B_r1_1', gid: 'B', r: 'Rodada 1', home: 'can', away: 'bih', time: '2026-06-12T16:00:00-03:00', label: '12 JUN • 16:00' },
+        { id: 'match_D_r1_1', gid: 'D', r: 'Rodada 1', home: 'usa', away: 'par', time: '2026-06-12T22:00:00-03:00', label: '12 JUN • 22:00' },
+        { id: 'match_B_r1_2', gid: 'B', r: 'Rodada 1', home: 'qat', away: 'sui', time: '2026-06-13T16:00:00-03:00', label: '13 JUN • 16:00' },
+        { id: 'match_C_r1_1', gid: 'C', r: 'Rodada 1', home: 'bra', away: 'mar', time: '2026-06-13T19:00:00-03:00', label: '13 JUN • 19:00' },
+        { id: 'match_C_r1_2', gid: 'C', r: 'Rodada 1', home: 'hai', away: 'sco', time: '2026-06-13T22:00:00-03:00', label: '13 JUN • 22:00' },
+        { id: 'match_D_r1_2', gid: 'D', r: 'Rodada 1', home: 'aus', away: 'tur', time: '2026-06-14T01:00:00-03:00', label: '14 JUN • 01:00' },
+        { id: 'match_E_r1_1', gid: 'E', r: 'Rodada 1', home: 'ger', away: 'cuw', time: '2026-06-14T14:00:00-03:00', label: '14 JUN • 14:00' },
+        { id: 'match_F_r1_1', gid: 'F', r: 'Rodada 1', home: 'ned', away: 'jpn', time: '2026-06-14T17:00:00-03:00', label: '14 JUN • 17:00' },
+        { id: 'match_E_r1_2', gid: 'E', r: 'Rodada 1', home: 'civ', away: 'ecu', time: '2026-06-14T20:00:00-03:00', label: '14 JUN • 20:00' },
+        { id: 'match_F_r1_2', gid: 'F', r: 'Rodada 1', home: 'swe', away: 'tun', time: '2026-06-14T23:00:00-03:00', label: '14 JUN • 23:00' },
+        { id: 'match_H_r1_1', gid: 'H', r: 'Rodada 1', home: 'esp', away: 'cpv', time: '2026-06-15T13:00:00-03:00', label: '15 JUN • 13:00' },
+        { id: 'match_G_r1_1', gid: 'G', r: 'Rodada 1', home: 'bel', away: 'egy', time: '2026-06-15T16:00:00-03:00', label: '15 JUN • 16:00' },
+        { id: 'match_H_r1_2', gid: 'H', r: 'Rodada 1', home: 'ksa', away: 'uru', time: '2026-06-15T19:00:00-03:00', label: '15 JUN • 19:00' },
+        { id: 'match_G_r1_2', gid: 'G', r: 'Rodada 1', home: 'irn', away: 'nzl', time: '2026-06-15T22:00:00-03:00', label: '15 JUN • 22:00' },
+        { id: 'match_I_r1_1', gid: 'I', r: 'Rodada 1', home: 'fra', away: 'sen', time: '2026-06-16T16:00:00-03:00', label: '16 JUN • 16:00' },
+        { id: 'match_I_r1_2', gid: 'I', r: 'Rodada 1', home: 'irq', away: 'nor', time: '2026-06-16T19:00:00-03:00', label: '16 JUN • 19:00' },
+        { id: 'match_J_r1_1', gid: 'J', r: 'Rodada 1', home: 'arg', away: 'alg', time: '2026-06-16T22:00:00-03:00', label: '16 JUN • 22:00' },
+        { id: 'match_J_r1_2', gid: 'J', r: 'Rodada 1', home: 'aut', away: 'jor', time: '2026-06-17T01:00:00-03:00', label: '17 JUN • 01:00' },
+        { id: 'match_K_r1_1', gid: 'K', r: 'Rodada 1', home: 'por', away: 'cod', time: '2026-06-17T14:00:00-03:00', label: '17 JUN • 14:00' },
+        { id: 'match_L_r1_1', gid: 'L', r: 'Rodada 1', home: 'eng', away: 'cro', time: '2026-06-17T17:00:00-03:00', label: '17 JUN • 17:00' },
+        { id: 'match_L_r1_2', gid: 'L', r: 'Rodada 1', home: 'gha', away: 'pan', time: '2026-06-17T20:00:00-03:00', label: '17 JUN • 20:00' },
+        { id: 'match_K_r1_2', gid: 'K', r: 'Rodada 1', home: 'uzb', away: 'col', time: '2026-06-17T23:00:00-03:00', label: '17 JUN • 23:00' },
 
         // Rodada 2
-        { id: 'match_A_r2_1', gid: 'A', r: 'Rodada 2', home: 'mex', away: 'cze', time: '2026-06-17T13:00:00', label: '17 JUN • 13:00' },
-        { id: 'match_A_r2_2', gid: 'A', r: 'Rodada 2', home: 'rsa', away: 'kor', time: '2026-06-17T16:00:00', label: '17 JUN • 16:00' },
-        { id: 'match_B_r2_1', gid: 'B', r: 'Rodada 2', home: 'can', away: 'sui', time: '2026-06-17T19:00:00', label: '17 JUN • 19:00' },
-        { id: 'match_B_r2_2', gid: 'B', r: 'Rodada 2', home: 'bih', away: 'qat', time: '2026-06-17T22:00:00', label: '17 JUN • 22:00' },
-        
-        { id: 'match_C_r2_1', gid: 'C', r: 'Rodada 2', home: 'bra', away: 'sco', time: '2026-06-18T13:00:00', label: '18 JUN • 13:00' },
-        { id: 'match_C_r2_2', gid: 'C', r: 'Rodada 2', home: 'mar', away: 'hai', time: '2026-06-18T16:00:00', label: '18 JUN • 16:00' },
-        { id: 'match_D_r2_1', gid: 'D', r: 'Rodada 2', home: 'usa', away: 'tur', time: '2026-06-18T19:00:00', label: '18 JUN • 19:00' },
-        { id: 'match_D_r2_2', gid: 'D', r: 'Rodada 2', home: 'par', away: 'aus', time: '2026-06-18T22:00:00', label: '18 JUN • 22:00' },
-        
-        { id: 'match_E_r2_1', gid: 'E', r: 'Rodada 2', home: 'ger', away: 'ecu', time: '2026-06-19T13:00:00', label: '19 JUN • 13:00' },
-        { id: 'match_E_r2_2', gid: 'E', r: 'Rodada 2', home: 'cuw', away: 'civ', time: '2026-06-19T16:00:00', label: '19 JUN • 16:00' },
-        { id: 'match_F_r2_1', gid: 'F', r: 'Rodada 2', home: 'ned', away: 'tun', time: '2026-06-19T19:00:00', label: '19 JUN • 19:00' },
-        { id: 'match_F_r2_2', gid: 'F', r: 'Rodada 2', home: 'jpn', away: 'swe', time: '2026-06-19T22:00:00', label: '19 JUN • 22:00' },
-        
-        { id: 'match_G_r2_1', gid: 'G', r: 'Rodada 2', home: 'bel', away: 'nzl', time: '2026-06-20T13:00:00', label: '20 JUN • 13:00' },
-        { id: 'match_G_r2_2', gid: 'G', r: 'Rodada 2', home: 'egy', away: 'irn', time: '2026-06-20T16:00:00', label: '20 JUN • 16:00' },
-        { id: 'match_H_r2_1', gid: 'H', r: 'Rodada 2', home: 'esp', away: 'uru', time: '2026-06-20T19:00:00', label: '20 JUN • 19:00' },
-        { id: 'match_H_r2_2', gid: 'H', r: 'Rodada 2', home: 'cpv', away: 'ksa', time: '2026-06-20T22:00:00', label: '20 JUN • 22:00' },
-        
-        { id: 'match_I_r2_1', gid: 'I', r: 'Rodada 2', home: 'fra', away: 'nor', time: '2026-06-21T13:00:00', label: '21 JUN • 13:00' },
-        { id: 'match_I_r2_2', gid: 'I', r: 'Rodada 2', home: 'sen', away: 'irq', time: '2026-06-21T16:00:00', label: '21 JUN • 16:00' },
-        { id: 'match_J_r2_1', gid: 'J', r: 'Rodada 2', home: 'arg', away: 'jor', time: '2026-06-21T19:00:00', label: '21 JUN • 19:00' },
-        { id: 'match_J_r2_2', gid: 'J', r: 'Rodada 2', home: 'alg', away: 'aut', time: '2026-06-21T22:00:00', label: '21 JUN • 22:00' },
-        
-        { id: 'match_K_r2_1', gid: 'K', r: 'Rodada 2', home: 'por', away: 'uzb', time: '2026-06-22T13:00:00', label: '22 JUN • 13:00' },
-        { id: 'match_K_r2_2', gid: 'K', r: 'Rodada 2', home: 'cod', away: 'col', time: '2026-06-22T16:00:00', label: '22 JUN • 16:00' },
-        { id: 'match_L_r2_1', gid: 'L', r: 'Rodada 2', home: 'eng', away: 'pan', time: '2026-06-22T19:00:00', label: '22 JUN • 19:00' },
-        { id: 'match_L_r2_2', gid: 'L', r: 'Rodada 2', home: 'cro', away: 'gha', time: '2026-06-22T22:00:00', label: '22 JUN • 22:00' },
+        { id: 'match_A_r2_1', gid: 'A', r: 'Rodada 2', home: 'cze', away: 'rsa', time: '2026-06-18T13:00:00-03:00', label: '18 JUN • 13:00' },
+        { id: 'match_B_r2_1', gid: 'B', r: 'Rodada 2', home: 'sui', away: 'bih', time: '2026-06-18T16:00:00-03:00', label: '18 JUN • 16:00' },
+        { id: 'match_B_r2_2', gid: 'B', r: 'Rodada 2', home: 'can', away: 'qat', time: '2026-06-18T19:00:00-03:00', label: '18 JUN • 19:00' },
+        { id: 'match_A_r2_2', gid: 'A', r: 'Rodada 2', home: 'mex', away: 'kor', time: '2026-06-18T22:00:00-03:00', label: '18 JUN • 22:00' },
+        { id: 'match_D_r2_1', gid: 'D', r: 'Rodada 2', home: 'usa', away: 'aus', time: '2026-06-19T16:00:00-03:00', label: '19 JUN • 16:00' },
+        { id: 'match_C_r2_1', gid: 'C', r: 'Rodada 2', home: 'sco', away: 'mar', time: '2026-06-19T19:00:00-03:00', label: '19 JUN • 19:00' },
+        { id: 'match_C_r2_2', gid: 'C', r: 'Rodada 2', home: 'bra', away: 'hai', time: '2026-06-19T21:30:00-03:00', label: '19 JUN • 21:30' },
+        { id: 'match_D_r2_2', gid: 'D', r: 'Rodada 2', home: 'tur', away: 'par', time: '2026-06-20T00:00:00-03:00', label: '20 JUN • 00:00' },
+        { id: 'match_F_r2_1', gid: 'F', r: 'Rodada 2', home: 'ned', away: 'swe', time: '2026-06-20T14:00:00-03:00', label: '20 JUN • 14:00' },
+        { id: 'match_E_r2_1', gid: 'E', r: 'Rodada 2', home: 'ger', away: 'civ', time: '2026-06-20T17:00:00-03:00', label: '20 JUN • 17:00' },
+        { id: 'match_E_r2_2', gid: 'E', r: 'Rodada 2', home: 'ecu', away: 'cuw', time: '2026-06-20T21:00:00-03:00', label: '20 JUN • 21:00' },
+        { id: 'match_F_r2_2', gid: 'F', r: 'Rodada 2', home: 'tun', away: 'jpn', time: '2026-06-21T01:00:00-03:00', label: '21 JUN • 01:00' },
+        { id: 'match_H_r2_1', gid: 'H', r: 'Rodada 2', home: 'esp', away: 'ksa', time: '2026-06-21T13:00:00-03:00', label: '21 JUN • 13:00' },
+        { id: 'match_G_r2_1', gid: 'G', r: 'Rodada 2', home: 'bel', away: 'irn', time: '2026-06-21T16:00:00-03:00', label: '21 JUN • 16:00' },
+        { id: 'match_H_r2_2', gid: 'H', r: 'Rodada 2', home: 'uru', away: 'cpv', time: '2026-06-21T19:00:00-03:00', label: '21 JUN • 19:00' },
+        { id: 'match_G_r2_2', gid: 'G', r: 'Rodada 2', home: 'nzl', away: 'egy', time: '2026-06-21T22:00:00-03:00', label: '21 JUN • 22:00' },
+        { id: 'match_J_r2_1', gid: 'J', r: 'Rodada 2', home: 'arg', away: 'aut', time: '2026-06-22T14:00:00-03:00', label: '22 JUN • 14:00' },
+        { id: 'match_I_r2_1', gid: 'I', r: 'Rodada 2', home: 'fra', away: 'irq', time: '2026-06-22T17:00:00-03:00', label: '22 JUN • 17:00' },
+        { id: 'match_I_r2_2', gid: 'I', r: 'Rodada 2', home: 'nor', away: 'sen', time: '2026-06-22T20:00:00-03:00', label: '22 JUN • 20:00' },
+        { id: 'match_J_r2_2', gid: 'J', r: 'Rodada 2', home: 'jor', away: 'alg', time: '2026-06-22T23:00:00-03:00', label: '22 JUN • 23:00' },
+        { id: 'match_K_r2_1', gid: 'K', r: 'Rodada 2', home: 'por', away: 'uzb', time: '2026-06-23T14:00:00-03:00', label: '23 JUN • 14:00' },
+        { id: 'match_L_r2_1', gid: 'L', r: 'Rodada 2', home: 'eng', away: 'gha', time: '2026-06-23T17:00:00-03:00', label: '23 JUN • 17:00' },
+        { id: 'match_L_r2_2', gid: 'L', r: 'Rodada 2', home: 'pan', away: 'cro', time: '2026-06-23T20:00:00-03:00', label: '23 JUN • 20:00' },
+        { id: 'match_K_r2_2', gid: 'K', r: 'Rodada 2', home: 'col', away: 'cod', time: '2026-06-23T23:00:00-03:00', label: '23 JUN • 23:00' },
 
         // Rodada 3
-        { id: 'match_A_r3_1', gid: 'A', r: 'Rodada 3', home: 'mex', away: 'kor', time: '2026-06-23T13:00:00', label: '23 JUN • 13:00' },
-        { id: 'match_A_r3_2', gid: 'A', r: 'Rodada 3', home: 'cze', away: 'rsa', time: '2026-06-23T13:00:00', label: '23 JUN • 13:00' },
-        { id: 'match_B_r3_1', gid: 'B', r: 'Rodada 3', home: 'can', away: 'qat', time: '2026-06-23T18:00:00', label: '23 JUN • 18:00' },
-        { id: 'match_B_r3_2', gid: 'B', r: 'Rodada 3', home: 'sui', away: 'bih', time: '2026-06-23T18:00:00', label: '23 JUN • 18:00' },
-        { id: 'match_C_r3_1', gid: 'C', r: 'Rodada 3', home: 'bra', away: 'hai', time: '2026-06-23T21:00:00', label: '23 JUN • 21:00' },
-        { id: 'match_C_r3_2', gid: 'C', r: 'Rodada 3', home: 'mar', away: 'sco', time: '2026-06-23T21:00:00', label: '23 JUN • 21:00' },
-        
-        { id: 'match_D_r3_1', gid: 'D', r: 'Rodada 3', home: 'usa', away: 'aus', time: '2026-06-24T13:00:00', label: '24 JUN • 13:00' },
-        { id: 'match_D_r3_2', gid: 'D', r: 'Rodada 3', home: 'tur', away: 'par', time: '2026-06-24T13:00:00', label: '24 JUN • 13:00' },
-        { id: 'match_E_r3_1', gid: 'E', r: 'Rodada 3', home: 'ger', away: 'civ', time: '2026-06-24T18:00:00', label: '24 JUN • 18:00' },
-        { id: 'match_E_r3_2', gid: 'E', r: 'Rodada 3', home: 'ecu', away: 'cuw', time: '2026-06-24T18:00:00', label: '24 JUN • 18:00' },
-        { id: 'match_F_r3_1', gid: 'F', r: 'Rodada 3', home: 'ned', away: 'swe', time: '2026-06-24T21:00:00', label: '24 JUN • 21:00' },
-        { id: 'match_F_r3_2', gid: 'F', r: 'Rodada 3', home: 'tun', away: 'jpn', time: '2026-06-24T21:00:00', label: '24 JUN • 21:00' },
-        
-        { id: 'match_G_r3_1', gid: 'G', r: 'Rodada 3', home: 'bel', away: 'irn', time: '2026-06-25T13:00:00', label: '25 JUN • 13:00' },
-        { id: 'match_G_r3_2', gid: 'G', r: 'Rodada 3', home: 'nzl', away: 'egy', time: '2026-06-25T13:00:00', label: '25 JUN • 13:00' },
-        { id: 'match_H_r3_1', gid: 'H', r: 'Rodada 3', home: 'esp', away: 'ksa', time: '2026-06-25T18:00:00', label: '25 JUN • 18:00' },
-        { id: 'match_H_r3_2', gid: 'H', r: 'Rodada 3', home: 'uru', away: 'cpv', time: '2026-06-25T18:00:00', label: '25 JUN • 18:00' },
-        { id: 'match_I_r3_1', gid: 'I', r: 'Rodada 3', home: 'fra', away: 'irq', time: '2026-06-25T21:00:00', label: '25 JUN • 21:00' },
-        { id: 'match_I_r3_2', gid: 'I', r: 'Rodada 3', home: 'nor', away: 'sen', time: '2026-06-25T21:00:00', label: '25 JUN • 21:00' },
-        
-        { id: 'match_J_r3_1', gid: 'J', r: 'Rodada 3', home: 'arg', away: 'aut', time: '2026-06-26T13:00:00', label: '26 JUN • 13:00' },
-        { id: 'match_J_r3_2', gid: 'J', r: 'Rodada 3', home: 'jor', away: 'alg', time: '2026-06-26T13:00:00', label: '26 JUN • 13:00' },
-        { id: 'match_K_r3_1', gid: 'K', r: 'Rodada 3', home: 'por', away: 'col', time: '2026-06-26T18:00:00', label: '26 JUN • 18:00' },
-        { id: 'match_K_r3_2', gid: 'K', r: 'Rodada 3', home: 'uzb', away: 'cod', time: '2026-06-26T18:00:00', label: '26 JUN • 18:00' },
-        { id: 'match_L_r3_1', gid: 'L', r: 'Rodada 3', home: 'eng', away: 'gha', time: '2026-06-26T21:00:00', label: '26 JUN • 21:00' },
-        { id: 'match_L_r3_2', gid: 'L', r: 'Rodada 3', home: 'pan', away: 'cro', time: '2026-06-26T21:00:00', label: '26 JUN • 21:00' }
+        { id: 'match_C_r3_1', gid: 'C', r: 'Rodada 3', home: 'sco', away: 'bra', time: '2026-06-24T19:00:00-03:00', label: '24 JUN • 19:00' },
+        { id: 'match_C_r3_2', gid: 'C', r: 'Rodada 3', home: 'mar', away: 'hai', time: '2026-06-24T19:00:00-03:00', label: '24 JUN • 19:00' },
+        { id: 'match_A_r3_1', gid: 'A', r: 'Rodada 3', home: 'cze', away: 'mex', time: '2026-06-24T22:00:00-03:00', label: '24 JUN • 22:00' },
+        { id: 'match_A_r3_2', gid: 'A', r: 'Rodada 3', home: 'rsa', away: 'kor', time: '2026-06-24T22:00:00-03:00', label: '24 JUN • 22:00' },
+        { id: 'match_B_r3_1', gid: 'B', r: 'Rodada 3', home: 'sui', away: 'can', time: '2026-06-25T14:00:00-03:00', label: '25 JUN • 14:00' },
+        { id: 'match_B_r3_2', gid: 'B', r: 'Rodada 3', home: 'bih', away: 'qat', time: '2026-06-25T14:00:00-03:00', label: '25 JUN • 14:00' },
+        { id: 'match_E_r3_1', gid: 'E', r: 'Rodada 3', home: 'ecu', away: 'ger', time: '2026-06-25T17:00:00-03:00', label: '25 JUN • 17:00' },
+        { id: 'match_E_r3_2', gid: 'E', r: 'Rodada 3', home: 'cuw', away: 'civ', time: '2026-06-25T17:00:00-03:00', label: '25 JUN • 17:00' },
+        { id: 'match_F_r3_1', gid: 'F', r: 'Rodada 3', home: 'jpn', away: 'swe', time: '2026-06-25T20:00:00-03:00', label: '25 JUN • 20:00' },
+        { id: 'match_F_r3_2', gid: 'F', r: 'Rodada 3', home: 'tun', away: 'ned', time: '2026-06-25T20:00:00-03:00', label: '25 JUN • 20:00' },
+        { id: 'match_D_r3_1', gid: 'D', r: 'Rodada 3', home: 'tur', away: 'usa', time: '2026-06-25T23:00:00-03:00', label: '25 JUN • 23:00' },
+        { id: 'match_D_r3_2', gid: 'D', r: 'Rodada 3', home: 'par', away: 'aus', time: '2026-06-25T23:00:00-03:00', label: '25 JUN • 23:00' },
+        { id: 'match_I_r3_1', gid: 'I', r: 'Rodada 3', home: 'nor', away: 'fra', time: '2026-06-26T16:00:00-03:00', label: '26 JUN • 16:00' },
+        { id: 'match_I_r3_2', gid: 'I', r: 'Rodada 3', home: 'sen', away: 'irq', time: '2026-06-26T16:00:00-03:00', label: '26 JUN • 16:00' },
+        { id: 'match_G_r3_1', gid: 'G', r: 'Rodada 3', home: 'nzl', away: 'bel', time: '2026-06-26T19:00:00-03:00', label: '26 JUN • 19:00' },
+        { id: 'match_G_r3_2', gid: 'G', r: 'Rodada 3', home: 'egy', away: 'irn', time: '2026-06-26T19:00:00-03:00', label: '26 JUN • 19:00' },
+        { id: 'match_H_r3_1', gid: 'H', r: 'Rodada 3', home: 'cpv', away: 'ksa', time: '2026-06-26T21:00:00-03:00', label: '26 JUN • 21:00' },
+        { id: 'match_H_r3_2', gid: 'H', r: 'Rodada 3', home: 'uru', away: 'esp', time: '2026-06-26T21:00:00-03:00', label: '26 JUN • 21:00' },
+        { id: 'match_L_r3_1', gid: 'L', r: 'Rodada 3', home: 'pan', away: 'eng', time: '2026-06-27T15:00:00-03:00', label: '27 JUN • 15:00' },
+        { id: 'match_L_r3_2', gid: 'L', r: 'Rodada 3', home: 'cro', away: 'gha', time: '2026-06-27T15:00:00-03:00', label: '27 JUN • 15:00' },
+        { id: 'match_K_r3_1', gid: 'K', r: 'Rodada 3', home: 'col', away: 'por', time: '2026-06-27T20:30:00-03:00', label: '27 JUN • 20:30' },
+        { id: 'match_K_r3_2', gid: 'K', r: 'Rodada 3', home: 'cod', away: 'uzb', time: '2026-06-27T20:30:00-03:00', label: '27 JUN • 20:30' },
+        { id: 'match_J_r3_1', gid: 'J', r: 'Rodada 3', home: 'alg', away: 'aut', time: '2026-06-27T23:00:00-03:00', label: '27 JUN • 23:00' },
+        { id: 'match_J_r3_2', gid: 'J', r: 'Rodada 3', home: 'jor', away: 'arg', time: '2026-06-27T23:00:00-03:00', label: '27 JUN • 23:00' }
     ];
 
     return rawMatches.map(m => ({
@@ -339,10 +325,10 @@ function getDB() {
         const realUserIds = ['user_1', 'user_matheus', 'user_fabio', 'user_jader', 'user_thaynan', 'user_henrique', 'user_davi'];
         const temUsuarioInvalido = !db.usuarios || db.usuarios.length < 7 || db.usuarios.some(u => !u.id.startsWith('user_new_') && !realUserIds.includes(u.id));
         
-        // Força migração para a nova tabela do CSV oficial
-        const temJogoDoCSV = db.matches && db.matches.some(m => m.id === 'match_B_r1_1');
+        // Força migração para a nova tabela oficial de 72 jogos
+        const tabelaAtualizada = db.matches && db.matches.length === 72 && db.matches.some(m => m.id === 'match_A_r1_1' && m.kickoff_time === '2026-06-11T16:00:00-03:00');
         
-        if (!db.groups || !db.teams || isGabrielMendes || temUsuarioInvalido || !temJogoDoCSV) {
+        if (!db.groups || !db.teams || isGabrielMendes || temUsuarioInvalido || !tabelaAtualizada) {
             db = JSON.parse(JSON.stringify(defaultData));
             saveDB(db);
             localStorage.removeItem('bolao_logged_user_id');
@@ -370,7 +356,9 @@ function saveDB(db) {
                     placar_a: j.resultado_casa !== undefined && j.resultado_casa !== null ? parseInt(j.resultado_casa) : null,
                     placar_b: j.resultado_fora !== undefined && j.resultado_fora !== null ? parseInt(j.resultado_fora) : null,
                     status: j.encerrado ? 'Finalizado' : 'Pendente',
-                    winner_id: j.winner_id || null
+                    winner_id: j.winner_id || null,
+                    data_hora: j.data_hora || null,
+                    kickoff_time: j.kickoff_time || null
                 });
             } else {
                 db.matches.push({
@@ -514,8 +502,8 @@ function buildJogosVirtual(db) {
             escudo_fora: tFora ? obterBandeiraUrl(tFora.sigla) : '',
             time_casa_id: m.time_a_id,
             time_fora_id: m.time_b_id,
-            data_hora: m.status === 'Finalizado' ? 'Finalizado' : m.fase,
-            kickoff_time: m.status === 'Finalizado' ? 'Finalizado' : m.fase,
+            data_hora: m.data_hora || (m.status === 'Finalizado' ? 'Finalizado' : m.fase),
+            kickoff_time: m.kickoff_time || (m.status === 'Finalizado' ? 'Finalizado' : m.fase),
             grupo: 'MATA-MATA',
             resultado_casa: m.placar_a,
             resultado_fora: m.placar_b,
@@ -1137,7 +1125,9 @@ function gerar32Avos(db) {
             placar_a: null,
             placar_b: null,
             status: 'Pendente',
-            winner_id: null
+            winner_id: null,
+            data_hora: '28 JUN a 03 JUL',
+            kickoff_time: '2026-06-28T13:00:00-03:00'
         });
     });
 }
@@ -1168,7 +1158,9 @@ function gerarOitavas(db) {
             placar_a: null,
             placar_b: null,
             status: 'Pendente',
-            winner_id: null
+            winner_id: null,
+            data_hora: '04 JUL a 07 JUL',
+            kickoff_time: '2026-07-04T13:00:00-03:00'
         });
     });
 }
@@ -1195,7 +1187,9 @@ function gerarQuartas(db) {
             placar_a: null,
             placar_b: null,
             status: 'Pendente',
-            winner_id: null
+            winner_id: null,
+            data_hora: '09 JUL a 11 JUL',
+            kickoff_time: '2026-07-09T13:00:00-03:00'
         });
     });
 }
@@ -1220,7 +1214,9 @@ function gerarSemis(db) {
             placar_a: null,
             placar_b: null,
             status: 'Pendente',
-            winner_id: null
+            winner_id: null,
+            data_hora: '14 JUL a 15 JUL',
+            kickoff_time: '2026-07-14T13:00:00-03:00'
         });
     });
 }
@@ -1244,7 +1240,9 @@ function gerarFinais(db) {
         placar_a: null,
         placar_b: null,
         status: 'Pendente',
-        winner_id: null
+        winner_id: null,
+        data_hora: '18 JUL • 13:00',
+        kickoff_time: '2026-07-18T13:00:00-03:00'
     });
     
     db.knockout_matches.push({
@@ -1255,7 +1253,9 @@ function gerarFinais(db) {
         placar_a: null,
         placar_b: null,
         status: 'Pendente',
-        winner_id: null
+        winner_id: null,
+        data_hora: '19 JUL • 13:00 • NY Stadium',
+        kickoff_time: '2026-07-19T13:00:00-03:00'
     });
 }
 

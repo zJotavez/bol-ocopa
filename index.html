@@ -464,7 +464,7 @@
             // Renderiza Próximos Jogos do usuário selecionado
             const proximosJogosContainer = document.querySelector('.overflow-x-auto');
             if (proximosJogosContainer) {
-                const jogosFuturos = db.jogos.filter(j => !j.encerrado);
+                const jogosFuturos = db.jogos.filter(j => j.status !== 'Finalizado');
                 if (jogosFuturos.length === 0) {
                     proximosJogosContainer.innerHTML = '<p class="text-on-surface-variant p-md">Nenhum jogo agendado no momento.</p>';
                 } else {
@@ -524,7 +524,7 @@
             // Renderiza Últimos Resultados
             const resultadosContainer = document.querySelector('main section.space-y-sm:last-of-type .space-y-sm');
             if (resultadosContainer) {
-                const jogosEncerrados = db.jogos.filter(j => j.encerrado);
+                const jogosEncerrados = db.jogos.filter(j => j.status === 'Finalizado');
                 if (jogosEncerrados.length === 0) {
                     resultadosContainer.innerHTML = '<p class="text-on-surface-variant p-md">Nenhum resultado finalizado ainda.</p>';
                 } else {
