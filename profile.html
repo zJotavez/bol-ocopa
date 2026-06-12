@@ -252,29 +252,34 @@
 
         let selectedAvatarUrl = '';
 
-        function renderProfile() {
+        function renderProfile(isInitialLoad = false) {
             const user = getLoggedUser();
             const db = getDB();
+            if (!user) return;
             
             // Garante o recálculo dos pontos
             const results = recalcularPontosGeral();
             
+            // Salva o avatar atual selecionado se for carga inicial ou se não estiver definido
+            if (isInitialLoad || !selectedAvatarUrl) {
+                selectedAvatarUrl = user.foto || avataresPredefinidos[0];
+            }
+            
             // Renderiza textos
-            document.getElementById('user-profile-img').src = user.foto || avataresPredefinidos[0];
+            document.getElementById('user-profile-img').src = selectedAvatarUrl;
             document.getElementById('user-role-badge').innerText = user.role.toUpperCase();
             document.getElementById('user-display-name').innerText = user.nome;
             document.getElementById('user-display-email').innerText = user.email;
             
-            document.getElementById('user-stat-points').innerText = results.pontos;
+            document.getElementById('user-stat-points').innerText = results.points || results.pontos || 0;
             document.getElementById('user-stat-exatos').innerText = user.placares_exatos;
             document.getElementById('user-stat-rank').innerText = `${results.posicao}º`;
             
-            // Preenche inputs
-            document.getElementById('edit-name').value = user.nome;
-            document.getElementById('edit-email').value = user.email;
-            
-            // Salva o avatar atual selecionado
-            selectedAvatarUrl = user.foto || avataresPredefinidos[0];
+            // Preenche inputs apenas na carga inicial
+            if (isInitialLoad) {
+                document.getElementById('edit-name').value = user.nome;
+                document.getElementById('edit-email').value = user.email;
+            }
             
             // Renderiza seletor de avatares (incluindo o personalizado se houver)
             const avatarContainer = document.getElementById('avatar-list');
@@ -353,8 +358,8 @@
                     selectedAvatarUrl = base64;
                     document.getElementById('user-profile-img').src = base64;
                     
-                    // Re-renderiza o painel para atualizar a listagem
-                    renderProfile();
+                    // Re-renderiza o painel mantendo a seleção e o que já foi digitado
+                    renderProfile(false);
                 };
                 img.src = e.target.result;
             };
@@ -380,12 +385,12 @@
             const success = updateLoggedUserProfile(nomeInput, emailInput, selectedAvatarUrl);
             if (success) {
                 alert('Perfil atualizado com sucesso!');
-                renderProfile();
+                renderProfile(true);
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderProfile();
+            renderProfile(true);
         });
     </script>
 </body>
